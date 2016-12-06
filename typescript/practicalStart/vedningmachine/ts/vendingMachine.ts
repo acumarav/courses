@@ -1,6 +1,7 @@
-module vendingMachineApp{
-export  class VendingMachine{
+module vendingMachineApp {
 
-}
+    export class VendingMachine {
+
+    }
 
 }
