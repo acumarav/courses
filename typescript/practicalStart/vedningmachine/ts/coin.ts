@@ -8,5 +8,3 @@ class Quarter {
     return "img/Quarter.png";
   }
 }
-
-var coin = new Quarter();

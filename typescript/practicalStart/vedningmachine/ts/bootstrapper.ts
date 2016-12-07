@@ -1,4 +1,4 @@
 /// <reference path="./vendingMachine"/>
 import VendingMachine = vendingMachineApp.VendingMachine;
 
-var a = VendingMachine;
+let machine = new VendingMachine();
