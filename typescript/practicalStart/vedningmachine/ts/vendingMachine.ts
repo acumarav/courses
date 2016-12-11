@@ -1,8 +1,18 @@
-/// <reference path="coin.ts"/>
+/// <reference path="./coin.ts"/>
+/// <reference path="./product.ts"/>
 //module vendingMachineApp {
+
+class Cell{
+  constructor(public product: CocaCola){
+
+  }
+}
 
      class VendingMachine {
         private paid = ko.observable(0);
+
+        acceptedCoins: Quarter[]=[new Quarter()];
+
         acceptCoin = (coin: Quarter): void => {
           let oldTotal= this.paid()
 
