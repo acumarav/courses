@@ -1,5 +1,3 @@
-namespace Coins {
-
   let imagePath="img/";
     export abstract class Coin {
         constructor(protected value: number) {
@@ -51,4 +49,3 @@ namespace Coins {
             return imagePath+"Dollar.jpg";
         }
     }
-}
