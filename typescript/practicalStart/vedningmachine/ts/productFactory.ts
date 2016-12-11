@@ -4,7 +4,7 @@ class productFactory{
 
   static GetProduct():Product {
     let rnd=Math.floor(Math.random()*11);
-    switch(random){
+    switch(rnd){
       case 0: return new CocaCola()
       case 1: return new Gummies();
       case 2: return new MilkyWay();
