@@ -175,5 +175,5 @@ buildNumber.properties
 .mvn/timing.properties
 
 */videoTmp/**
-/typescript/practicalStart/**/*.js
+/typescript/practicalStart/**/js/*.js
 /typescript/practicalStart/**/*.map
