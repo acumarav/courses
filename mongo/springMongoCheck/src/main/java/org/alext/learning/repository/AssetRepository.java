@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface AssetRepository extends MongoRepository<Asset, String> {
-    List<Asset> findByAdvertisement(boolean advertisement);
+    List<Asset> findByExternalId(boolean advertisement);
 }
 
