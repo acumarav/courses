@@ -12,6 +12,8 @@ public class Asset {
     private String name;
     private String externalId;
 
+    public Asset(){}
+
     public Asset(String id, boolean active, String name, String externalId) {
         this.id = id;
         this.active = active;
