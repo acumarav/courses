@@ -6,17 +6,23 @@ class VstubPlayerVM {
     private _vstubUrl = "http://localhost:8090/mse/sample.vstub";
     private _mdatInfoUrl = "http://localhost:8090/mse/mdatinfo.json";
 
+    private mdatInfo: MdatInfo=null;
+
+    private isMdatReady=ko.observable(false);
+
     get VideoFileUrl() {
         return this._originalVideoFileUrl;
     }
 
-    run() {
-        console.log("enter run...");
+    loadMdatInfo() {
+        $.get(this._mdatInfoUrl, (data: any, textStatus: string, jqXHR: JQueryXHR) => {
+            //console.log("Data:  " + JSON.stringify(data));
+            this.mdatInfo=<MdatInfo>data;
+            console.log(this.mdatInfo);
+            this.isMdatReady(true);
+        },"text");
 
-        $.get(this._mdatInfoUrl,null, (data: any, textStatus: string, jqXHR: JQueryXHR) => {
-            console.log("status: "+textStatus);
-            console.log("Echo:  " + JSON.stringify(data));
-        });
+
 
         /*$.getJSON(this._mdatInfoUrl, (data: any, textStatus: string, jqXHR: JQueryXHR) => {
             console.log("Echo:  " + JSON.stringify(data));
@@ -29,6 +35,6 @@ class VstubPlayerVM {
 
 let player = new VstubPlayerVM();
 console.log(player.VideoFileUrl);
-player.run();
+player.loadMdatInfo();
 console.log("THE END");
 

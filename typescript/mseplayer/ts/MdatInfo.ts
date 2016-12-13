@@ -6,7 +6,9 @@ class MdatInfo {
     }
 
     echo():string {
-        return JSON.stringify(this);
+        let line = JSON.stringify(this);
+        console.log(line);
+        return line;
     }
 
 
