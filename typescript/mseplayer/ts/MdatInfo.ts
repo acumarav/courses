@@ -1,6 +1,8 @@
-class MdatInfo {
+interface MdatInfo {
 
-    constructor(public url: string,
+
+
+    /*constructor(public url: string,
                 public offset: number,
                 public length: number) {
     }
@@ -9,7 +11,5 @@ class MdatInfo {
         let line = JSON.stringify(this);
         console.log(line);
         return line;
-    }
-
-
+    }*/
 }

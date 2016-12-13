@@ -20,6 +20,15 @@ class VstubPlayerVM {
             this.mdatInfo=<MdatInfo>data;
             console.log(this.mdatInfo);
             this.isMdatReady(true);
+
+            var url = this.mdatInfo.url;
+            console.log("MDAT URL: "+url);
+            $.get(url,(data: any, status: string, jqXHR: JQueryXHR)=>{
+                console.log("get Status: "+status);
+                console.log(data);
+            }, "text");
+
+
         },"text");
 
 
