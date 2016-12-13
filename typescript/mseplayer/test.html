@@ -26,13 +26,31 @@
             console.log("fail: " + JSON.stringify(param));
         }
 
-        $.get({url: "http://localhost:8090/mse/mdatinfo.json",dataType:"text"}).done(doneCallback).fail(failCallback);
+        $.get({url: "http://localhost:8090/mse/mdatinfo.json", dataType: "text"}).done(doneCallback).fail(failCallback);
         //$.get("http://localhost:8090/mse/index.html").done(doneCallback).fail(failCallback);
         /*$.ajax({url:"http://localhost:8090/mse/mdatinfo.json"})
          .done(doneCallback)
          .fail(failCallback);*/
     };
-    $(init);
+    // $(init);
+
+    //http://localhost:8090/mse/sample.mov
+    //'bin/sample.mov'
+    var range = function () {
+        $.ajax({
+            url: 'http://localhost:8090/mse/sample.mov',
+            headers: {Range: "bytes=0-200"},
+            success: function (data) {
+                console.log(data);
+                //$('#results').html(data);
+            },
+            error: function(){
+                console.log("fail!");
+            }
+
+        });
+    }
+    $(range);
 
 </script>
 
