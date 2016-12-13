@@ -11,10 +11,19 @@ class VstubPlayerVM {
     }
 
     run() {
-        $.getJSON(this._mdatInfoUrl, md => {
-            console.log("Callback.........");
-            console.log("Echo:  " + JSON.stringify(md));
+        console.log("enter run...");
+
+        $.get(this._mdatInfoUrl,null, (data: any, textStatus: string, jqXHR: JQueryXHR) => {
+            console.log("status: "+textStatus);
+            console.log("Echo:  " + JSON.stringify(data));
         });
+
+        /*$.getJSON(this._mdatInfoUrl, (data: any, textStatus: string, jqXHR: JQueryXHR) => {
+            console.log("Echo:  " + JSON.stringify(data));
+        });*/
+        /*.error( (xhr:JQueryXHR,status:string,err:string)=>{
+          console.log("err");
+            });*/
     }
 }
 

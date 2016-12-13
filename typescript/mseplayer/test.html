@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<meta charset=utf-8>
+<title>MSE Player</title>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12">
+        <h1>Test page</h1>
+    </div>
+</div>
+<script type="text/javascript" src="lib/knockout-3.4.1.js"></script>
+<script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+    var init = function () {
+
+        var doneCallback = function (text) {
+            console.log(data);
+            alert("callback!");
+        };
+
+        var failCallback = function (param) {
+            console.log("fail: " + JSON.stringify(param));
+        }
+
+        $.get({url: "http://localhost:8090/mse/mdatinfo.json",dataType:"text"}).done(doneCallback).fail(failCallback);
+        //$.get("http://localhost:8090/mse/index.html").done(doneCallback).fail(failCallback);
+        /*$.ajax({url:"http://localhost:8090/mse/mdatinfo.json"})
+         .done(doneCallback)
+         .fail(failCallback);*/
+    };
+    $(init);
+
+</script>
+
+</body>
+</html>
