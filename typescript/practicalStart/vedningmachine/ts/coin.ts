@@ -1,5 +1,6 @@
-  let imagePath="img/";
+  
     export abstract class Coin {
+      protected imagePath ="img/";
         constructor(protected value: number) {
             this.value = value;
         }
@@ -17,7 +18,7 @@
         }
 
         getImageUrl(): string {
-            return imagePath+"Quarter.png";
+            return this.imagePath+"Quarter.png";
         }
     }
 
@@ -27,7 +28,7 @@
         }
 
         getImageUrl() {
-            return imagePath+ "Dime.png";
+            return this.imagePath+ "Dime.png";
         }
     }
 
@@ -36,7 +37,7 @@
             super(.5);
         }
         getImageUrl() {
-            return imagePath+"Half.png";
+            return this.imagePath+"Half.png";
         }
     }
 
@@ -46,6 +47,6 @@
         }
 
         getImageUrl() {
-            return imagePath+"Dollar.jpg";
+            return this.imagePath+"Dollar.jpg";
         }
     }

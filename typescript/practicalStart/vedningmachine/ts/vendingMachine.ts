@@ -1,8 +1,7 @@
 import {Product, Initial as Init} from "./product"
 import getVendingProduct from "./productFactory"
-
 import * as Coins from "./coin"
-//module vendingMachineApp {
+
 export enum VendingMachineSize{
   small=6,
   medium=9,

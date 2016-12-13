@@ -45,12 +45,12 @@
         </div>
         <script type="text/javascript" src="lib/knockout-3.4.1.js"></script>
         <script type="text/javascript" src="lib/require.js"></script>
-        <script type="text/javascript">
-        require([js/VendingMachine], function(machineModule){
+        <script >
+        require(["js/vendingMachine"], function(machineModule){
           var machine= new machineModule.VendingMachine();
           machine.size= machineModule.VendingMachineSize.medium;
           ko.applyBindings(machine);
-        })
+        });
         </script>
     </body>
 </html>
