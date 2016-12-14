@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<meta charset=utf-8>
+<title>MSE Initialize Source of the Player</title>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12">
+        <h1>MSE Initialize Source of the Player</h1>
+    </div>
+    <div class="col-md-12">
+        <div class="lead">Player</div>
+        <video id="myplayer">
+            <div id="description">
+                Example loads mp4 file and play it
+            </div>
+        </video>
+    </div>
+    <div class="col-md-12">
+        <input type="button" id="playBtn" class="btn-primary" value="Play"/>
+    </div>
+
+    <!--<div class="col-md-12">
+        <h3>Player Tag With Source</h3>
+        <video autoplay preload="none" controls="true">
+            <source src="http://localhost:8090/trailers/sea.m4v" type="video/mp4"/>
+        </video>
+    </div>-->
+
+
+</div>
+
+</div>
+<script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+
+    $("#playBtn").click(function () {
+        //alert('play');
+        var player = document.getElementById("myplayer");
+        player.play();
+    });
+
+    //http://localhost:8090/mse/sample.mov
+    //https://msdn.microsoft.com/en-us/library/dn551368(v=vs.85).aspx
+
+    var loadSample = function () {
+        //  Create the media source
+        if (!window.MediaSource) {
+            console.log("mediasource or syntax not supported");
+            return;
+        }
+
+        var player = document.getElementById("myplayer");
+        player.pause();
+
+        var mso = new MediaSource();
+        var objectURL = URL.createObjectURL(mso);
+
+        //Assign the virtual URL to the video element's src property.
+        player.src = objectURL;
+        mso.addEventListener('sourceopen', function (e) {
+            console.log("Event: sourceopen");
+            var videoSource = mso.addSourceBuffer('video/mp4');
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', "http://localhost:8090/trailers/sea.m4v", true);
+            xhr.responseType = 'arraybuffer';
+
+            xhr.addEventListener("readystatechange", function () {
+                console.log("'readystatechange': " + xhr.readyState);
+                if (xhr.readyState == xhr.DONE) { // wait for video to load
+                    // Add response to buffer
+                    try {
+                        var content = new Uint8Array(xhr.response);
+                        videoSource.appendBuffer(xhr.response);
+                        console.log(content);
+                        // Wait for the update complete event before continuing
+                        videoSource.addEventListener("update", updateFunct, false, videoSource);
+                    } catch (e) {
+                        console.log('Exception while appending initialization content', e);
+                    }
+                }
+            }, false);
+            xhr.send();
+        });
+
+        var updateFunct = function (param) {
+            //  This is a one shot function, when init segment finishes loading,
+            //    update the buffer flag, call getStarted, and then remove this event.
+            bufferUpdated = true;
+
+            //getStarted(file); // Get video playback started
+            //  Now that video has started, remove the event listener
+
+            console.log(JSON.stringify(param));
+            //videoSource.removeEventListener("update", updateFunct);
+        }
+
+        //Create a SourceBuffer using addSourceBuffer, with the mime type of the video you're adding.
+
+        //Get the video initialization segment from the media file online and add it to the SourceBuffer with appendBuffer.
+        //Get the segments of video data from the media file, append them to the SourceBuffer with appendBuffer.
+        //Call the play method on the video element.
+        //Repeat step 7 until done.
+
+
+    }
+    $(loadSample);
+
+</script>
+
+</body>
+</html>
