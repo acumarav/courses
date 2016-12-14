@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<meta charset=utf-8>
+<title>MSE Player</title>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="container">
+    <div class="col-md-12">
+        <h1>Binary Req Page</h1>
+    </div>
+</div>
+<script type="text/javascript" src="lib/knockout-3.4.1.js"></script>
+<script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
+<script type="text/javascript">
+
+    //http://localhost:8090/mse/sample.mov
+    //'bin/sample.mov'
+    var call = function () {
+        //Function is working
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8090/mse/sample.mov', true);
+        xhr.responseType = 'arraybuffer';
+
+        xhr.onload = function(e) {
+            console.log("AJAX loadeds");
+            // response is unsigned 8 bit integer
+            var responseArray = new Uint8Array(this.response);
+            console.log(responseArray);
+        };
+
+        xhr.send();
+    }
+    $(call);
+
+</script>
+
+</body>
+</html>
