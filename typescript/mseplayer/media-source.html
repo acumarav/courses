@@ -21,7 +21,6 @@ Author: Eric Bidelman (ebidel@)
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 <title>MediaSource API Demo</title>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <style>
 ::selection {
   color: #fff;
@@ -99,26 +98,12 @@ section {
 </head>
 <body>
 
-<details>
-  <summary>What is this?</summary>
-  <div>
-    <p>This demo splits a <a href="Chrome_ImF.webm">.webm video</a> into
-    <span data-num-chunks></span> chunks using the File APIs. The entire movie
-    is then 'streamed' to a <code>&lt;video&gt;</code> element by appending each 
-    chunk using the
-    <a href="http://dvcs.w3.org/hg/html-media/raw-file/tip/media-source/media-source.html" target="_blank">MediaSource API</a>.</p>
-    <p><b>Support:</b> Chrome Dev Channel 17+ and the <code>--enable-media-source</code> flag set. The feature is enabled
-      by default in Chrome 23, which also updated its implementation to the new version of the API.</p>
-  </div>
-</details>
 
-<h3>Appending .webm video chunks using the Media Source API</h3>
 
 <section>
   <video controls autoplay width="320" height="240"></video>
   <pre id="log"></pre>
 </section>
-
 <pre><code>
 var ms = new MediaSource();
 
@@ -135,7 +120,8 @@ ms.addEventListener('sourceopen', function(e) {
 
 <script>
 var FILE = "videocontent/"+'test.webm';
-var NUM_CHUNKS = 5;
+//var FILE = "videocontent/"+'hidden-figures.m4v';
+
 var video = document.querySelector('video');
 
 window.MediaSource = window.MediaSource || window.WebKitMediaSource;
@@ -144,50 +130,29 @@ if (!!!window.MediaSource) {
 }
 
 var mediaSource = new MediaSource();
-
-document.querySelector('[data-num-chunks]').textContent = NUM_CHUNKS;
-
 video.src = window.URL.createObjectURL(mediaSource);
 
 function callback(e) {
   var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
 
-  logger.log('mediaSource readyState: ' + this.readyState);
+  console.log('mediaSource readyState: ' + this.readyState);
 
   GET( FILE, function(uInt8Array) {
     var file = new Blob([uInt8Array], {type: 'video/webm'});
-    var chunkSize = Math.ceil(file.size / NUM_CHUNKS);
 
-    logger.log('num chunks:' + NUM_CHUNKS);
-    logger.log('chunkSize:' + chunkSize + ', totalSize:' + file.size);
-
-    // Slice the video into NUM_CHUNKS and append each to the media element.
-    var i = 0;
-
-    (function readChunk_(i) {
+    //debugger;
       var reader = new FileReader();
+      reader.onload= function (e) {
+          console.log("Read done!");
+          sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
 
-      // Reads aren't guaranteed to finish in the same order they're started in,
-      // so we need to read + append the next chunk after the previous reader
-      // is done (onload is fired).
-      reader.onload = function(e) {
-        sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
-        logger.log('appending chunk:' + i);
-        if (i == NUM_CHUNKS - 1) {
-          mediaSource.endOfStream();
-        } else {
           if (video.paused) {
-            video.play(); // Start playing after 1st chunk is appended.
+              video.play();
           }
-          readChunk_(++i);
-        }
-      };
+      }
 
-      var startByte = chunkSize * i;
-      var chunk = file.slice(startByte, startByte + chunkSize);
 
-      reader.readAsArrayBuffer(chunk);
-    })(i);  // Start the recursive call by self calling.
+      reader.readAsArrayBuffer(file);
   });
 }
 
@@ -213,37 +178,6 @@ function GET(url, callback) {
   };
 }
 </script>
-<script>
-function Logger(id) {
-  this.el = document.getElementById('log');
-}
-Logger.prototype.log = function(msg) {
-  var fragment = document.createDocumentFragment();
-  fragment.appendChild(document.createTextNode(msg));
-  fragment.appendChild(document.createElement('br'));
-  this.el.appendChild(fragment);
-};
 
-Logger.prototype.clear = function() {
-  this.el.textContent = '';
-};
-
-var logger = new Logger('log');
-</script>
-<script>
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-22014378-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
-<!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
-<script>CFInstall.check({mode: 'overlay'});</script>
-<![endif]-->
 </body>
 </html>
