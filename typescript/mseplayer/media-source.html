@@ -101,57 +101,45 @@ section {
 
 
 <section>
-  <video controls autoplay width="320" height="240"></video>
+  <video controls autoplay width="480" height="360"></video>
   <pre id="log"></pre>
 </section>
-<pre><code>
-var ms = new MediaSource();
 
-var video = document.querySelector('video');
-video.src = window.URL.createObjectURL(ms);
-
-ms.addEventListener('sourceopen', function(e) {
-  ...
-  var sourceBuffer = ms.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
-  sourceBuffer.appendBuffer(oneVideoWebMChunk);
-  ....
-}, false);
-</code></pre>
 
 <script>
-var FILE = "videocontent/"+'test.webm';
+//var FILE = "videocontent/"+'test.webm';
 //var FILE = "videocontent/"+'hidden-figures.m4v';
+var FILE = "videocontent/"+'small.m4v';
 
 var video = document.querySelector('video');
-
-window.MediaSource = window.MediaSource || window.WebKitMediaSource;
-if (!!!window.MediaSource) {
-  alert('MediaSource API is not available');
-}
-
 var mediaSource = new MediaSource();
 video.src = window.URL.createObjectURL(mediaSource);
 
+
 function callback(e) {
-  var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
+    var mimeCodec = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
+  //var mimeCodec = 'video/webm; codecs="vorbis,vp8"';
+  var sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
+  //var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
+  //var sourceBuffer = mediaSource.addSourceBuffer('video/mp4;');
 
   console.log('mediaSource readyState: ' + this.readyState);
 
   GET( FILE, function(uInt8Array) {
-    var file = new Blob([uInt8Array], {type: 'video/webm'});
+    //var file = new Blob([uInt8Array], {type: 'video/webm'});
+    var file = new Blob([uInt8Array],{type: 'video/mp4'});
 
-    //debugger;
       var reader = new FileReader();
       reader.onload= function (e) {
           console.log("Read done!");
           sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
-
-          if (video.paused) {
-              video.play();
-          }
       }
 
-
+      sourceBuffer.addEventListener('updateend', function (_) {
+         console.log(mediaSource.readyState); // ended
+          //mediaSource.endOfStream();
+          video.play();
+      });
       reader.readAsArrayBuffer(file);
   });
 }

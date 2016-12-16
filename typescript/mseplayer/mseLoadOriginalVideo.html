@@ -23,12 +23,12 @@
         <input type="button" id="playBtn" class="btn-primary" value="Play"/>
     </div>
 
-    <!--<div class="col-md-12">
-        <h3>Player Tag With Source</h3>
-        <video autoplay preload="none" controls="true">
-            <source src="http://localhost:8090/trailers/sea.m4v" type="video/mp4"/>
+    <div class="col-md-12">
+        <h3>Second Player</h3>
+        <video id="secondPlayer" autoplay preload="none" controls="true">
+            <!--<source src="http://localhost:8090/trailers/sea.m4v" type="video/mp4"/>-->
         </video>
-    </div>-->
+    </div>
 
 
 </div>
@@ -36,6 +36,11 @@
 </div>
 <script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
 <script type="text/javascript">
+
+    $(function () {
+        $("#secondPlayer")[0].src="http://localhost:8090/trailers/sea.m4v";
+        //document.getElementById("secondPlayer").src="http://localhost:8090/trailers/sea.m4v";
+    });
 
     $("#playBtn").click(function () {
         //alert('play');
