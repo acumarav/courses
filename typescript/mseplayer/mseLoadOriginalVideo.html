@@ -39,17 +39,36 @@
 
     $(function () {
         $("#secondPlayer")[0].src="http://localhost:8090/trailers/sea.m4v";
-        //document.getElementById("secondPlayer").src="http://localhost:8090/trailers/sea.m4v";
     });
 
+    var player = document.getElementById("myplayer");
+
     $("#playBtn").click(function () {
-        //alert('play');
-        var player = document.getElementById("myplayer");
-        player.play();
+        document.getElementById("myplayer").play();
     });
 
     //http://localhost:8090/mse/sample.mov
     //https://msdn.microsoft.com/en-us/library/dn551368(v=vs.85).aspx
+
+    var loadFile = function () {
+
+        GET( "http://localhost:8090/trailers/sea.m4v", function(uInt8Array) {
+
+            var file = new Blob([uInt8Array],{type: 'video/mp4'});
+
+            var objectURL = URL.createObjectURL(file);
+            player.src=objectURL;
+
+            /*   var reader = new FileReader();
+             reader.onload= function (e) {
+             console.log("Read done!");
+             sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
+             }*/
+
+            //reader.readAsArrayBuffer(file);
+        });
+
+    };
 
     var loadSample = function () {
         //  Create the media source
@@ -112,7 +131,23 @@
 
 
     }
-    $(loadSample);
+    $(loadFile);
+
+
+    function GET(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'arraybuffer';
+        xhr.send();
+
+        xhr.onload = function (e) {
+            if (xhr.status != 200) {
+                alert("Unexpected status code " + xhr.status + " for " + url);
+                return false;
+            }
+            callback(new Uint8Array(xhr.response));
+        }
+    };
 
 </script>
 
