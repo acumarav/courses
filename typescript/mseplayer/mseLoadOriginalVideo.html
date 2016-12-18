@@ -53,26 +53,26 @@
 
     //http://localhost:8090/mse/sample.mov
     //https://msdn.microsoft.com/en-us/library/dn551368(v=vs.85).aspx
+    var loadBlobFile = function(){
+        GETBLOB(trailer_200mb, function(blob){
+            var objectURL = URL.createObjectURL(blob);
+            player.src=objectURL;
+        });
+        /*   var reader = new FileReader();
+         reader.onload= function (e) {
+         console.log("Read done!");
+         sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
+         }*/
+        //reader.readAsArrayBuffer(file);
+    }
+
 
     var loadFile = function () {
-
-
-        GET( trailer_30mb, function(uInt8Array) {
-
+        GET( trailer_200mb, function(uInt8Array) {
             var file = new Blob([uInt8Array],{type: 'video/mp4'});
-
             var objectURL = URL.createObjectURL(file);
             player.src=objectURL;
-
-            /*   var reader = new FileReader();
-             reader.onload= function (e) {
-             console.log("Read done!");
-             sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
-             }*/
-
-            //reader.readAsArrayBuffer(file);
         });
-
     };
 
     var loadSample = function () {
@@ -136,7 +136,7 @@
 
 
     }
-    $(loadFile);
+    $(loadBlobFile);
 
 
     function GET(url, callback) {
@@ -151,6 +151,21 @@
                 return false;
             }
             callback(new Uint8Array(xhr.response));
+        }
+    };
+
+    function GETBLOB(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+        xhr.send();
+
+        xhr.onload = function (e) {
+            if (xhr.status != 200) {
+                alert("Unexpected status code " + xhr.status + " for " + url);
+                return false;
+            }
+            callback(xhr.response);
         }
     };
 
