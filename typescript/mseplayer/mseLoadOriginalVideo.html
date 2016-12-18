@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-12">
         <div class="lead">Player</div>
-        <video id="myplayer">
+        <video id="myplayer" autoplay controls>
             <div id="description">
                 Example loads mp4 file and play it
             </div>
@@ -37,8 +37,12 @@
 <script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
 <script type="text/javascript">
 
+    var trailer_200mb = "http://localhost:8090/trailers/terminatorgenisys-tlr1_a720p.m4v";
+    var trailer_30mb = "http://localhost:8090/trailers/kong.m4v";
+    var trailer_100mb = "http://localhost:8090/trailers/collateral-beauty.m4v";
+
     $(function () {
-        $("#secondPlayer")[0].src="http://localhost:8090/trailers/sea.m4v";
+        //$("#secondPlayer")[0].src=trailer2;
     });
 
     var player = document.getElementById("myplayer");
@@ -52,7 +56,8 @@
 
     var loadFile = function () {
 
-        GET( "http://localhost:8090/trailers/sea.m4v", function(uInt8Array) {
+
+        GET( trailer_30mb, function(uInt8Array) {
 
             var file = new Blob([uInt8Array],{type: 'video/mp4'});
 
