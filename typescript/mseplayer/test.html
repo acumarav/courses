@@ -131,36 +131,105 @@ Author: Eric Bidelman (ebidel@)
 </section>
 
 
-
 <script>
     //var FILE_URL = "videocontent/" + 'test.webm';
-
-
-
     /*var fragments=[
-        {from:0,to:7158321},
-        {from:7158322,to:16357807},
-        {from:16357808,to:19257816}];*/
+     {from:0,to:7158321},
+     {from:7158322,to:16357807},
+     {from:16357808,to:19257816}];*/
+
+    var GAGA_FILE_URL = "http://localhost:8090/frag/mr-gaga_dashinit.mp4";
+    var GAGA_FRAGMENTS = [
+        {from: 0, to: 1386},
+        {from: 1387, to: 174841},
+        {from: 174842, to: 513581},
+        {from: 513582, to: 660756},
+        {from: 660757, to: 855357},
+        {from: 855358, to: 944582},
+        {from: 944583, to: 1107572},
+        {from: 1107573, to: 1201461},
+        {from: 1201462, to: 1373326},
+        {from: 1373327, to: 1797247},
+        {from: 1797248, to: 1982925},
+        {from: 1982926, to: 2145763},
+        {from: 2145764, to: 2711019},
+        {from: 2711020, to: 4101965},
+        {from: 4101966, to: 4560246},
+        {from: 4560247, to: 4801492},
+        {from: 4801493, to: 5134552},
+        {from: 5134553, to: 5275845},
+        {from: 5275846, to: 6097333},
+        {from: 6097334, to: 6293361},
+        {from: 6293362, to: 6809621},
+        {from: 6809622, to: 7117658},
+        {from: 7117659, to: 7870315},
+        {from: 7870316, to: 8103208},
+        {from: 8103209, to: 8310151},
+        {from: 8310152, to: 8833924},
+        {from: 8833925, to: 9202878},
+        {from: 9202879, to: 9404541},
+        {from: 9404542, to: 9619934},
+        {from: 9619935, to: 9866290},
+        {from: 9866291, to: 10036637},
+        {from: 10036638, to: 10460251},
+        {from: 10460252, to: 11059495},
+        {from: 11059496, to: 11465046},
+        {from: 11465047, to: 11735241},
+        {from: 11735242, to: 12031448},
+        {from: 12031449, to: 12974811},
+        {from: 12974812, to: 13233272},
+        {from: 13233273, to: 14006776},
+        {from: 14006777, to: 14645241},
+        {from: 14645242, to: 15676745},
+        {from: 15676746, to: 16083076},
+        {from: 16083077, to: 16452006},
+        {from: 16452007, to: 16469000},
+        {from: 16469001, to: 16662572},
+        {from: 16662573, to: 16926601},
+        {from: 16926602, to: 17016097},
+        {from: 17016098, to: 17331938},
+        {from: 17331939, to: 17534678},
+        {from: 17534679, to: 17689382},
+        {from: 17689383, to: 17755348},
+        {from: 17755349, to: 17872058},
+        {from: 17872059, to: 17962784},
+        {from: 17962785, to: 18135901},
+        {from: 18135902, to: 18320445},
+        {from: 18320446, to: 18463983},
+        {from: 18463984, to: 18583871},
+        {from: 18583872, to: 18815077},
+        {from: 18815078, to: 19109999},
+        {from: 19110000, to: 19417387},
+        {from: 19417388, to: 19578369},
+        {from: 19578370, to: 20074212},
+        {from: 20074213, to: 20206843},
+        {from: 20206844, to: 20324264},
+        {from: 20324265, to: 20652106},
+        {from: 20652107, to: 20798925},
+        {from: 20798926, to: 22897516},
+        {from: 22897517, to: 23365286}
+    ];
+
 
     var SEA_FILE_URL = "http://localhost:8090/frag/sea_dashinit.mp4";
-    var SEA_FRAGMENTS=[
-        {from:0,to:1386},
-        {from:1387,to:100142},
-        {from:100143,to:2454801},
-        {from:2454802,to:4597326},
-        {from:4597327,to:6064384},
-        {from:6064385,to:7158321},
+    var SEA_FRAGMENTS = [
+        {from: 0, to: 1386},
+        {from: 1387, to: 100142},
+        {from: 100143, to: 2454801},
+        {from: 2454802, to: 4597326},
+        {from: 4597327, to: 6064384},
+        {from: 6064385, to: 7158321},
 
-        {from:7158322,to:8307215},
-        {from:8307216,to:9821571},
-        {from:9821572,to:11323284},
-        {from:11323285,to:13561827},
-        {from:13561828,to:16357807},
+        {from: 7158322, to: 8307215},
+        {from: 8307216, to: 9821571},
+        {from: 9821572, to: 11323284},
+        {from: 11323285, to: 13561827},
+        {from: 13561828, to: 16357807},
 
-        {from:16357808,to:18133496},
-        {from:18133497,to:18904064},
-        {from:18904065,to:19026200},
-        {from:19026201,to:19257816}
+        {from: 16357808, to: 18133496},
+        {from: 18133497, to: 18904064},
+        {from: 18904065, to: 19026200},
+        {from: 19026201, to: 19257816}
     ];
 
     window.MediaSource = window.MediaSource || window.WebKitMediaSource;
@@ -193,7 +262,7 @@ Author: Eric Bidelman (ebidel@)
                 // is done (onload is fired).
 
                 reader.onload = function (e) {
-                    if(true) {
+                    if (true) {
                         //logger.log('loaded chunk:' + i);
                         logger.log('mediaSource readyState: ' + mediaSource.readyState);
                         logger.log('sourceBuffer updating: ' + sourceBuffer.updating);
@@ -207,8 +276,8 @@ Author: Eric Bidelman (ebidel@)
                     }
                 };
 
-                var frag=fragments[i];
-                logger.log("appending: "+JSON.stringify(frag));
+                var frag = fragments[i];
+                logger.log("appending: " + JSON.stringify(frag));
                 var chunk = file.slice(frag.from, frag.to);
 
                 reader.readAsArrayBuffer(chunk);
@@ -216,19 +285,19 @@ Author: Eric Bidelman (ebidel@)
         });
     }
 
-    var firstUpdateHandler = function (e,byteArray) {
+    var firstUpdateHandler = function (e, byteArray) {
         var srcBuffer = e;
         //srcBuffer.removeEventListener("updateend",firstUpdateHandler,true);
-        srcBuffer.removeEventListener("updateend",listener);
+        srcBuffer.removeEventListener("updateend", listener);
 
         logger.log("first udate end");
 
         logger.log('mediaSource readyState: ' + mediaSource.readyState);
         logger.log('sourceBuffer updating: ' + srcBuffer.updating);
 
-        i=i+1;
-        var frag=fragments[1];
-        var chunk = byteArray.slice(frag.from, frag.to+1);
+        i = i + 1;
+        var frag = fragments[1];
+        var chunk = byteArray.slice(frag.from, frag.to + 1);
         srcBuffer.appendBuffer(chunk);
         logger.log("second fragment was add");
         logger.log('sourceBuffer updating: ' + srcBuffer.updating);
@@ -240,14 +309,14 @@ Author: Eric Bidelman (ebidel@)
         GET(fileUrl, function (byteArray) {
             var i = 0;//  append i chunks to the media element.
 
-            (function appendFragment_(){
-                sourceBuffer.removeEventListener("updateend",appendFragment_)
-                if(i<fragments.length){
-                    var frag=fragments[i];
-                    logger.log("Appending: "+i+" |  "+JSON.stringify(frag));
-                    var chunk = byteArray.slice(frag.from, frag.to+1);
-                    sourceBuffer.addEventListener("updateend",appendFragment_);
-                    i=i+1;
+            (function appendFragment_() {
+                sourceBuffer.removeEventListener("updateend", appendFragment_)
+                if (i < fragments.length) {
+                    var frag = fragments[i];
+                    logger.log("Appending: " + i + " |  " + JSON.stringify(frag));
+                    var chunk = byteArray.slice(frag.from, frag.to + 1);
+                    sourceBuffer.addEventListener("updateend", appendFragment_);
+                    i = i + 1;
                     sourceBuffer.appendBuffer(chunk);
                 }
                 else {
@@ -258,10 +327,11 @@ Author: Eric Bidelman (ebidel@)
     }
 
 
-    var listener=new Object();
+    var listener = new Object();
     var video = document.querySelector('video');
     var mediaSource = new MediaSource();
-    mediaSource.addEventListener('sourceopen', processTwo.bind(this,SEA_FILE_URL,SEA_FRAGMENTS));
+    mediaSource.addEventListener('sourceopen', processTwo.bind(this, SEA_FILE_URL, SEA_FRAGMENTS));
+    //mediaSource.addEventListener('sourceopen', processTwo.bind(this, GAGA_FILE_URL, GAGA_FRAGMENTS));
     video.src = window.URL.createObjectURL(mediaSource);
 
     function GET(url, callback) {
