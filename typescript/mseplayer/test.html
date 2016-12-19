@@ -18,22 +18,24 @@ Author: Eric Bidelman (ebidel@)
 -->
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
     <title>MediaSource API Demo</title>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <style>
         ::selection {
             color: #fff;
             background: pink;
         }
+
         html, body {
             overflow: hidden;
             height: 100%;
         }
+
         body {
             margin: 0;
         }
+
         body {
             color: #222;
             font-family: 'Open Sans', arial, sans-serif;
@@ -58,6 +60,7 @@ Author: Eric Bidelman (ebidel@)
             justify-content: center;
             flex-direction: column;
         }
+
         details {
             position: absolute;
             top: 1em;
@@ -66,18 +69,21 @@ Author: Eric Bidelman (ebidel@)
             cursor: pointer;
             padding: 10px;
             background: #fff;
-            border: 1px solid rgba(0,0,0,0.3);
+            border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 5px;
             max-width: 600px;
             font-size: 10pt;
             z-index: 100;
         }
+
         details > div {
             margin: 10px 0;
         }
+
         details blockquote {
             font-style: italic;
         }
+
         pre:not(#log) {
             background: #eee;
             border-radius: 5px;
@@ -85,12 +91,15 @@ Author: Eric Bidelman (ebidel@)
             border: 1px solid #ccc;
             color: navy;
         }
+
         #log {
             margin: 0 1em;
         }
+
         code {
             font-weight: bold;
         }
+
         section {
             display: -webkit-flex;
             display: flex;
@@ -106,38 +115,55 @@ Author: Eric Bidelman (ebidel@)
             <span data-num-chunks></span> chunks using the File APIs. The entire movie
             is then 'streamed' to a <code>&lt;video&gt;</code> element by appending each
             chunk using the
-            <a href="http://dvcs.w3.org/hg/html-media/raw-file/tip/media-source/media-source.html" target="_blank">MediaSource API</a>.</p>
-        <p><b>Support:</b> Chrome Dev Channel 17+ and the <code>--enable-media-source</code> flag set. The feature is enabled
+            <a href="http://dvcs.w3.org/hg/html-media/raw-file/tip/media-source/media-source.html" target="_blank">MediaSource
+                API</a>.</p>
+        <p><b>Support:</b> Chrome Dev Channel 17+ and the <code>--enable-media-source</code> flag set. The feature is
+            enabled
             by default in Chrome 23, which also updated its implementation to the new version of the API.</p>
     </div>
 </details>
 
-<h3>Appending .webm video chunks using the Media Source API</h3>
+<h3>Appending .mp4 video chunks using the Media Source API</h3>
 
 <section>
     <video controls autoplay width="320" height="240"></video>
     <pre id="log"></pre>
 </section>
 
-<pre><code>
-    var ms = new MediaSource();
 
-    var video = document.querySelector('video');
-    video.src = window.URL.createObjectURL(ms);
-
-    ms.addEventListener('sourceopen', function(e) {
-    ...
-    var sourceBuffer = ms.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
-    sourceBuffer.appendBuffer(oneVideoWebMChunk);
-    ....
-    }, false);
-</code></pre>
 
 <script>
-    var FILE_URL = "videocontent/"+'test.webm';
-    //var FILE_URL = "videocontent/"+'frag_bunny.mp4';
-    var NUM_CHUNKS = 5;
+    //var FILE_URL = "videocontent/" + 'test.webm';
+    var FILE_URL = "http://localhost:8090/frag/sea_dashinit.mp4";
+    var NUM_CHUNKS = 14;
     var video = document.querySelector('video');
+
+    var fragments=[
+        {from:0,to:7158321},
+        {from:7158322,to:16357807},
+        {from:16357808,to:19257816}];
+
+
+
+ /*   var fragments=[
+        {from:0,to:1386},
+        {from:1387,to:100142},
+        {from:100143,to:2454801},
+        {from:2454802,to:4597326},
+        {from:4597327,to:6064384},
+        {from:6064385,to:7158321},
+
+        {from:7158322,to:8307215},
+        {from:8307216,to:9821571},
+        {from:9821572,to:11323284},
+        {from:11323285,to:13561827},
+        {from:13561828,to:16357807},
+
+        {from:16357808,to:18133496},
+        {from:18133497,to:18904064},
+        {from:18904065,to:19026200},
+        {from:19026201,to:19257816}
+    ];*/
 
     window.MediaSource = window.MediaSource || window.WebKitMediaSource;
     if (!!!window.MediaSource) {
@@ -151,13 +177,13 @@ Author: Eric Bidelman (ebidel@)
     video.src = window.URL.createObjectURL(mediaSource);
 
     function callback(e) {
-        //var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-        var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
+        var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+        //var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
 
         logger.log('mediaSource readyState: ' + this.readyState);
 
-        GET( FILE_URL, function(uInt8Array) {
-            var file = new Blob([uInt8Array], {type: 'video/webm'});
+        GET(FILE_URL, function (uInt8Array) {
+            var file = new Blob([uInt8Array], {type: 'video/mp4'});
             var chunkSize = Math.ceil(file.size / NUM_CHUNKS);
 
             logger.log('num chunks:' + NUM_CHUNKS);
@@ -167,26 +193,32 @@ Author: Eric Bidelman (ebidel@)
             var i = 0;
 
             (function readChunk_(i) {
-                var reader = new FileReader();
 
+                var reader = new FileReader();
                 // Reads aren't guaranteed to finish in the same order they're started in,
                 // so we need to read + append the next chunk after the previous reader
                 // is done (onload is fired).
-                reader.onload = function(e) {
-                    sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
-                    logger.log('appending chunk:' + i);
+
+                reader.onload = function (e) {
+                    if(true) {
+                        sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
+                        logger.log('loaded chunk:' + i);
+                    }
                     if (i == NUM_CHUNKS - 1) {
                         mediaSource.endOfStream();
                     } else {
                         if (video.paused) {
-                            video.play(); // Start playing after 1st chunk is appended.
+                            //video.play(); // Start playing after 1st chunk is appended.
                         }
                         readChunk_(++i);
                     }
                 };
 
-                var startByte = chunkSize * i;
-                var chunk = file.slice(startByte, startByte + chunkSize);
+
+
+                var frag=fragments[i];
+                logger.log("appending: "+JSON.stringify(frag));
+                var chunk = file.slice(frag.from, frag.to);
 
                 reader.readAsArrayBuffer(chunk);
             })(i);  // Start the recursive call by self calling.
@@ -196,7 +228,7 @@ Author: Eric Bidelman (ebidel@)
     mediaSource.addEventListener('sourceopen', callback, false);
     mediaSource.addEventListener('webkitsourceopen', callback, false);
 
-    mediaSource.addEventListener('webkitsourceended', function(e) {
+    mediaSource.addEventListener('webkitsourceended', function (e) {
         logger.log('mediaSource readyState: ' + this.readyState);
     }, false);
 
@@ -206,7 +238,7 @@ Author: Eric Bidelman (ebidel@)
         xhr.responseType = 'arraybuffer';
         xhr.send();
 
-        xhr.onload = function(e) {
+        xhr.onload = function (e) {
             if (xhr.status != 200) {
                 alert("Unexpected status code " + xhr.status + " for " + url);
                 return false;
@@ -219,14 +251,14 @@ Author: Eric Bidelman (ebidel@)
     function Logger(id) {
         this.el = document.getElementById('log');
     }
-    Logger.prototype.log = function(msg) {
+    Logger.prototype.log = function (msg) {
         var fragment = document.createDocumentFragment();
         fragment.appendChild(document.createTextNode(msg));
         fragment.appendChild(document.createElement('br'));
         this.el.appendChild(fragment);
     };
 
-    Logger.prototype.clear = function() {
+    Logger.prototype.clear = function () {
         this.el.textContent = '';
     };
 
