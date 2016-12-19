@@ -227,6 +227,7 @@ Author: Eric Bidelman (ebidel@)
         logger.log('mediaSource readyState: ' + mediaSource.readyState);
         logger.log('sourceBuffer updating: ' + srcBuffer.updating);
 
+        i=i+1;
         var frag=fragments[1];
         var chunk = byteArray.slice(frag.from, frag.to+1);
         srcBuffer.appendBuffer(chunk);
@@ -238,17 +239,22 @@ Author: Eric Bidelman (ebidel@)
     function processTwo(videoTag) {
         var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
         GET(FILE_URL, function (byteArray) {
-            //  append chunls to the media element.
-            var i = 0;
+            var i = 0;//  append i chunks to the media element.
 
-            var frag=fragments[i];
-            logger.log("appending: "+JSON.stringify(frag));
-            var chunk = byteArray.slice(frag.from, frag.to+1);
-
-            //sourceBuffer.addEventListener("updateend",firstUpdateHandler);
-            listener = firstUpdateHandler.bind(this, sourceBuffer,byteArray);
-            sourceBuffer.addEventListener("updateend",listener);
-            sourceBuffer.appendBuffer(chunk);
+            (function appendFragment_(){
+                sourceBuffer.removeEventListener("updateend",appendFragment_)
+                if(i<fragments.length){
+                    var frag=fragments[i];
+                    logger.log("Appending: "+i+" |  "+JSON.stringify(frag));
+                    var chunk = byteArray.slice(frag.from, frag.to+1);
+                    sourceBuffer.addEventListener("updateend",appendFragment_);
+                    i=i+1;
+                    sourceBuffer.appendBuffer(chunk);
+                }
+                else {
+                    logger.log("Done!");
+                }
+            })();
         });
     }
 
