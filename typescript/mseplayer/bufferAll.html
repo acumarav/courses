@@ -9,7 +9,8 @@
     var video = document.querySelector('video');
 
     //var assetURL = 'videocontent/small.m4v';
-    var assetURL = 'videocontent/frag_small.m4v';
+    //var assetURL = 'videocontent/frag_small.m4v';
+    var assetURL = 'http://localhost:8090/frag/sea_dashinit.mp4';
     //var assetURL = 'videocontent/frag_hidden-figures.m4v';
     //var assetURL = 'videocontent/frag_bunny.mp4';
     // Need to be specific for Blink regarding codecs
@@ -26,26 +27,26 @@
     }
 
     function sourceOpen (_) {
-        //console.log(this.readyState); // open
+        console.log("source Opened");
         var mediaSource = this;
         var sourceBuffer = mediaSource.addSourceBuffer(mimeCodec);
         fetchAB(assetURL, function (buf) {
-            sourceBuffer.addEventListener('updateend', function (_) {
-                //mediaSource.endOfStream();
-                video.play();
-                //console.log(mediaSource.readyState); // ended
-            });
             sourceBuffer.appendBuffer(buf);
+            sourceBuffer.addEventListener('updateend', function (_) {
+                console.log("Source Buffer: udateend"); // ended
+                video.play();
+                //mediaSource.endOfStream();
+            });
         });
     };
 
-    function fetchAB (url, cb) {
-        console.log(url);
+    function fetchAB (url, callback) {
+        console.log("fetching: "+url);
         var xhr = new XMLHttpRequest;
         xhr.open('get', url);
         xhr.responseType = 'arraybuffer';
         xhr.onload = function () {
-            cb(xhr.response);
+            callback(xhr.response);
         };
         xhr.send();
     };

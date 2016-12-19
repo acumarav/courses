@@ -134,8 +134,8 @@ Author: Eric Bidelman (ebidel@)
 </code></pre>
 
 <script>
-    //var FILE = "videocontent/"+'test.webm';
-    var FILE = "videocontent/"+'frag_bunny.mp4';
+    var FILE = "videocontent/"+'test.webm';
+    //var FILE = "videocontent/"+'frag_bunny.mp4';
     var NUM_CHUNKS = 5;
     var video = document.querySelector('video');
 
@@ -151,8 +151,8 @@ Author: Eric Bidelman (ebidel@)
     video.src = window.URL.createObjectURL(mediaSource);
 
     function callback(e) {
-        var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-        // var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
+        //var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+        var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
 
         logger.log('mediaSource readyState: ' + this.readyState);
 
