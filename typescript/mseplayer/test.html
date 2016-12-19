@@ -134,15 +134,16 @@ Author: Eric Bidelman (ebidel@)
 
 <script>
     //var FILE_URL = "videocontent/" + 'test.webm';
-    var FILE_URL = "http://localhost:8090/frag/sea_dashinit.mp4";
-    var NUM_CHUNKS = 14;
+
+
 
     /*var fragments=[
         {from:0,to:7158321},
         {from:7158322,to:16357807},
         {from:16357808,to:19257816}];*/
 
-    var fragments=[
+    var SEA_FILE_URL = "http://localhost:8090/frag/sea_dashinit.mp4";
+    var SEA_FRAGMENTS=[
         {from:0,to:1386},
         {from:1387,to:100142},
         {from:100143,to:2454801},
@@ -167,9 +168,7 @@ Author: Eric Bidelman (ebidel@)
         alert('MediaSource API is not available');
     }
 
-
-
-    document.querySelector('[data-num-chunks]').textContent = NUM_CHUNKS;
+    //document.querySelector('[data-num-chunks]').textContent = NUM_CHUNKS;
 
 
     function processOne(videoTag) {
@@ -236,9 +235,9 @@ Author: Eric Bidelman (ebidel@)
         logger.log('mediaSource readyState: ' + mediaSource.readyState);
     }
 
-    function processTwo(videoTag) {
+    function processTwo(fileUrl, fragments) {
         var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-        GET(FILE_URL, function (byteArray) {
+        GET(fileUrl, function (byteArray) {
             var i = 0;//  append i chunks to the media element.
 
             (function appendFragment_(){
@@ -262,7 +261,7 @@ Author: Eric Bidelman (ebidel@)
     var listener=new Object();
     var video = document.querySelector('video');
     var mediaSource = new MediaSource();
-    mediaSource.addEventListener('sourceopen', processTwo.bind(this,video));
+    mediaSource.addEventListener('sourceopen', processTwo.bind(this,SEA_FILE_URL,SEA_FRAGMENTS));
     video.src = window.URL.createObjectURL(mediaSource);
 
     function GET(url, callback) {
