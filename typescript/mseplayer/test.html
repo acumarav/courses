@@ -180,8 +180,6 @@ Author: Eric Bidelman (ebidel@)
         var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
         //var sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vorbis,vp8"');
 
-        logger.log('mediaSource readyState: ' + this.readyState);
-
         GET(FILE_URL, function (uInt8Array) {
             var file = new Blob([uInt8Array], {type: 'video/mp4'});
             var chunkSize = Math.ceil(file.size / NUM_CHUNKS);
@@ -201,8 +199,11 @@ Author: Eric Bidelman (ebidel@)
 
                 reader.onload = function (e) {
                     if(true) {
+                        //logger.log('loaded chunk:' + i);
+                        logger.log('mediaSource readyState: ' + mediaSource.readyState);
+                        logger.log('sourceBuffer updating: ' + sourceBuffer.updating);
+
                         sourceBuffer.appendBuffer(new Uint8Array(e.target.result));
-                        logger.log('loaded chunk:' + i);
                     }
                     if (i == NUM_CHUNKS - 1) {
                         mediaSource.endOfStream();
