@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <!--
 Copyright 2013 Eric Bidelman
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
 Author: Eric Bidelman (ebidel@)
 -->
 <html>
@@ -117,6 +104,7 @@ Author: Eric Bidelman (ebidel@)
             chunk using the
             <a href="http://dvcs.w3.org/hg/html-media/raw-file/tip/media-source/media-source.html" target="_blank">MediaSource
                 API</a>.</p>
+
         <p><b>Support:</b> Chrome Dev Channel 17+ and the <code>--enable-media-source</code> flag set. The feature is
             enabled
             by default in Chrome 23, which also updated its implementation to the new version of the API.</p>
@@ -125,18 +113,71 @@ Author: Eric Bidelman (ebidel@)
 
 <h3>Appending .mp4 video chunks using the Media Source API</h3>
 
+<div class="col-md-10">
+    <button id="btnPlayGaga" class="btn btn-default">Play Giga</button>
+    <button id="btnPlaySea" class="btn btn-primary">Play Sea</button>
+    <button id="btnTerminator" class="btn btn-primary">Play Terminator</button>
+</div>
+
 <section>
     <video controls autoplay width="320" height="240"></video>
     <pre id="log"></pre>
 </section>
-
-
+<script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
 <script>
-    //var FILE_URL = "videocontent/" + 'test.webm';
     /*var fragments=[
      {from:0,to:7158321},
      {from:7158322,to:16357807},
      {from:16357808,to:19257816}];*/
+
+    //var FILE_URL = "videocontent/" + 'test.webm';
+    //terminatorgenisys-tlr1_a720p.m4v
+    var TRM_FILE_URL = "http://localhost:8090/frag/trm_trl1_dashinit.mp4";
+    var TRM_FRAGMENTS = [
+        {from: 0, to: 1395},
+        {from: 1396, to: 87318},
+        {from: 87319, to: 1970342},
+        {from: 1970343, to: 7439343},
+        {from: 7439344, to: 13975139},
+        {from: 13975140, to: 19654764},
+        {from: 19654765, to: 26212064},
+        {from: 26212065, to: 32931723},
+        {from: 32931724, to: 37971846},
+        {from: 37971847, to: 44374852},
+        {from: 44374853, to: 48018080},
+        {from: 48018081, to: 54172170},
+        {from: 54172171, to: 58115080},
+        {from: 58115081, to: 61555776},
+        {from: 61555777, to: 65372745},
+        {from: 65372746, to: 72421392},
+        {from: 72421393, to: 74536233},
+        {from: 74536234, to: 78839340},
+        {from: 78839341, to: 84587691},
+        {from: 84587692, to: 91815126},
+        {from: 91815127, to: 96614620},
+        {from: 96614621, to: 101105757},
+        {from: 101105758, to: 105538877},
+        {from: 105538878, to: 108710242},
+        {from: 108710243, to: 113897874},
+        {from: 113897875, to: 116963192},
+        {from: 116963193, to: 121011711},
+        {from: 121011712, to: 124916103},
+        {from: 124916104, to: 129539857},
+        {from: 129539858, to: 136408017},
+        {from: 136408018, to: 141883851},
+        {from: 141883852, to: 148050081},
+        {from: 148050082, to: 155839796},
+        {from: 155839797, to: 161171701},
+        {from: 161171702, to: 167736471},
+        {from: 167736472, to: 174421854},
+        {from: 174421855, to: 181282070},
+        {from: 181282071, to: 186310571},
+        {from: 186310572, to: 188988140},
+        {from: 188988141, to: 193899755},
+        {from: 193899756, to: 199762406},
+        {from: 199762407, to: 200401165}
+    ];
+
 
     var GAGA_FILE_URL = "http://localhost:8090/frag/mr-gaga_dashinit.mp4";
     var GAGA_FRAGMENTS = [
@@ -210,7 +251,6 @@ Author: Eric Bidelman (ebidel@)
         {from: 22897517, to: 23365286}
     ];
 
-
     var SEA_FILE_URL = "http://localhost:8090/frag/sea_dashinit.mp4";
     var SEA_FRAGMENTS = [
         {from: 0, to: 1386},
@@ -236,9 +276,7 @@ Author: Eric Bidelman (ebidel@)
     if (!!!window.MediaSource) {
         alert('MediaSource API is not available');
     }
-
     //document.querySelector('[data-num-chunks]').textContent = NUM_CHUNKS;
-
 
     function processOne(videoTag) {
         var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
@@ -304,7 +342,7 @@ Author: Eric Bidelman (ebidel@)
         logger.log('mediaSource readyState: ' + mediaSource.readyState);
     }
 
-    function processTwo(fileUrl, fragments) {
+    function processTwo(fileUrl, fragments, mediaSource) {
         var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
         GET(fileUrl, function (byteArray) {
             var i = 0;//  append i chunks to the media element.
@@ -325,14 +363,39 @@ Author: Eric Bidelman (ebidel@)
             })();
         });
     }
-
+    ;
 
     var listener = new Object();
     var video = document.querySelector('video');
-    var mediaSource = new MediaSource();
-    mediaSource.addEventListener('sourceopen', processTwo.bind(this, SEA_FILE_URL, SEA_FRAGMENTS));
+    //var mediaSource = new MediaSource();
+    //mediaSource.addEventListener('sourceopen', processTwo.bind(this, SEA_FILE_URL, SEA_FRAGMENTS));
     //mediaSource.addEventListener('sourceopen', processTwo.bind(this, GAGA_FILE_URL, GAGA_FRAGMENTS));
-    video.src = window.URL.createObjectURL(mediaSource);
+    //video.src = window.URL.createObjectURL(mediaSource);
+
+    $(function () {
+        var mediaSource = new MediaSource();
+        mediaSource.addEventListener('sourceopen', processTwo.bind(this, SEA_FILE_URL, SEA_FRAGMENTS, mediaSource));
+        //mediaSource.addEventListener('sourceopen', processTwo.bind(this, GAGA_FILE_URL, GAGA_FRAGMENTS));
+        video.src = window.URL.createObjectURL(mediaSource);
+    });
+
+    $("#btnPlayGaga").click(function () {
+        var mediaSource = new MediaSource();
+        mediaSource.addEventListener('sourceopen', processTwo.bind(this, GAGA_FILE_URL, GAGA_FRAGMENTS, mediaSource));
+        video.src = window.URL.createObjectURL(mediaSource);
+    });
+
+    $("#btnTerminator").click(function () {
+        var mediaSource = new MediaSource();
+        mediaSource.addEventListener('sourceopen', processTwo.bind(this, TRM_FILE_URL, TRM_FRAGMENTS, mediaSource));
+        video.src = window.URL.createObjectURL(mediaSource);
+    });
+
+
+
+    $("video").on("ended", function () {
+        alert("ended");
+    });
 
     function GET(url, callback) {
         var xhr = new XMLHttpRequest();
