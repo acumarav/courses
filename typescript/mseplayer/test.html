@@ -393,8 +393,8 @@ Author: Eric Bidelman (ebidel@)
 
 
 
-    $("video").on("ended", function () {
-        alert("ended");
+    $("video").on("timeupdate", function () {
+        //alert("timeupdate");
     });
 
     function GET(url, callback) {
