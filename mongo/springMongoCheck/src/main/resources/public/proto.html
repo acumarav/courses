@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Proto test page</title>
+</head>
+<body>
+<h3>proto test</h3>
+
+<script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.4.5/dist/protobuf.js"></script>
+<script src="js/jquery-3.1.1.js"></script>
+<script src="js/protopage.js"></script>
+<script type="text/javascript">
+    var start=function(){
+      //alert("start");
+        $.get("/proto/echo",null, function(data){
+            alert("resp: "+data);
+        });
+    };
+    $(start);
+</script>
+</body>
+</html>
