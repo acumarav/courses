@@ -1,5 +1,5 @@
 module.exports = {
-    entry: "./main",
+    entry: "./main.ts",
     output: {filename: "app.js"},
     module: {
         loaders: [
@@ -10,6 +10,6 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ["", "ts", ".js"]
+        extensions: [ "ts", ".js", ""]
     }
 }
