@@ -14,7 +14,22 @@
     var start=function(){
       //alert("start");
         $.get("/proto/echo",null, function(data){
-            alert("resp: "+data);
+            //alert("resp: "+data);
+
+            protobuf.load("proto/adressbook.proto", function(err, root) {
+                if (err) throw err;
+                // Decode a buffer
+                // Obtain a message type
+                //var PersonMessage = root.lookup("protos.Person");
+                var AddBookMessage = root.lookup("protos.AddressBook");
+
+                debugger;
+                var message = AddBookMessage.decode(data);
+                var msg = JSON.stringify(message);
+                alert(msg);
+                // ... do something with message
+                // If your application uses length-delimited buffers, there is also encodeDelimited and decodeDelimited.
+            });
         });
     };
     $(start);
