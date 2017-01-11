@@ -3,7 +3,7 @@ package protos;
 
 
 
-option java_package="org.alext.linaux.protos";
+option java_package="org.alext.learning.model";
 option java_outer_classname="AddressBookProtos";
 
 
@@ -31,5 +31,12 @@ message Person {
 message AddressBook{
     repeated Person person=1;
 }
+
+
+message Echo{
+    string name =1;
+    int32 age =2;
+}
+
 
 

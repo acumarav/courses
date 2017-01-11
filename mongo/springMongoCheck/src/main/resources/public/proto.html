@@ -21,10 +21,12 @@
                 // Decode a buffer
                 // Obtain a message type
                 //var PersonMessage = root.lookup("protos.Person");
-                var AddBookMessage = root.lookup("protos.AddressBook");
+                //var AddreassBookMessage = root.lookup("protos.AddressBook");
+                var EchoMessage = root.lookup("protos.Echo");
 
+                console.log(data);
                 debugger;
-                var message = AddBookMessage.decode(data);
+                var message = EchoMessage.decode(data);
                 var msg = JSON.stringify(message);
                 alert(msg);
                 // ... do something with message
