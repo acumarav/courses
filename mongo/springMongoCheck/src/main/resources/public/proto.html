@@ -25,7 +25,7 @@
                 var EchoMessage = root.lookup("protos.Echo");
 
                 console.log(data);
-                debugger;
+
                 var message = EchoMessage.decode(data);
                 var msg = JSON.stringify(message);
                 alert(msg);

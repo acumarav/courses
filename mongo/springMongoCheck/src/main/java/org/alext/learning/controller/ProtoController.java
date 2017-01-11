@@ -1,5 +1,6 @@
 package org.alext.learning.controller;
 
+import com.google.protobuf.ByteString;
 import org.alext.learning.model.AddressBookProtos;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,14 @@ public class ProtoController {
         AddressBookProtos.Person manOne = AddressBookProtos.Person.newBuilder().setEmail("person@email.com").setId(1).setName("Mister One").addPhone(homeNumber).addPhone(mobileNumber).build();
 
         return manOne.toByteArray();*/
+       ByteString bs=ByteString.copyFrom(new byte[]{1,2,3,4});
 
-        AddressBookProtos.Echo alex = AddressBookProtos.Echo.newBuilder().setName("alex").setAge(35).build();
+        AddressBookProtos.Echo alex = AddressBookProtos.Echo.newBuilder()
+                .setName("alex")
+                .setAge(35)
+                .setPayload(bs)
+                .build();
+
         return alex.toByteArray();
         //return null;
     }
