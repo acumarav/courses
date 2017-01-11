@@ -13,8 +13,8 @@
 <script type="text/javascript">
     var start=function(){
       //alert("start");
-        $.get("/proto/echo",null, function(data){
-            //alert("resp: "+data);
+        //$.get("/proto/echo",null, function(data){
+        GET("/proto/echo", function(data){
 
             protobuf.load("proto/adressbook.proto", function(err, root) {
                 if (err) throw err;
@@ -35,6 +35,22 @@
         });
     };
     $(start);
+
+    function GET(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'arraybuffer';
+        xhr.send();
+
+        xhr.onload = function (e) {
+            if (xhr.status != 200) {
+                alert("Unexpected status code " + xhr.status + " for " + url);
+                return false;
+            }
+            callback(new Uint8Array(xhr.response));
+            //callback(xhr.response);
+        };
+    }
 </script>
 </body>
 </html>
