@@ -34,6 +34,7 @@ message Echo{
     string name =1;
     int32 age =2;
     bytes payload = 3;
+    string tag =4;
 }
 
 

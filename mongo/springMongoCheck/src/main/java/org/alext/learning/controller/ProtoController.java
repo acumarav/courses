@@ -28,6 +28,7 @@ public class ProtoController {
                 .setName("alex")
                 .setAge(35)
                 .setPayload(bs)
+                .setTag("END")
                 .build();
 
         return alex.toByteArray();
