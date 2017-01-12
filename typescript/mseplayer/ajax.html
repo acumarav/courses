@@ -20,9 +20,29 @@
     //var url = "img/logo.png";
     var url = "http://localhost:8090/gravity_m.mp4";
 
-    GET(url, function(dataArray){
+   /*
+    //working stuff:
+   GET(url, function(dataArray){
         console.log("Array length: "+dataArray.length);
         console.log(dataArray);
+    });*/
+
+    $.ajax({
+        url:'http://localhost:8090/gravity_m.mp4',
+        type:'GET',
+        headers:{"Range":"bytes=10-120"},
+        //dataType: 'binary',
+        responseType:'arraybuffer',
+        crossDomain:true,
+        success: function (data, status, jqXHR) {
+            console.log("Range AJAX Success! " +data.length);
+            var arr=new Uint8Array(data);
+            console.log(arr);
+        },
+        error: function (data, status, jqXHR) {
+            debugger;
+            console.log("Range AJAX Error! " + status);
+        }
     });
 
     function GET(url, callback) {
