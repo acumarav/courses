@@ -63,9 +63,14 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         var initSegment = new Uint8Array(dashVsub.initSegment);
         sourceBuffer.appendBuffer(initSegment);
         console.log("init has been appended, retrieving: "+assetUrl);
+        jQuery.ajaxSetup({async:false});
+
         for(var segIndex=0;segIndex<dashVsub.segmentsNumber; segIndex++){
             var segSpec= dashVsub.segments[segIndex];
+            var mdatHeader =  buildMdatHeader(segSpec.mdatSize);
+            //console.log("MDAT header: "+ JSON.stringify(mdatHeader));
             console.log("loading segment: "+(segIndex+1));
+            //console.log("Ranges: "+ JSON.stringify(segSpec.mdatRanges));
         }
 
        /* GET(assetUrl, function (byteArray) {
@@ -90,6 +95,15 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
                 }
             })();
         });*/
+        jQuery.ajaxSetup({async:true});
+    }
+
+    function buildMdatHeader(mdatSize) {
+        arr = new ArrayBuffer(8); // an Int32 takes 4 bytes
+        view = new DataView(arr);
+        view.setUint32(0, mdatSize, false);
+        view.setUint32(4,0x6d646174,false);
+        return new Uint8Array(arr);
     }
 
     function GET(url, callback) {

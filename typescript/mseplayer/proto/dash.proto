@@ -12,7 +12,8 @@ message Range {
 
 message Segment {
     bytes sixdmoof = 1;
-    repeated Range mdatRanges = 2;
+    int32 mdatSize=2;
+    repeated Range mdatRanges = 3;
 }
 
 message DASHVstub {
