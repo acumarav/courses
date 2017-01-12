@@ -48,18 +48,11 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         GET(dashUrl,function (data) {
             var DASHVstubMsg = protoRoot.lookup("dash.DASHVstub");
             var dashVsub = DASHVstubMsg.decode(data);
-            var txtMsg = JSON.stringify(dashVsub);
-            console.log("Asset: " +dashVsub.assertUrl);
-            console.log("Segments number: " +dashVsub.segmentsNumber);
 
             var mediaSource = new MediaSource();
             mediaSource.addEventListener('sourceopen', loadSegments.bind(this, dashVsub.assertUrl, dashVsub, mediaSource));
             var video = document.getElementById('player');
             video.src = window.URL.createObjectURL(mediaSource);
-
-           /* var mediaSource = new MediaSource();
-            mediaSource.addEventListener('sourceopen', processTwo.bind(this, TRM_FILE_URL, TRM_FRAGMENTS, mediaSource));
-            video.src = window.URL.createObjectURL(mediaSource);*/
         });
     }
 
@@ -70,8 +63,12 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         var initSegment = new Uint8Array(dashVsub.initSegment);
         sourceBuffer.appendBuffer(initSegment);
         console.log("init has been appended, retrieving: "+assetUrl);
+        for(var segIndex=0;segIndex<dashVsub.segmentsNumber; segIndex++){
+            var segSpec= dashVsub.segments[segIndex];
+            console.log("loading segment: "+(segIndex+1));
+        }
 
-        GET(assetUrl, function (byteArray) {
+       /* GET(assetUrl, function (byteArray) {
             debugger;
             var i = 0;//  append i chunks to the media element.
 
@@ -83,16 +80,16 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
                     var segSpec= dashVsub.segments[i];
 
                     console.log("Assembling segment: " + i + " |  " + JSON.stringify(segSpec));
-                    /*var chunk = byteArray.slice(frag.from, frag.to + 1);
-                    sourceBuffer.addEventListener("updateend", appendFragment_);*/
+                    /!*var chunk = byteArray.slice(frag.from, frag.to + 1);
+                    sourceBuffer.addEventListener("updateend", appendFragment_);*!/
                     i = i + 1;
-                    /*sourceBuffer.appendBuffer(chunk);*/
+                    /!*sourceBuffer.appendBuffer(chunk);*!/
                 }
                 else {
                     console.log("Done!");
                 }
             })();
-        });
+        });*/
     }
 
     function GET(url, callback) {
