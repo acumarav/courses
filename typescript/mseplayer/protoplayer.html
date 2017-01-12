@@ -6,7 +6,10 @@
 </head>
 <body>
 <h3>roto VSTUB PLAYER TEST</h3>
-<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl" value="http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d14f4c">
+<!--
+Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d14f4c
+-->
+<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl" value="http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c">
 <input type="button" id="playButton" value="Play!" ></input>
 <hr/>
 <video id="player"></video>
@@ -26,6 +29,7 @@
         protobuf.load("proto/dash.proto", function (err, root) {
             if (err) throw err;
             protoRoot = root;
+            console.log("protoRoot set");
             // Decode a buffer
             // Obtain a message type
             //var PersonMessage = root.lookup("protos.Person");
@@ -41,6 +45,13 @@
 
     var asmAndPlayVstub = function (dashUrl) {
         console.log("url: " + dashUrl);
+        GET(dashUrl,function (data) {
+            var DASHVstubMsg = protoRoot.lookup("dash.DASHVstub");
+            var dashVsub = DASHVstubMsg.decode(data);
+            var txtMsg = JSON.stringify(dashVsub);
+            alert(txtMsg);
+
+        });
     }
 
     function GET(url, callback) {
