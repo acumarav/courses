@@ -65,12 +65,40 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         console.log("init has been appended, retrieving: "+assetUrl);
         jQuery.ajaxSetup({async:false});
 
-        for(var segIndex=0;segIndex<dashVsub.segmentsNumber; segIndex++){
+        //dashVsub.segmentsNumber
+        for(var segIndex=0;segIndex<1; segIndex++){
             var segSpec= dashVsub.segments[segIndex];
             var mdatHeader =  buildMdatHeader(segSpec.mdatSize);
             //console.log("MDAT header: "+ JSON.stringify(mdatHeader));
             console.log("loading segment: "+(segIndex+1));
             //console.log("Ranges: "+ JSON.stringify(segSpec.mdatRanges));
+            //ArrayBuffer mdatBuffer=new ArrayBuffer(segSpec.mdatSize);
+            //mdatBuffer.app
+
+            for(var rangeIndex=0;rangeIndex<segSpec.mdatRanges.length;rangeIndex++){
+                var range = segSpec.mdatRanges[rangeIndex];
+                var headers = {"Range":"bytes=" + range.from + "-" + range.to};
+
+                var xmlhttp=new XMLHttpRequest();
+
+                $.ajax({
+                    url:assetUrl,
+                    type:'GET',
+                    //headers:headers,
+                    dataType: 'binary',
+                    crossDomain:true,
+                    success: function (data, status, jqXHR) {
+                        console.log("Range AJAX Success!");
+
+
+                    },
+                    error: function (data, status, jqXHR) {
+                        debugger;
+                        console.log("Range AJAX Error! " + status);
+                    }
+                });
+
+            }
         }
 
        /* GET(assetUrl, function (byteArray) {
