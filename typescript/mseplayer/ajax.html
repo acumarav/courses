@@ -15,9 +15,10 @@
 
 <script type="text/javascript">
 
+    //http://localhost:8090/gravity_m.mp4
     //var url = "http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c";
-    var url = "img/logo.png";
-    //var url = "index.html";
+    //var url = "img/logo.png";
+    var url = "http://localhost:8090/gravity_m.mp4";
 
     GET(url, function(dataArray){
         console.log("Array length: "+dataArray.length);
@@ -31,14 +32,14 @@
             if (xhr.readyState != 4) {
                 return;
             }
-            alert(xhr.response);
-            //callback(new Uint8Array(xhr.response));
+            //alert(xhr.response);
+            callback(new Uint8Array(xhr.response));
             //callback(xhr.response);
         };
 
         xhr.open('GET', url, true);
-        xhr.setRequestHeader('Range', 'bytes=100-110');
-        //xhr.responseType = 'arraybuffer';
+        xhr.setRequestHeader('Range', 'bytes=0-120');
+        xhr.responseType = 'arraybuffer';
         xhr.send(null);
 
     }
