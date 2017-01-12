@@ -49,10 +49,49 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
             var DASHVstubMsg = protoRoot.lookup("dash.DASHVstub");
             var dashVsub = DASHVstubMsg.decode(data);
             var txtMsg = JSON.stringify(dashVsub);
-            console.log(txtMsg);
+            console.log("Asset: " +dashVsub.assertUrl);
+            console.log("Segments number: " +dashVsub.segmentsNumber);
 
             var mediaSource = new MediaSource();
+            mediaSource.addEventListener('sourceopen', loadSegments.bind(this, dashVsub.assertUrl, dashVsub, mediaSource));
+            var video = document.getElementById('player');
+            video.src = window.URL.createObjectURL(mediaSource);
 
+           /* var mediaSource = new MediaSource();
+            mediaSource.addEventListener('sourceopen', processTwo.bind(this, TRM_FILE_URL, TRM_FRAGMENTS, mediaSource));
+            video.src = window.URL.createObjectURL(mediaSource);*/
+        });
+    }
+
+    function loadSegments(assetUrl, dashVsub, mediaSource) {
+        //debugger;
+        var sourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+
+        var initSegment = new Uint8Array(dashVsub.initSegment);
+        sourceBuffer.appendBuffer(initSegment);
+        console.log("init has been appended, retrieving: "+assetUrl);
+
+        GET(assetUrl, function (byteArray) {
+            debugger;
+            var i = 0;//  append i chunks to the media element.
+
+            (function appendFragment_() {
+                sourceBuffer.removeEventListener("updateend", appendFragment_);
+                console.log("appendFragment_");
+                if (i < dashVsub.segmentsNumber) {
+                    //var frag = fragments[i];
+                    var segSpec= dashVsub.segments[i];
+
+                    console.log("Assembling segment: " + i + " |  " + JSON.stringify(segSpec));
+                    /*var chunk = byteArray.slice(frag.from, frag.to + 1);
+                    sourceBuffer.addEventListener("updateend", appendFragment_);*/
+                    i = i + 1;
+                    /*sourceBuffer.appendBuffer(chunk);*/
+                }
+                else {
+                    console.log("Done!");
+                }
+            })();
         });
     }
 
@@ -63,6 +102,7 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         xhr.send();
 
         xhr.onload = function (e) {
+            console.log(xhr.status)
             if (xhr.status != 200) {
                 alert("Unexpected status code " + xhr.status + " for " + url);
                 return false;
