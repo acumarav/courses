@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX Calls test page</title>
+</head>
+<body>
+<h3>AJAX Calls test page</h3>
+
+<hr/>
+<video id="player"></video>
+
+<script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.4.5/dist/protobuf.js"></script>
+<script src="lib/jquery-3.1.1.js"></script>
+
+<script type="text/javascript">
+
+    //var url = "http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c";
+    var url = "img/logo.png";
+    //var url = "index.html";
+
+    GET(url, function(dataArray){
+        console.log("Array length: "+dataArray.length);
+        console.log(dataArray);
+    });
+
+    function GET(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (e) {
+            console.log(xhr.status)
+            if (xhr.readyState != 4) {
+                return;
+            }
+            alert(xhr.response);
+            //callback(new Uint8Array(xhr.response));
+            //callback(xhr.response);
+        };
+
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Range', 'bytes=100-110');
+        //xhr.responseType = 'arraybuffer';
+        xhr.send(null);
+
+    }
+</script>
+</body>
+</html>
