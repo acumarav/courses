@@ -49,7 +49,9 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
             var DASHVstubMsg = protoRoot.lookup("dash.DASHVstub");
             var dashVsub = DASHVstubMsg.decode(data);
             var txtMsg = JSON.stringify(dashVsub);
-            alert(txtMsg);
+            console.log(txtMsg);
+
+            var mediaSource = new MediaSource();
 
         });
     }
