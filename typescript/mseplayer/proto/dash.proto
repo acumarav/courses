@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package dash;
+
+option java_package = "com.linius.assembly.model";
+option java_outer_classname = "DASHProto";
+
+message Range {
+    int32 from = 1;
+    int32 to = 2;
+}
+
+message Segment {
+    bytes sixdmoof = 1;
+    repeated Range mdatRanges = 2;
+}
+
+message DASHVstub {
+    string assertUrl = 1;
+    int32 segmentsNumber = 2;
+    bytes initSegment = 3;
+
+    repeated Segment segments = 4;
+}

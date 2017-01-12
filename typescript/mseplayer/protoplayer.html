@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Proto VSTUB PLAYER TEST</title>
+</head>
+<body>
+<h3>roto VSTUB PLAYER TEST</h3>
+<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl" value="http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d14f4c">
+<input type="button" id="playButton" value="Play!" ></input>
+<hr/>
+<video id="player"></video>
+
+<script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.4.5/dist/protobuf.js"></script>
+<script src="lib/jquery-3.1.1.js"></script>
+
+<script type="text/javascript">
+    var protoRoot = null;
+
+    var init = function () {
+
+        $("#playButton").click(function () {
+            var protoStubUrl = $("#inVstubUrl").val();
+            asmAndPlayVstub(protoStubUrl);
+        });
+        protobuf.load("proto/dash.proto", function (err, root) {
+            if (err) throw err;
+            protoRoot = root;
+            // Decode a buffer
+            // Obtain a message type
+            //var PersonMessage = root.lookup("protos.Person");
+            //var AddreassBookMessage = root.lookup("protos.AddressBook");
+            /*var EchoMessage = root.lookup("protos.Echo");
+             console.log(data);
+             var message = EchoMessage.decode(data);
+             var msg = JSON.stringify(message);
+             alert(msg);*/
+        })
+    };
+    $(init);
+
+    var asmAndPlayVstub = function (dashUrl) {
+        console.log("url: " + dashUrl);
+    }
+
+    function GET(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'arraybuffer';
+        xhr.send();
+
+        xhr.onload = function (e) {
+            if (xhr.status != 200) {
+                alert("Unexpected status code " + xhr.status + " for " + url);
+                return false;
+            }
+            callback(new Uint8Array(xhr.response));
+            //callback(xhr.response);
+        };
+    }
+</script>
+</body>
+</html>
