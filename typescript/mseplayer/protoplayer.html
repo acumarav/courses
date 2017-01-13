@@ -12,7 +12,7 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
 <label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl" value="http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c">
 <input type="button" id="playButton" value="Play!" ></input>
 <hr/>
-<video id="player"></video>
+<video id="player" width="400" height="300"></video>
 
 <script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.4.5/dist/protobuf.js"></script>
 <script src="lib/jquery-3.1.1.js"></script>
@@ -30,15 +30,6 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
             if (err) throw err;
             protoRoot = root;
             console.log("protoRoot set");
-            // Decode a buffer
-            // Obtain a message type
-            //var PersonMessage = root.lookup("protos.Person");
-            //var AddreassBookMessage = root.lookup("protos.AddressBook");
-            /*var EchoMessage = root.lookup("protos.Echo");
-             console.log(data);
-             var message = EchoMessage.decode(data);
-             var msg = JSON.stringify(message);
-             alert(msg);*/
         })
     };
     $(init);
@@ -68,37 +59,39 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         //dashVsub.segmentsNumber
         for(var segIndex=0;segIndex<1; segIndex++){
             var segSpec= dashVsub.segments[segIndex];
+            var mdatArray = new Uint8Array(segSpec.mdatSize);
+            var offset=0;
             var mdatHeader =  buildMdatHeader(segSpec.mdatSize);
-            //console.log("MDAT header: "+ JSON.stringify(mdatHeader));
+            mdatArray.set( mdatHeader,offset);
+            offset=offset+mdatHeader.length;
+            console.log("current offset: "+ offset);
             console.log("loading segment: "+(segIndex+1));
             //console.log("Ranges: "+ JSON.stringify(segSpec.mdatRanges));
             //ArrayBuffer mdatBuffer=new ArrayBuffer(segSpec.mdatSize);
-            //mdatBuffer.app
+            var rangeIndex=0;
+            var rangesNumber=segSpec.mdatRanges.length;
+            (function appendRange_(){
+                var range = segSpec.mdatRanges[rangeIndex];
+                GET_RANGE(assetUrl, range,function(byteArray){
+                    console.log("range length: " +byteArray.length+"  , offset: "+offset);
+                    mdatArray.set(byteArray,offset);
+                    offset=offset+byteArray.length;
+                    rangeIndex=rangeIndex+1;
+                    if(rangeIndex<rangesNumber){
+                        appendRange_();
+                    }else{
+                        console.log("Ranges done!");
+                        sourceBuffer.appendBuffer(mdatArray);
+                    }
+                });
+            })();
 
-            for(var rangeIndex=0;rangeIndex<segSpec.mdatRanges.length;rangeIndex++){
+           /* for(var rangeIndex=0;rangeIndex<segSpec.mdatRanges.length;rangeIndex++){
                 var range = segSpec.mdatRanges[rangeIndex];
                 var headers = {"Range":"bytes=" + range.from + "-" + range.to};
 
                 var xmlhttp=new XMLHttpRequest();
-
-                $.ajax({
-                    url:assetUrl,
-                    type:'GET',
-                    //headers:headers,
-                    dataType: 'binary',
-                    crossDomain:true,
-                    success: function (data, status, jqXHR) {
-                        console.log("Range AJAX Success!");
-
-
-                    },
-                    error: function (data, status, jqXHR) {
-                        debugger;
-                        console.log("Range AJAX Error! " + status);
-                    }
-                });
-
-            }
+            }*/
         }
 
        /* GET(assetUrl, function (byteArray) {
@@ -132,6 +125,24 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         view.setUint32(0, mdatSize, false);
         view.setUint32(4,0x6d646174,false);
         return new Uint8Array(arr);
+    }
+
+    function GET_RANGE(url, range, callback){
+        var rangeHeader="bytes="+range.from+"-"+range.to;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (e) {
+            //console.log(xhr.status)
+            if (xhr.readyState != 4) {
+                return;
+            }
+            callback(new Uint8Array(xhr.response));
+            //callback(xhr.response);
+        };
+
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Range', rangeHeader);
+        xhr.responseType = 'arraybuffer';
+        xhr.send(null);
     }
 
     function GET(url, callback) {

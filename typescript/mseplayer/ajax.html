@@ -10,24 +10,22 @@
 <hr/>
 <video id="player"></video>
 
-<script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.4.5/dist/protobuf.js"></script>
 <script src="lib/jquery-3.1.1.js"></script>
-
+<script src="lib/jquery-ajax-blob-arraybuffer.js"></script>
 <script type="text/javascript">
-
     //http://localhost:8090/gravity_m.mp4
     //var url = "http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c";
     //var url = "img/logo.png";
     var url = "http://localhost:8090/gravity_m.mp4";
+    //var url = "http://dct-srv-1/assets/mdat/462f07d8-3b4c-4671-be2f-69f03032f151";
 
-   /*
     //working stuff:
    GET(url, function(dataArray){
         console.log("Array length: "+dataArray.length);
         console.log(dataArray);
-    });*/
+    });
 
-    $.ajax({
+   /* $.ajax({
         url:'http://localhost:8090/gravity_m.mp4',
         type:'GET',
         headers:{"Range":"bytes=10-120"},
@@ -36,6 +34,7 @@
         crossDomain:true,
         success: function (data, status, jqXHR) {
             console.log("Range AJAX Success! " +data.length);
+            console.log(data);
             var arr=new Uint8Array(data);
             console.log(arr);
         },
@@ -43,7 +42,7 @@
             debugger;
             console.log("Range AJAX Error! " + status);
         }
-    });
+    });*/
 
     function GET(url, callback) {
         var xhr = new XMLHttpRequest();
@@ -52,7 +51,6 @@
             if (xhr.readyState != 4) {
                 return;
             }
-            //alert(xhr.response);
             callback(new Uint8Array(xhr.response));
             //callback(xhr.response);
         };
