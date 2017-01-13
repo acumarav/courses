@@ -9,10 +9,11 @@
 <!--
 Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d14f4c
 -->
-<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl" value="http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c">
-<input type="button" id="playButton" value="Play!" ></input>
+<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl"
+                                                 value="http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c">
+<input type="button" id="playButton" value="Play!"></input>
 <hr/>
-<video id="player" width="400" height="300"></video>
+<video id="player" width="400" height="300" autoplay controls></video>
 
 <script src="//cdn.rawgit.com/dcodeIO/protobuf.js/6.4.5/dist/protobuf.js"></script>
 <script src="lib/jquery-3.1.1.js"></script>
@@ -36,7 +37,7 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
 
     var asmAndPlayVstub = function (dashUrl) {
         console.log("url: " + dashUrl);
-        GET(dashUrl,function (data) {
+        GET(dashUrl, function (data) {
             var DASHVstubMsg = protoRoot.lookup("dash.DASHVstub");
             var dashVsub = DASHVstubMsg.decode(data);
 
@@ -53,86 +54,77 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
 
         var initSegment = new Uint8Array(dashVsub.initSegment);
         sourceBuffer.appendBuffer(initSegment);
-        console.log("init has been appended, retrieving: "+assetUrl);
-        jQuery.ajaxSetup({async:false});
+        console.log("init has been appended, retrieving: " + assetUrl);
+        jQuery.ajaxSetup({async: false});
 
         //dashVsub.segmentsNumber
-        for(var segIndex=0;segIndex<1; segIndex++){
-            var segSpec= dashVsub.segments[segIndex];
-            var sixdMoovSize = segSpec.sixdmoof.length;
-            console.log("Sidx size: "+sixdMoovSize);
-            //var sidxMoofArray=new Uin
-            var mdatArray = new Uint8Array(sixdMoovSize+segSpec.mdatSize);
-            mdatArray.set(segSpec.sixdmoof,0);
-            var offset=sixdMoovSize;
-            var mdatHeader =  buildMdatHeader(segSpec.mdatSize);
-            mdatArray.set( mdatHeader,offset);
-            offset=offset+mdatHeader.length;
-            console.log("current offset: "+ offset);
-            console.log("loading segment: "+(segIndex+1));
-            //console.log("Ranges: "+ JSON.stringify(segSpec.mdatRanges));
-            //ArrayBuffer mdatBuffer=new ArrayBuffer(segSpec.mdatSize);
-            var rangeIndex=0;
-            var rangesNumber=segSpec.mdatRanges.length;
-            (function appendRange_(){
-                var range = segSpec.mdatRanges[rangeIndex];
-                GET_RANGE(assetUrl, range,function(byteArray){
-                    console.log("range length: " +byteArray.length+"  , offset: "+offset);
-                    mdatArray.set(byteArray,offset);
-                    offset=offset+byteArray.length;
-                    rangeIndex=rangeIndex+1;
-                    if(rangeIndex<rangesNumber){
-                        appendRange_();
-                    }else{
-                        console.log("Ranges done!");
-                        sourceBuffer.appendBuffer(mdatArray);
-                    }
-                });
-            })();
+        var segIndex=0;
+        var segmentsNumber = dashVsub.segmentsNumber;
 
-           /* for(var rangeIndex=0;rangeIndex<segSpec.mdatRanges.length;rangeIndex++){
-                var range = segSpec.mdatRanges[rangeIndex];
-                var headers = {"Range":"bytes=" + range.from + "-" + range.to};
-
-                var xmlhttp=new XMLHttpRequest();
-            }*/
-        }
-
-       /* GET(assetUrl, function (byteArray) {
-            debugger;
-            var i = 0;//  append i chunks to the media element.
-
-            (function appendFragment_() {
-                sourceBuffer.removeEventListener("updateend", appendFragment_);
-                console.log("appendFragment_");
-                if (i < dashVsub.segmentsNumber) {
-                    //var frag = fragments[i];
-                    var segSpec= dashVsub.segments[i];
-
-                    console.log("Assembling segment: " + i + " |  " + JSON.stringify(segSpec));
-                    /!*var chunk = byteArray.slice(frag.from, frag.to + 1);
-                    sourceBuffer.addEventListener("updateend", appendFragment_);*!/
-                    i = i + 1;
-                    /!*sourceBuffer.appendBuffer(chunk);*!/
+        var segSpec = dashVsub.segments[segIndex];
+        var sixdMoovSize = segSpec.sixdmoof.length;
+        //var sidxMoofArray=new Uin
+        var mdatArray = new Uint8Array(sixdMoovSize + segSpec.mdatSize);
+        mdatArray.set(segSpec.sixdmoof, 0);
+        var offset = sixdMoovSize;
+        var mdatHeader = buildMdatHeader(segSpec.mdatSize);
+        mdatArray.set(mdatHeader, offset);
+        offset = offset + mdatHeader.length;
+        console.log("current offset: " + offset);
+        console.log("loading segment: " + (segIndex + 1));
+        var rangeIndex = 0;
+        var rangesNumber = segSpec.mdatRanges.length;
+        (function appendRange_() {
+            var range = segSpec.mdatRanges[rangeIndex];
+            GET_RANGE(assetUrl, range, function (byteArray) {
+                console.log("range length: " + byteArray.length + "  , offset: " + offset);
+                mdatArray.set(byteArray, offset);
+                offset = offset + byteArray.length;
+                rangeIndex = rangeIndex + 1;
+                if (rangeIndex < rangesNumber) {
+                    appendRange_();
+                } else {
+                    console.log("Ranges done!");
+                    sourceBuffer.appendBuffer(mdatArray);
                 }
-                else {
-                    console.log("Done!");
-                }
-            })();
-        });*/
-        jQuery.ajaxSetup({async:true});
+            });
+        })();
+
+        /* GET(assetUrl, function (byteArray) {
+         debugger;
+         var i = 0;//  append i chunks to the media element.
+
+         (function appendFragment_() {
+         sourceBuffer.removeEventListener("updateend", appendFragment_);
+         console.log("appendFragment_");
+         if (i < dashVsub.segmentsNumber) {
+         //var frag = fragments[i];
+         var segSpec= dashVsub.segments[i];
+
+         console.log("Assembling segment: " + i + " |  " + JSON.stringify(segSpec));
+         /!*var chunk = byteArray.slice(frag.from, frag.to + 1);
+         sourceBuffer.addEventListener("updateend", appendFragment_);*!/
+         i = i + 1;
+         /!*sourceBuffer.appendBuffer(chunk);*!/
+         }
+         else {
+         console.log("Done!");
+         }
+         })();
+         });*/
+        jQuery.ajaxSetup({async: true});
     }
 
     function buildMdatHeader(mdatSize) {
         arr = new ArrayBuffer(8); // an Int32 takes 4 bytes
         view = new DataView(arr);
         view.setUint32(0, mdatSize, false);
-        view.setUint32(4,0x6d646174,false);
+        view.setUint32(4, 0x6d646174, false);
         return new Uint8Array(arr);
     }
 
-    function GET_RANGE(url, range, callback){
-        var rangeHeader="bytes="+range.from+"-"+range.to;
+    function GET_RANGE(url, range, callback) {
+        var rangeHeader = "bytes=" + range.from + "-" + range.to;
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function (e) {
             //console.log(xhr.status)
