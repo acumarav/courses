@@ -59,8 +59,12 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
         //dashVsub.segmentsNumber
         for(var segIndex=0;segIndex<1; segIndex++){
             var segSpec= dashVsub.segments[segIndex];
-            var mdatArray = new Uint8Array(segSpec.mdatSize);
-            var offset=0;
+            var sixdMoovSize = segSpec.sixdmoof.length;
+            console.log("Sidx size: "+sixdMoovSize);
+            //var sidxMoofArray=new Uin
+            var mdatArray = new Uint8Array(sixdMoovSize+segSpec.mdatSize);
+            mdatArray.set(segSpec.sixdmoof,0);
+            var offset=sixdMoovSize;
             var mdatHeader =  buildMdatHeader(segSpec.mdatSize);
             mdatArray.set( mdatHeader,offset);
             offset=offset+mdatHeader.length;
