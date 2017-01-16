@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AJAX Calls test page</title>
+</head>
+<body>
+<h3>AJAX Calls test page</h3>
+
+<hr/>
+<video id="player"></video>
+
+<script src="lib/jquery-3.1.1.js"></script>
+<script src="lib/jquery-ajax-blob-arraybuffer.js"></script>
+<script type="text/javascript">
+    //http://localhost:8090/gravity_m.mp4
+    //var url = "http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c";
+    //var url = "img/logo.png";
+    var url = "http://localhost:8090/gravity_m.mp4";
+    //var url = "http://dct-srv-1/assets/mdat/462f07d8-3b4c-4671-be2f-69f03032f151";
+
+    //working stuff:
+   GET(url, function(dataArray){
+        console.log("Array length: "+dataArray.length);
+        console.log(dataArray);
+    });
+
+   /* $.ajax({
+        url:'http://localhost:8090/gravity_m.mp4',
+        type:'GET',
+        headers:{"Range":"bytes=10-120"},
+        //dataType: 'binary',
+        responseType:'arraybuffer',
+        crossDomain:true,
+        success: function (data, status, jqXHR) {
+            console.log("Range AJAX Success! " +data.length);
+            console.log(data);
+            var arr=new Uint8Array(data);
+            console.log(arr);
+        },
+        error: function (data, status, jqXHR) {
+            debugger;
+            console.log("Range AJAX Error! " + status);
+        }
+    });*/
+
+    function GET(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (e) {
+            console.log(xhr.status)
+            if (xhr.readyState != 4) {
+                return;
+            }
+            callback(new Uint8Array(xhr.response));
+            //callback(xhr.response);
+        };
+
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Range', 'bytes=0-120');
+        xhr.responseType = 'arraybuffer';
+        xhr.send(null);
+
+    }
+</script>
+</body>
+</html>
