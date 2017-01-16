@@ -2,7 +2,33 @@ import {Observable} from "rxjs";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/filter";
 
-let numbers = [1, 5, 10, 15];
+let output= document.getElementById("output");
+let button =document.getElementById("button");
+
+let click= Observable.fromEvent(button,"click");
+
+function load(url: string){
+    let xhr= new XMLHttpRequest();
+
+    xhr.addEventListener("load", ()=>{
+        let movies= JSON.parse(xhr.responseText);
+        movies.forEach(m=>{
+            let div=document.createElement("div");
+            div.innerText= m.title;
+            output.appendChild(div);
+        });
+    });
+    xhr.open("GET",url);
+    xhr.send();
+}
+
+click.subscribe(
+    e => load("movies.json"),
+    e => console.log(`error: ${e}`),
+    ()=> console.log("complete")
+);
+
+/*let numbers = [1, 5, 10, 15];
 let sourceDiv = Observable.fromEvent(document, "mousemove")
     .map((e: MouseEvent) => {
         return {
@@ -41,22 +67,7 @@ source.subscribe(
     value => console.log(`value: ${value}`),
     e => console.log(`error: ${e}`),
     () => console.log("complete")
-);
+);*/
 
-/*class MyObserver implements  Observer<number>{
- next(value){
- console.log(`value: ${value}`);
- }
-
- error(e){
- console.log('error: ${e}');
- }
-
- complete(){
- console.log("complete");
- }
- }*/
-//source.subscribe( new MyObserver());
-//source.subscribe( new MyObserver());
 
 
