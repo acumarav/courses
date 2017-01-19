@@ -9,8 +9,8 @@
 <!--
 Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d14f4c
 -->
-<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl"
-                                                 value="http://dct-srv-1:9002/assembly/api/v1/dash/580627a6922c841608d14f4c">
+<label for="inVstubUrl">VSTUB URL:</label><input type="text" id="inVstubUrl" style="width: 70%"
+                                                 value="http://localhost:9002/assembly/api/v1/dash/580138fa4906a6047c2d3b08?o=5&d=10">
 <input type="button" id="playButton" value="Play!"></input>
 <hr/>
 <video id="player" width="400" height="300" autoplay controls></video>
@@ -22,7 +22,6 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
     var protoRoot = null;
 
     var init = function () {
-
         $("#playButton").click(function () {
             var protoStubUrl = $("#inVstubUrl").val();
             asmAndPlayVstub(protoStubUrl);
@@ -36,10 +35,12 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
     $(init);
 
     var asmAndPlayVstub = function (dashUrl) {
-        console.log("url: " + dashUrl);
-        GET(dashUrl, function (data) {
+        var promise = GETP(dashUrl);
+        promise.then(function (data) {
+            var array = new Uint8Array(data);
+
             var DASHVstubMsg = protoRoot.lookup("dash.DASHVstub");
-            var dashVsub = DASHVstubMsg.decode(data);
+            var dashVsub = DASHVstubMsg.decode(array);
 
             var mediaSource = new MediaSource();
             mediaSource.addEventListener('sourceopen', loadSegments.bind(this, dashVsub.assertUrl, dashVsub, mediaSource));
@@ -84,8 +85,8 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
                     } else {
                         //console.log("Ranges done!");
                         sourceBuffer.appendBuffer(mdatArray);
-                        segIndex=segIndex+1;
-                        if(segIndex<segmentsNumber) {
+                        segIndex = segIndex + 1;
+                        if (segIndex < segmentsNumber) {
                             appendSegment_();
                         }
                     }
@@ -161,6 +162,27 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
             //callback(xhr.response);
         };
     }
+
+    function GETP(url) {
+        return new Promise(function (resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'arraybuffer';
+
+            xhr.onload = function (e) {
+                if (xhr.status != 200) {
+                    reject(Error(xhr.statusText));
+                }
+                resolve(xhr.response)
+            };
+
+            xhr.onerror = function () {
+                reject(Error("Network Error"));
+            }
+            xhr.send();
+        });
+    }
+
 </script>
 </body>
 </html>
