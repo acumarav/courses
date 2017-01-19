@@ -71,12 +71,30 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
             mdatArray.set(mdatHeader, offset);
             offset = offset + mdatHeader.length;
             console.log("loading segment: " + (segIndex + 1));
-            var rangeIndex = 0;
-            var rangesNumber = segSpec.mdatRanges.length;
-            (function appendRange_() {
+            var from =Math.min.apply(null, segSpec.mdatRanges.map(function(rg){return rg.from}));
+            var to =Math.max.apply(null, segSpec.mdatRanges.map(function(rg){return rg.to}));
+            console.log("range borders: "+from+ " - "+ to);
+            GET_RANGE(assetUrl,{from:from,to:to},function(array){
+                $.each(segSpec.mdatRanges, function(){
+                    var lo=this.from-from;
+                    var hi=this.to-from;
+                    console.log("lo: "+lo+ ", hi: "+hi);
+                    var samplesData=array.slice(lo,hi+1);
+                    mdatArray.set(samplesData,offset);
+                    offset=offset+samplesData.length;
+                 });
+
+                sourceBuffer.appendBuffer(mdatArray);
+                segIndex = segIndex + 1;
+                if (segIndex < segmentsNumber) {
+                    appendSegment_();
+                }
+            });
+
+          /*(function appendRange_() {
                 var range = segSpec.mdatRanges[rangeIndex];
                 GET_RANGE(assetUrl, range, function (byteArray) {
-                    console.log("range length: " + byteArray.length + "  , offset: " + offset);
+                    //console.log("range length: " + byteArray.length + "  , offset: " + offset);
                     mdatArray.set(byteArray, offset);
                     offset = offset + byteArray.length;
                     rangeIndex = rangeIndex + 1;
@@ -92,6 +110,7 @@ Expected URL: http://dct-srv-1:9002/assembly/api/v1/dash/mp4/580627a6922c841608d
                     }
                 });
             })();// end appendRange
+            */
 
         })();//end appendSegment
 
