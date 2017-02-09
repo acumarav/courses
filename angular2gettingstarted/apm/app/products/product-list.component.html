@@ -34,9 +34,9 @@
                                 [src]='product.imageUrl' [style.width.px]='imageWidth' [style.margin.px]='imageMargin' /></td>
                         <!--<td>{{product.id}}</td>-->
                         <td>{{product.productName}}</td>
-                        <td>{{product.productCode}}</td>
+                        <td>{{product.productCode | uppercase}}</td>
                         <td>{{product.releaseDate}}</td>
-                        <td>{{product.price}}</td>
+                        <td>{{product.price | currency:'USD':true}}</td>
                         <td>{{product.starRating}}</td>
                     </tr>
 
