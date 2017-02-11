@@ -7,11 +7,22 @@ import { AppComponent }  from './app.component';
 import {ProductListComponent} from './products/product-list.component';
 import {ProductFilterPipe} from './products/product-filter.pipe'
 import {StarComponent} from "./shared/star.component";
+import {ProductDetail} from "./products/product-detail.component";
+import {WelcomeComponent} from "./home/welcome.component";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
-  imports: [ BrowserModule, FormsModule, HttpModule ],
-  declarations: [ AppComponent, ProductListComponent, ProductFilterPipe, StarComponent ],
+  imports: [ BrowserModule, FormsModule, HttpModule ,
+    RouterModule.forRoot([
+        {path:'products',component:ProductListComponent},
+        {path:'product/:id',component:ProductDetail},
+        {path:'welcome',component:WelcomeComponent},
+        {path:'',redirectTo:'welcome', pathMatch:'full'}
+        /*{path:'**',component:PageNotFoundComponent}*/
+    ],{useHash:true})],
+  declarations: [ AppComponent, ProductListComponent, ProductFilterPipe,
+    StarComponent, ProductDetail, WelcomeComponent ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
