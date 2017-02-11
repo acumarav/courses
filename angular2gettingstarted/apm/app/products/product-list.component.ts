@@ -16,6 +16,7 @@ export class ProductListComponent implements OnInit {
     }
 
     pageTitle: string = "Product List!";
+    errorMessage: string;
 
     products:Array<IProduct>;
 
@@ -24,8 +25,9 @@ export class ProductListComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.products=this._productService.getProducts();
-        console.log('Loaded products: '+this.products.length);
+        //this.products=this._productService.getProducts();
+        this._productService.getProducts()
+            .subscribe(prods=>this.products=prods, error => this.errorMessage=error);
     }
 
     onRatingClicked(message: number) {
