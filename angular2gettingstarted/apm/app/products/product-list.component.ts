@@ -72,6 +72,10 @@ export class ProductListComponent implements OnInit{
         console.log('On  Init');
     }
 
+    onRatingClicked(message:number){
+        console.log('OnNotify : '+message);
+    }
+
     showImage: boolean =false;
 
     listFilter: string ='';
