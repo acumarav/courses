@@ -1,0 +1,8 @@
+#optionsPanel{
+    border: 1px solid black;
+}
+
+#timelinePanel{
+    border: 1px solid red;
+    height: 100px;
+}

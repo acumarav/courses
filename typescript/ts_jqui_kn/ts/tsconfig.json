@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target":"es5",
+    "module": "None",
+    //"outDir": "../js",
+    "outFile": "../js/app.js",
+    "sourceMap": false
+  },
+  "exclude": [],
+  "compileOnSave": true
+}
+

@@ -21,7 +21,7 @@ import {ProductDetailGuard} from "./products/product-guard.service";
         {path:'welcome',component:WelcomeComponent},
         {path:'',redirectTo:'welcome', pathMatch:'full'}
         /*{path:'**',component:PageNotFoundComponent}*/
-    ],{useHash:true})],
+    ],{useHash:false})],
   declarations: [ AppComponent, ProductListComponent, ProductFilterPipe,
     StarComponent, ProductDetail, WelcomeComponent ],
     providers:[ProductDetailGuard],
