@@ -24,6 +24,31 @@ var VideoService = (function () {
         }
         return videos;
     };
+    VideoService.prototype.getThumbnails = function (video) {
+        return [
+            "https://pocasi.seznam.cz/img/hp-large/jihlava/winter/6.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/karlovy-vary/winter/6.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/kladno/winter/6.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/pardubice/winter/4.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/praha/winter/8.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/usti-nad-labem/winter/7.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/zlin/winter/7.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/jihlava/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/karlovy-vary/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/kladno/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/pardubice/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/praha/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/usti-nad-labem/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/zlin/winter/1.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/jihlava/winter/2.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/karlovy-vary/winter/2.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/kladno/winter/2.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/pardubice/winter/2.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/praha/winter/2.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/usti-nad-labem/winter/2.jpg",
+            "https://pocasi.seznam.cz/img/hp-large/zlin/winter/2.jpg"
+        ];
+    };
     return VideoService;
 }());
 ///
@@ -36,8 +61,9 @@ var Gallery = (function () {
         this.visibleVideos = ko.observableArray([]);
         this.videoWidth = ko.observable(160);
         this.itemsPerRow = ko.observable(0);
-        this.rowsNumber = ko.observable(3);
+        this.rowsNumber = ko.observable(2);
         this.offset = ko.observable(0);
+        this.videoFrames = ko.observableArray([]);
         this.layoutItems = function () {
             var pageSize = _this.itemsPerRow() * _this.rowsNumber();
             var frame = _this.vidosBuffer.slice(_this.offset(), pageSize);
@@ -58,6 +84,22 @@ var Gallery = (function () {
         });
         this.itemsPerRow.subscribe(this.layoutItems);
         this.rowsNumber.subscribe(this.layoutItems);
+        this.setupDragAndDrop();
+    };
+    Gallery.prototype.setupDragAndDrop = function () {
+        var _this = this;
+        $('#gallery div').draggable({
+            revert: 'invalid',
+            helper: 'clone'
+        });
+        $('#frames').droppable({
+            accept: '.video',
+            drop: function (event, ui) {
+                var data = ko.dataFor(ui.draggable[0]);
+                _this.videoFrames.push(data);
+                console.log("drop");
+            }
+        });
     };
     Gallery.prototype.calcVideoWidth = function () {
         var galleryWidth = $('#gallery').get(0).clientWidth;

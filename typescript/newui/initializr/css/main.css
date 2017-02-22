@@ -4,10 +4,9 @@
     flex-direction:row;
     flex-basis: auto;
     justify-content: left;
-    height: 600px;
+    height: 500px;
     background: #f0f0f0;
     overflow: hidden;
-
 }
 
 
@@ -45,6 +44,16 @@
     display: block;
     background: #ccc;
     transition: transform .2s ease-in-out;
+}
+
+#frames{
+    height: 150px;
+    background: #eeffff;
+}
+
+#thumbnails{
+    height: 150px;
+    background: #ffffee;
 }
 
 

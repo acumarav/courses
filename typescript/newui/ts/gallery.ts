@@ -8,8 +8,10 @@ class Gallery {
     private visibleVideos: KnockoutObservableArray<Video> = ko.observableArray([]);
     private videoWidth: KnockoutObservable<number> = ko.observable(160);
     private itemsPerRow: KnockoutObservable<number> = ko.observable(0);
-    private rowsNumber: KnockoutObservable<number> = ko.observable(3);
+    private rowsNumber: KnockoutObservable<number> = ko.observable(2);
     private offset: KnockoutObservable<number> = ko.observable(0);
+
+    private videoFrames: KnockoutObservableArray<Video>=ko.observableArray([]);
 
     private vidosBuffer: Video[];
 
@@ -25,7 +27,25 @@ class Gallery {
 
         this.itemsPerRow.subscribe(this.layoutItems);
         this.rowsNumber.subscribe(this.layoutItems);
+        this.setupDragAndDrop();
+    }
 
+    private setupDragAndDrop(){
+        $('#gallery div').draggable({
+            revert: 'invalid',
+            helper: 'clone'
+        });
+
+        $('#frames').droppable(
+            {
+                accept:'.video',
+                drop: (event, ui) => {
+                    let data:Video=ko.dataFor(ui.draggable[0]);
+                    this.videoFrames.push(data);
+                    console.log("drop");
+                }
+            }
+        );
     }
 
     private layoutItems = () => {
