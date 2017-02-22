@@ -1,0 +1,111 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!--[if lt IE 9]>
+    <script src="js/vendor/html5-3.6-respond-1.4.2.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Linius</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right hidden" role="form">
+                <div class="form-group">
+                    <input type="text" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <!--place images here-->
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-4">
+                <div class="input-group">
+                    <input type="text" class="form-control"/>
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Search</button>
+                        </span>
+                </div><!-- /input-group -->
+            </div>
+
+            <div class="col-md-1 col-sm-1 col-xs-1 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+                <div class="input-group">
+
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">My Library</button>
+                        </span>
+                </div><!-- /input-group -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div id="gallery" class="row">
+        <div style="clear: both"></div>
+        <!-- ko foreach: visibleVideos -->
+        <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}" >
+
+            <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} " />
+            <span data-bind="text:  name"></span>
+            <span data-bind="text:  $root.videoWidth"></span>
+
+        </div>
+        <!-- /ko -->
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; Linius 2017  as</p>
+    </footer>
+</div> <!-- /container -->
+<script src="js/vendor/jquery-3.1.1.js"></script>
+<script src="js/vendor/jquery-ui.js"></script>
+<script src="js/vendor/knockout-3.4.0.js"></script>
+
+<script src="js/vendor/bootstrap.min.js"></script>
+
+<script src="js/app.js"></script>
+</body>
+</html>
