@@ -15,7 +15,7 @@ var VideoService = (function () {
         while (index < count) {
             var id = index + offset + 1;
             var url = (id % 2 == 0) ? "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/placeimg02.jpg" : "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/placeimg04.jpg";
-            if (id % 7 == 0) {
+            if (id % 5 == 0) {
                 url = "http://big-bunny.com/bigbunny.jpg";
             }
             var vid = new Video(id.toString(), "Video " + id, url);
@@ -77,6 +77,10 @@ var Gallery = (function () {
     Gallery.prototype.initView = function () {
         var _this = this;
         this.vidosBuffer = this.vidService.getVideos(20, this.offset());
+        //todo:  remove:
+        this.videoFrames.push(this.vidosBuffer[4]);
+        this.videoFrames.push(this.vidosBuffer[5]);
+        this.videoFrames.push(this.vidosBuffer[6]);
         this.calcVideoWidth();
         this.layoutItems();
         $(window).resize(function () {
@@ -97,7 +101,18 @@ var Gallery = (function () {
             drop: function (event, ui) {
                 var data = ko.dataFor(ui.draggable[0]);
                 _this.videoFrames.push(data);
-                console.log("drop");
+            }
+        });
+        $("#frames").sortable({
+            receive: function (event, ui) {
+                console.log('receive');
+            },
+            update: function (event, ui) {
+                console.log("update");
+                var dropedFrame = ko.dataFor(ui.item[0]);
+                var deltaPx = ui.position.left + ui.originalPosition.left;
+                var newPosition = deltaPx / ui.item[0].clientWidth;
+                console.log("moved by: " + newPosition + " DELTA: " + deltaPx);
             }
         });
     };

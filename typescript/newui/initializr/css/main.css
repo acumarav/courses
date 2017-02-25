@@ -27,6 +27,17 @@
     }
 }*/
 
+.videoFrame{
+    margin:0;
+    overflow: hidden;
+    width: 150px;
+    height: 80%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
 
 
 .video span{
@@ -49,6 +60,12 @@
 #frames{
     height: 150px;
     background: #eeffff;
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction:row;
+    flex-basis: auto;
+    justify-content: left;
 }
 
 #thumbnails{

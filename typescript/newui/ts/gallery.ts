@@ -16,8 +16,15 @@ class Gallery {
     private vidosBuffer: Video[];
 
 
+
     public initView() {
         this.vidosBuffer = this.vidService.getVideos(20, this.offset());
+
+        //todo:  remove:
+        this.videoFrames.push(this.vidosBuffer[4]);
+        this.videoFrames.push(this.vidosBuffer[5]);
+        this.videoFrames.push(this.vidosBuffer[6]);
+
         this.calcVideoWidth();
         this.layoutItems();
 
@@ -42,10 +49,24 @@ class Gallery {
                 drop: (event, ui) => {
                     let data:Video=ko.dataFor(ui.draggable[0]);
                     this.videoFrames.push(data);
-                    console.log("drop");
                 }
             }
         );
+
+        $("#frames").sortable({
+            receive:(event,ui)=>{
+                console.log('receive');
+            },
+            update: (event, ui)=>{
+                console.log("update");
+                let dropedFrame:Video=ko.dataFor(ui.item[0]);
+                let deltaPx =ui.position.left+ui.originalPosition.left;
+                let newPosition=deltaPx/ui.item[0].clientWidth;
+
+                console.log("moved by: "+newPosition+ " DELTA: " +deltaPx);
+
+            }
+        });
     }
 
     private layoutItems = () => {

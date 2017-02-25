@@ -13,7 +13,7 @@ class VideoService {
 
             let url = (id % 2 == 0) ? "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/placeimg02.jpg" : "https://s3-us-west-2.amazonaws.com/s.cdpn.io/123941/placeimg04.jpg";
 
-            if (id % 7 == 0) {
+            if (id % 5 == 0) {
                 url = "http://big-bunny.com/bigbunny.jpg";
             }
 

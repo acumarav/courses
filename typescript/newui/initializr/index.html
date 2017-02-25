@@ -83,9 +83,9 @@
     <!-- Example row of columns -->
     <div id="gallery" class="row">
         <!-- ko foreach: visibleVideos -->
-        <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}" >
+        <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}">
 
-            <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} " />
+            <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} "/>
             <span data-bind="text:  name"></span>
             <span data-bind="text:  $root.videoWidth"></span>
 
@@ -97,7 +97,9 @@
     </div>
     <div id="frames" class="row">
         <!-- ko foreach: videoFrames -->
-        <img data-bind="attr : {src: thumbnailUrl}" />
+        <div class="videoFrame" data-bind="style: { backgroundImage: 'url(\'' + thumbnailUrl + '\')'}">
+            <!--<img data-bind="attr : {src: thumbnailUrl}"/>-->
+        </div>
         <!-- /ko -->
     </div>
 
@@ -105,7 +107,7 @@
     <hr>
 
     <footer>
-        <p>&copy; Linius 2017  as</p>
+        <p>&copy; Linius 2017 as</p>
     </footer>
 </div> <!-- /container -->
 <script src="js/vendor/jquery-3.1.1.js"></script>
