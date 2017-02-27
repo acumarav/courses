@@ -9,6 +9,13 @@
     overflow: hidden;
 }
 
+#galleryPanel ul li{
+    /*display: inline-block;*/
+}
+
+li{
+    list-style:none;
+}
 
 .video{
     margin: 0 10px;

@@ -17,6 +17,8 @@
     </style>
     <link rel="stylesheet" href="css/bootstrap-theme.css">
     <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--[if lt IE 9]>
     <script src="js/vendor/html5-3.6-respond-1.4.2.min.js"></script>
@@ -81,16 +83,26 @@
 
 <div class="container">
     <!-- Example row of columns -->
-    <div id="gallery" class="row">
-        <!-- ko foreach: visibleVideos -->
-        <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}">
+    <div id="galleryPanel" class="row">
+        <ul>
+            <li><i class="fa fa-angle-left" style="font-size:36px"></i></li>
+            <li>
+                <div id="gallery">
+                    <!-- ko foreach: visibleVideos -->
+                    <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}">
 
-            <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} "/>
-            <span data-bind="text:  name"></span>
-            <span data-bind="text:  $root.videoWidth"></span>
+                        <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} "/>
+                        <span data-bind="text:  name"></span>
+                        <span data-bind="text:  $root.videoWidth"></span>
 
-        </div>
-        <!-- /ko -->
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </li>
+            <li><i class="fa fa-angle-right" style="font-size:36px"></i></li>
+        </ul>
+
+
     </div>
 
     <div id="thumbnails" class="row">
