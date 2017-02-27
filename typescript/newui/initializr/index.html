@@ -84,23 +84,22 @@
 <div class="container">
     <!-- Example row of columns -->
     <div id="galleryPanel" class="row">
-        <ul>
-            <li><i class="fa fa-angle-left" style="font-size:36px"></i></li>
-            <li>
-                <div id="gallery">
-                    <!-- ko foreach: visibleVideos -->
-                    <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}">
 
-                        <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} "/>
-                        <span data-bind="text:  name"></span>
-                        <span data-bind="text:  $root.videoWidth"></span>
+        <a><i class="fa fa-angle-left" style="font-size:36px;"></i></a>
+        <a><i class="fa fa-angle-right" style="font-size:36px;"></i></a>
 
-                    </div>
-                    <!-- /ko -->
-                </div>
-            </li>
-            <li><i class="fa fa-angle-right" style="font-size:36px"></i></li>
-        </ul>
+        <div id="gallery">
+            <!-- ko foreach: visibleVideos -->
+            <div class="video" data-bind="style: {width: $root.videoWidth()+'px'}">
+
+                <img data-bind="attr : {src: thumbnailUrl}, style: {width: $root.videoWidth()+'px'} "/>
+                <span data-bind="text:  name"></span>
+                <span data-bind="text:  $root.videoWidth"></span>
+
+            </div>
+            <!-- /ko -->
+        </div>
+
 
 
     </div>
