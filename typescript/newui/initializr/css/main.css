@@ -10,7 +10,16 @@
 }
 
 #galleryPanel ul li{
-    /*display: inline-block;*/
+   /* display: flex;*/
+}
+
+#galleryPanel .nav{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    width: 28px;
+    background: yellow;
+    height: 100%;
 }
 
 li{
@@ -23,7 +32,7 @@ li{
 }
 
 #galleryPanel{
-    /*display: inline-block;*/
+    display: block;
 }
 
 /*@media screen and (min-width: 50em){
