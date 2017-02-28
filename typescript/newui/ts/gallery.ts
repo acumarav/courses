@@ -80,7 +80,7 @@ class Gallery {
 
     private calcVideoWidth() {
         let galleryWidth = $('#gallery').get(0).clientWidth;
-        let marginWidth = 2*10;
+        let marginWidth = 2*10 +2*30;
         let aproxItemsPerRow = Math.floor(galleryWidth / (200+ marginWidth));
         let newVideoWidth = Math.floor(galleryWidth / aproxItemsPerRow)- marginWidth;
 

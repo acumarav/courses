@@ -6,16 +6,34 @@
     justify-content: left;
     background: #f0f0f0;
     overflow: hidden;
+    padding: 0 30px;
 }
 
 
-#galleryPanel .nav{
+.nav-left, .nav-right {
     position: absolute;
-    top:0;
-    bottom: 0;
     width: 28px;
-    background: yellow;
+    /*background: red;*/
     height: 100%;
+    background-color: yellow;
+    cursor: pointer;
+    /*background:  url(http://pocasi.seznam.cz/img/hp-large/jihlava/winter/6.jpg) no-repeat;*/
+}
+
+
+
+.nav-left{
+    left:0;
+    background-image:  url(../img/nav.png) ;
+    background-repeat: no-repeat;
+    background-position:  -20% 50%;
+
+}
+.nav-right{
+    right: 0;
+    background-image: url(../img/nav.png);
+    background-repeat: no-repeat;
+    background-position:   115% 50%;
 }
 
 li{
@@ -29,6 +47,7 @@ li{
 
 #galleryPanel{
     display: block;
+    position: relative;
 }
 
 /*@media screen and (min-width: 50em){

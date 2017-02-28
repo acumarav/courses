@@ -1,0 +1,128 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+
+    <style>
+        html {
+            background: #808080;
+        }
+
+        body {
+            background: #e0e0e0;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+            background: white;
+        }
+
+        #myPanel, #myContentPanel {
+            background: lightyellow;
+            /*height: 400px;*/
+            padding: 0px;
+            position: relative;
+        }
+
+        #myContentPanel{
+            border-top:2px solid black;
+        }
+
+        .nav-left, .nav-right {
+            position: absolute;
+            width: 28px;
+            background: yellow;
+            height: 100%;
+        }
+
+        .nav-left{
+            left:0;
+        }
+        .nav-right{
+            right: 0;
+        }
+
+        #gallery, #gallery2{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction:row;
+            flex-basis: auto;
+            overflow: hidden;
+            justify-content: left;
+            padding: 0px 30px;
+        }
+
+        .video{
+            margin: 10px;
+            width: 160px;
+            height:100px;
+            background: green;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <p>some row content</p>
+
+        <div id="myPanel">
+            <div class="nav-left"></div>
+            <div class="nav-right"></div>
+
+            <div id="gallery">
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+            </div>
+        </div>
+
+
+        <div id="myContentPanel">
+            <div class="nav-left"></div>
+            <div class="nav-right"></div>
+
+            <div id="gallery2">
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+                <div class="video"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>footer</p>
+    </footer>
+</div>
+
+<script type="text/javascript">
+</script>
+
+</body>
+</html>

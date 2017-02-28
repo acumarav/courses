@@ -118,7 +118,7 @@ var Gallery = (function () {
     };
     Gallery.prototype.calcVideoWidth = function () {
         var galleryWidth = $('#gallery').get(0).clientWidth;
-        var marginWidth = 2 * 10;
+        var marginWidth = 2 * 10 + 2 * 30;
         var aproxItemsPerRow = Math.floor(galleryWidth / (200 + marginWidth));
         var newVideoWidth = Math.floor(galleryWidth / aproxItemsPerRow) - marginWidth;
         console.log(galleryWidth + " per: " + aproxItemsPerRow);
