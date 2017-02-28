@@ -4,14 +4,10 @@
     flex-direction:row;
     flex-basis: auto;
     justify-content: left;
-    /*height: 500px;*/
     background: #f0f0f0;
     overflow: hidden;
 }
 
-#galleryPanel ul li{
-   /* display: flex;*/
-}
 
 #galleryPanel .nav{
     position: absolute;

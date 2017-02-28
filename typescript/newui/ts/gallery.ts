@@ -38,7 +38,7 @@ class Gallery {
     }
 
     private setupDragAndDrop(){
-        $('#gallery .video').draggable({
+        $('#gallery > .video').draggable({
             revert: 'invalid',
             helper: 'clone'
         });

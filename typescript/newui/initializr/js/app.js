@@ -92,7 +92,7 @@ var Gallery = (function () {
     };
     Gallery.prototype.setupDragAndDrop = function () {
         var _this = this;
-        $('#gallery .video').draggable({
+        $('#gallery > .video').draggable({
             revert: 'invalid',
             helper: 'clone'
         });
