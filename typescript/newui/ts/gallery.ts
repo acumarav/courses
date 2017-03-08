@@ -13,6 +13,11 @@ class Gallery {
 
     private videoFrames: KnockoutObservableArray<Video> = ko.observableArray([]);
 
+
+    private fromFrame: KnockoutObservable<number> = ko.observable(0);
+    private toFrame: KnockoutObservable<number> = ko.observable(3);
+
+
     private vidosBuffer: Video[];
 
 
@@ -39,10 +44,10 @@ class Gallery {
 
     private setupSlider(): void {
         $('#thumbnailsSliderDiv').slider({
-            range:true,
-            min:0,
-            max:3,
-            values:[0,3]
+            range: true,
+            min: 0,
+            max: 3,
+            values: [0, 3]
         });
 
         console.log('setupSlider');
@@ -101,6 +106,71 @@ class Gallery {
         this.videoWidth(newVideoWidth);
     }
 }
+
+//--bindings
+ko.bindingHandlers.jqSlider = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        //initialize the control
+        var options = allBindingsAccessor().jqOptions || {};
+        $(element).slider(options);
+
+        //handle the value changing in the UI
+        ko.utils.registerEventHandler(element, "slidechange", function () {
+            //would need to do some more work here, if you want to bind against non-observables
+            var observable = valueAccessor();
+            observable($(element).slider("value"));
+        });
+
+    },
+    //handle the model value changing
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        $(element).slider("value", value);
+
+    }
+};
+//
+ko.bindingHandlers.rangeSlider = {
+    init: function (element, valueAccessorFrom,  allBindingsAccessor) {
+
+        //initialize the control
+        debugger;
+        var rangeOpts = allBindingsAccessor().jqOptions || {};
+
+        var options = {
+            range: true,
+            min: rangeOpts.min,
+            max: rangeOpts.max,
+            values: [rangeOpts.min, rangeOpts.max]
+        }
+        //debugger;
+        /*var from = ko.utils.unwrapObservable(valueAccessorFrom());
+         var to = ko.utils.unwrapObservable(valueAccessorTo());
+         var options = {
+         range: true,
+         min: from,
+         to: to,
+         values: [from, to]
+         }*/
+
+        $(element).slider(options);
+
+        //handle the value changing in the UI
+        /*  ko.utils.registerEventHandler(element, "slidechange", function () {
+         //would need to do some more work here, if you want to bind against non-observables
+         var observable = valueAccessorFrom();
+         observable($(element).slider("value"));
+         });*/
+
+    },
+    //handle the model value changing
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessorFrom());
+        $(element).slider("value", value);
+
+    }
+};
+//-------- binding end
 
 let vm = new Gallery();
 ko.applyBindings(vm);
