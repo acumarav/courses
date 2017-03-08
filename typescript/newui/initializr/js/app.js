@@ -96,7 +96,7 @@ var Gallery = (function () {
             range: true,
             min: 0,
             max: 3,
-            values: [0, 1, 2, 3]
+            values: [0, 3]
         });
         console.log('setupSlider');
     };
