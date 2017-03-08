@@ -89,6 +89,16 @@ var Gallery = (function () {
         this.itemsPerRow.subscribe(this.layoutItems);
         this.rowsNumber.subscribe(this.layoutItems);
         this.setupDragAndDrop();
+        this.setupSlider();
+    };
+    Gallery.prototype.setupSlider = function () {
+        $('#thumbnailsSliderDiv').slider({
+            range: true,
+            min: 0,
+            max: 3,
+            values: [0, 1, 2, 3]
+        });
+        console.log('setupSlider');
     };
     Gallery.prototype.setupDragAndDrop = function () {
         var _this = this;

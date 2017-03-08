@@ -11,10 +11,9 @@ class Gallery {
     private rowsNumber: KnockoutObservable<number> = ko.observable(2);
     private offset: KnockoutObservable<number> = ko.observable(0);
 
-    private videoFrames: KnockoutObservableArray<Video>=ko.observableArray([]);
+    private videoFrames: KnockoutObservableArray<Video> = ko.observableArray([]);
 
     private vidosBuffer: Video[];
-
 
 
     public initView() {
@@ -35,9 +34,20 @@ class Gallery {
         this.itemsPerRow.subscribe(this.layoutItems);
         this.rowsNumber.subscribe(this.layoutItems);
         this.setupDragAndDrop();
+        this.setupSlider();
     }
 
-    private setupDragAndDrop(){
+    private setupSlider(): void {
+        $('#thumbnailsSliderDiv').slider({
+            range:true,
+            min:0,
+            max:3,
+            values:[0,1,2,3]
+        });
+        console.log('setupSlider');
+    }
+
+    private setupDragAndDrop() {
         $('#gallery > .video').draggable({
             revert: 'invalid',
             helper: 'clone'
@@ -45,25 +55,25 @@ class Gallery {
 
         $('#frames').droppable(
             {
-                accept:'.video',
+                accept: '.video',
                 drop: (event, ui) => {
-                    let data:Video=ko.dataFor(ui.draggable[0]);
+                    let data: Video = ko.dataFor(ui.draggable[0]);
                     this.videoFrames.push(data);
                 }
             }
         );
 
         $("#frames").sortable({
-            receive:(event,ui)=>{
+            receive: (event, ui) => {
                 console.log('receive');
             },
-            update: (event, ui)=>{
+            update: (event, ui) => {
                 console.log("update");
-                let dropedFrame:Video=ko.dataFor(ui.item[0]);
-                let deltaPx =ui.position.left+ui.originalPosition.left;
-                let newPosition=deltaPx/ui.item[0].clientWidth;
+                let dropedFrame: Video = ko.dataFor(ui.item[0]);
+                let deltaPx = ui.position.left + ui.originalPosition.left;
+                let newPosition = deltaPx / ui.item[0].clientWidth;
 
-                console.log("moved by: "+newPosition+ " DELTA: " +deltaPx);
+                console.log("moved by: " + newPosition + " DELTA: " + deltaPx);
 
             }
         });
@@ -80,9 +90,9 @@ class Gallery {
 
     private calcVideoWidth() {
         let galleryWidth = $('#gallery').get(0).clientWidth;
-        let marginWidth = 2*10 +2*30;
-        let aproxItemsPerRow = Math.floor(galleryWidth / (200+ marginWidth));
-        let newVideoWidth = Math.floor(galleryWidth / aproxItemsPerRow)- marginWidth;
+        let marginWidth = 2 * 10 + 2 * 30;
+        let aproxItemsPerRow = Math.floor(galleryWidth / (200 + marginWidth));
+        let newVideoWidth = Math.floor(galleryWidth / aproxItemsPerRow) - marginWidth;
 
         console.log(galleryWidth + " per: " + aproxItemsPerRow);
 

@@ -114,11 +114,17 @@ li {
     justify-content: flex-start;
     list-style: none;
     white-space: nowrap;
+    -webkit-padding-start: 0px;
 }
 
 #thumbnailsSlider ul li {
     width: 150px;
     height: 80px;
+}
+
+#thumbnailsSliderDiv{
+    background: green;
+    height: 10px;
 }
 
 
