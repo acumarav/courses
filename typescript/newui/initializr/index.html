@@ -85,8 +85,8 @@
     <!-- Example row of columns -->
     <div id="galleryPanel" class="row">
 
-        <div  class="nav-left"></div>
-        <div  class="nav-right"></div>
+        <div class="nav-left"></div>
+        <div class="nav-right"></div>
 
         <div id="gallery">
             <!-- ko foreach: visibleVideos -->
@@ -105,12 +105,17 @@
 
     <div id="thumbnails" class="row">
     </div>
+
     <div id="frames" class="row">
-        <!-- ko foreach: videoFrames -->
-        <div class="videoFrame" data-bind="style: { backgroundImage: 'url(\'' + thumbnailUrl + '\')'}">
-            <!--<img data-bind="attr : {src: thumbnailUrl}"/>-->
+        <div id="thumbnailsSlider">
+            <ul>
+                <!-- ko foreach: videoFrames -->
+                <li class="videoFrame" data-bind="style: { backgroundImage: 'url(\'' + thumbnailUrl + '\')'}">
+                    <!--<img data-bind="attr : {src: thumbnailUrl}"/>-->
+                </li>
+                <!-- /ko -->
+            </ul>
         </div>
-        <!-- /ko -->
     </div>
 
 
@@ -118,8 +123,10 @@
 
     <footer>
         VVEPlay lets you work with virtual video for the first time.<br/>
-        It allows you to deliver a personalized virtual file of any video content instead of the physical source file. It's like having a ghost file, not the true body of content itself.<br/>
-        Learn how Linius' Video Virtualization Engine&trade; can transform your business at <a href="http://www.linius.com">www.linius.com</a><br/>
+        It allows you to deliver a personalized virtual file of any video content instead of the physical source file.
+        It's like having a ghost file, not the true body of content itself.<br/>
+        Learn how Linius' Video Virtualization Engine&trade; can transform your business at <a
+            href="http://www.linius.com">www.linius.com</a><br/>
         <a href="http://www.linius.com/vveplayterms">Terms of Use</a> |
         <a href="http://www.linius.com/vveplayprivacy">Privacy Policy</a><br/>
     </footer>

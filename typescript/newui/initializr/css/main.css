@@ -1,14 +1,13 @@
-#gallery{
+#gallery {
     display: flex;
     flex-wrap: wrap;
-    flex-direction:row;
+    flex-direction: row;
     flex-basis: auto;
     justify-content: left;
     background: #f0f0f0;
     overflow: hidden;
     padding: 0 30px;
 }
-
 
 .nav-left, .nav-right {
     position: absolute;
@@ -20,32 +19,25 @@
     /*background:  url(http://pocasi.seznam.cz/img/hp-large/jihlava/winter/6.jpg) no-repeat;*/
 }
 
-
-
-.nav-left{
-    left:0;
-    background-image:  url(../img/nav.png) ;
+.nav-left {
+    left: 0;
+    background-image: url(../img/nav.png);
     background-repeat: no-repeat;
-    background-position:  -20% 50%;
-
+    background-position: -20% 50%;
 }
-.nav-right{
+
+.nav-right {
     right: 0;
     background-image: url(../img/nav.png);
     background-repeat: no-repeat;
-    background-position:   115% 50%;
+    background-position: 115% 50%;
 }
 
-li{
-    list-style:none;
+li {
+    list-style: none;
 }
 
-.video{
-    margin: 0 10px;
-    overflow: hidden;
-}
-
-#galleryPanel{
+#galleryPanel {
     display: block;
     position: relative;
 }
@@ -62,20 +54,22 @@ li{
     }
 }*/
 
-.videoFrame{
-    margin:0;
+.videoFrame {
+    margin: 0;
     overflow: hidden;
     width: 150px;
     height: 80%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-
 }
 
+.video {
+    margin: 0 10px;
+    overflow: hidden;
+}
 
-
-.video span{
+.video span {
     margin-top: 15px;
 }
 
@@ -92,21 +86,44 @@ li{
     transition: transform .2s ease-in-out;
 }
 
-#frames{
+#frames {
     height: 150px;
     background: #eeffff;
 
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction:row;
+    display: block;
+    /*flex-wrap: nowrap;
+    flex-direction: row;
     flex-basis: auto;
-    justify-content: left;
+    justify-content: left;*/
 }
 
-#thumbnails{
+#thumbnails {
     height: 150px;
     background: #ffffee;
 }
+
+#thumbnailsSlider {
+    border: 1px solid red;
+    display: inline-block;
+    height: 90px;
+}
+
+#thumbnailsSlider ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    list-style: none;
+    white-space: nowrap;
+}
+
+#thumbnailsSlider ul li {
+    width: 150px;
+    height: 80px;
+}
+
+
+
+
 
 
 
