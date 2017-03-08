@@ -44,6 +44,7 @@ class Gallery {
             max:3,
             values:[0,3]
         });
+
         console.log('setupSlider');
     }
 
