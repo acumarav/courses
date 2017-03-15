@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+
+</head>
+
+<>
+
+<h1>Hello Plunker!</h1>
+<input type="button" id="button" value="Click me to change the page"/>
+
+<script type="text/javascript">
+  const btn = document.getElementById("button");
+
+  btn.addEventListener("click", function () {
+
+    // modify the page
+    document.body.style.backgroundColor = "red";
+    var p = document.createElement("p");
+    p.innerText = "let's add some text to the page";
+    document.body.appendChild(p);
+
+    // simulate blocking / long running operation
+    const start = Date.now()
+    const delaySeconds = 10;
+    while (Date.now() < start + delaySeconds * 1000) {
+    }
+
+  });
+
+</script>
+</body>
+</html>
