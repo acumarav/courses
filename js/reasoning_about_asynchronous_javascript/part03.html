@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #drag {
+            background-color: red;
+            width: 200px;
+            height: 200px;
+        }
+
+        #drop {
+            border: 1px solid black;
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="drag" draggable="true" ondragstart="dragStart(event)"></div>
+<br>
+<div id="drop" ondrop="drop(event)" ondragover="dragOver(event)"></div>
+<div id="drop" ondrop="drop(event)" ondragover="dragOver(event)"></div>
+</body>
+
+<script>
+  function dragStart(event) {
+    event.dataTransfer.setData("text/plain", event.target.id);
+    console.log("dragStart", event);
+  }
+
+  function dragOver(event) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    console.log({
+      x: event.pageX,
+      y: event.pageY
+    });
+  }
+
+  function drop(event) {
+    const id = event.dataTransfer.getData("text");
+    console.log("drop", id);
+    const element = document.getElementById("drag");
+    event.target.appendChild(element);
+  }
+</script>
+<!--<script src="js/part03.js"></script>-->
+
+</html>
