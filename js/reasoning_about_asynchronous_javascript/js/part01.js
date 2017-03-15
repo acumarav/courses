@@ -4,7 +4,7 @@
 //navigator.geolocation.getCurrentPosition(success, error);
 
 document.getElementById("city").value = "New York, NY";
-load()
+load();
 
 function load() {
   var city = document.getElementById("city").value;
