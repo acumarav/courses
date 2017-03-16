@@ -1,9 +1,10 @@
 //crunch
 crunchNumbers(postMessage);
 
-function crunchNumbers(progressCallback) {
+function crunchNumbers() {
   for (let step = 0; step <= 10; step++) {
-    progressCallback(step * 10);
+    //progressCallback(step * 10);
+    postMessage(step*10);
 
     const start = Date.now();
     const seconds = 1;
