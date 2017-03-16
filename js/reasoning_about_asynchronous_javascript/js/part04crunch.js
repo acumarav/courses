@@ -1,6 +1,3 @@
-
-
-
 //crunch
 crunchNumbers(postMessage);
 
