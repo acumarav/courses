@@ -32,17 +32,28 @@ function load() {
   console.log("3")
 
   // code
+  let weatherData;
+  let fiveDayData;
 
   function weatherSuccess() {
-    let data = JSON.parse(this.responseText);
-    console.log("current weather", data);
-    showResults(buildCurrentSummary(data));
+    weatherData = JSON.parse(this.responseText);
+    showResultsIfReady();
   }
 
   function fiveDaySuccess() {
-    var data = JSON.parse(this.responseText);
-    console.log("five day", data);
-    appendResults(buildForecastTable(data));
+    fiveDayData = JSON.parse(this.responseText);
+    showResultsIfReady();
+  }
+
+  function showResultsIfReady() {
+    if (weatherData && fiveDayData) {
+      console.log('data ready');
+      showResults(buildCurrentSummary(weatherData));
+      appendResults(buildForecastTable(fiveDayData));
+    }
+    else {
+      console.log('data NOT ready... waiting....');
+    }
   }
 
   function failure(error) {
