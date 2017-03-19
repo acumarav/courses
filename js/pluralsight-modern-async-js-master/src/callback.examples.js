@@ -14,8 +14,7 @@ test("Nesting serial async dependencies", done => {
         }
     );
 
-})
-;
+});
 
 test("Verbose, hard to reuse, easy to forget, additional error handling mechanism", done => {
 
@@ -34,20 +33,15 @@ test("Verbose, hard to reuse, easy to forget, additional error handling mechanis
                  */
                 console.log("weather", weather);
             });
-
             console.log(`Weather for ${city}:`);
         }
-    )
-    ;
-
-})
-;
+    );
+});
 
 test("Seams rip across program", function (done) {
     let _city;
     getCurrentCity((error, city) => _city = city
-    )
-    ;
+    );
 
     getWeather(_city, function (error, city) {
         if (error) {
@@ -55,7 +49,6 @@ test("Seams rip across program", function (done) {
             return;
         }
     });
-
 });
 
 test("Results aren't easily reused", function (done) {
@@ -68,32 +61,21 @@ test("Results aren't easily reused", function (done) {
 
         getWeather(city, (error, weather) => {
 
-                console.log(weather);
-
-            }
-        )
-        ;
-
-    })
-    ;
+            console.log(weather);
+        });
+    });
 
     // later on, how can I use the current city again without re-fetching it?
 
     getCurrentCity((error, city) => {
 
         getForecast(city, (error, forecast) => {
-
                 console.log(forecast);
-
                 // brittle - gambling this happens last
                 done();
-
             }
-        )
-        ;
-
+        );
     })
-
 });
 
 test("Parallel result synchronization", done => {
