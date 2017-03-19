@@ -49,7 +49,6 @@ function fetchCurrentCity(onSuccess, onError) {
         }
         onSuccess(result);
     })
-
 }
 
 test("fetchCurrentCity with separate success and error callbacks", function (done) {
