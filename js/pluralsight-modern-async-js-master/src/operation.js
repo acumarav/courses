@@ -2,7 +2,6 @@ const delayms = 1;
 
 function getCurrentCity(callback) {
     setTimeout(function () {
-
         const city = "New York, NY";
         callback(null, city);
 
@@ -11,12 +10,10 @@ function getCurrentCity(callback) {
 
 function getWeather(city, callback) {
     setTimeout(function () {
-
         if (!city) {
             callback(new Error("City required to get weather"));
             return;
         }
-
         const weather = {
             temp: 50
         };
@@ -42,3 +39,17 @@ function getForecast(city, callback) {
 
     }, delayms)
 }
+
+test("fetchCurrentCity with separate success and error callbacks", function () {
+
+    function onSuccess(result) {
+        console.log('onSuccess: '+result);
+    }
+
+    function onError(err) {
+        console.log('onError: '+err);
+    }
+
+    fetchCurrentCity(onSuccess, onError);
+
+});
