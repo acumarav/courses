@@ -52,10 +52,11 @@ function fetchCurrentCity(onSuccess, onError) {
 
 }
 
-test("fetchCurrentCity with separate success and error callbacks", function () {
+test("fetchCurrentCity with separate success and error callbacks", function (done) {
 
     function onSuccess(result) {
         console.log('onSuccess: ' + result);
+        done();
     }
 
     function onError(err) {
