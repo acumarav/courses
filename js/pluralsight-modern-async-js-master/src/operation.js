@@ -67,9 +67,13 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
     fetchCurrentCity(onSuccess, onError);
 });
 
-test("fetchCurrentCity pass the callbacks later on", function () {
+test("fetchCurrentCity pass the callbacks later on", function (done) {
     var conf = fetchCurrentCity();
-    console.log('Initial conf: '+JSON.stringify(conf));
-    conf.onSuccess = (res) => console.log('On succeess later: '+res);
-    conf.onError = (err) => console.log('On error later: '+err);
-});
+    console.log('Initial conf: ' + JSON.stringify(conf));
+    conf.onSuccess = (res) => {
+        console.log('On succeess later: ' + res);
+        done();
+    };
+conf.onError = (err) => console.log('On error later: ' + err);
+})
+;
