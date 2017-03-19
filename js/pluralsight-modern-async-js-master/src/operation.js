@@ -42,38 +42,64 @@ function getForecast(city, callback) {
 
 suite.only("operations")
 function fetchCurrentCity(onSuccess, onError) {
-    var ops = {onSuccess: onSuccess || null, onError: onError || null};
+    var ops = {onSuccess: [], onError: []};
+
+    ops.setCallbacks = function (onSuccessCallback, onErrorCallback) {
+        if (onSuccessCallback) {
+            this.onSuccess.push(onSuccessCallback);
+        }
+        if (onErrorCallback) {
+            this.onError.push(onErrorCallback);
+        }
+    }.bind(ops);
+
+    ops.raiseSuccess = function (result) {
+        this.onSuccess.forEach(function (callback) {
+            callback(result);
+        });
+    }.bind(ops);
+
+    ops.setCallbacks(onSuccess, onError);
 
     getCurrentCity(function (error, result) {
         if (error) {
-            ops.onError(error);
+            ops.onError.forEach(cb => cb(error));
+            //ops.onError(error);
             return;
         }
-        ops.onSuccess(result);
-    })
+        //ops.onSuccess(result);
+        ops.raiseSuccess(result);
+    });
+
     return ops;
 }
 
-test("fetchCurrentCity with separate success and error callbacks", function (done) {
-    function onSuccess(result) {
-        console.log('onSuccess: ' + result);
-        done();
-    }
+ test("fetchCurrentCity with separate success and error callbacks", function (done) {
+ function onSuccess(result) {
+ console.log('onSuccess: ' + result);
+ done();
+ }
 
-    function onError(err) {
-        console.log('onError: ' + err);
-    }
+ function onError(err) {
+ console.log('onError: ' + err);
+ }
 
-    fetchCurrentCity(onSuccess, onError);
-});
+ fetchCurrentCity(onSuccess, onError);
+ });
 
 test("fetchCurrentCity pass the callbacks later on", function (done) {
     var conf = fetchCurrentCity();
     console.log('Initial conf: ' + JSON.stringify(conf));
-    conf.onSuccess = (res) => {
-        console.log('On succeess later: ' + res);
-        done();
-    };
-conf.onError = (err) => console.log('On error later: ' + err);
+    conf.setCallbacks((res) => {
+            console.log('On succeess later one: ' + res);
+        },
+        (err) => console.log('On error later one: ' + err)
+    );
+    //
+    conf.setCallbacks((res) => {
+        console.log('On succeess later two: ' + res);
+    });
+
+    conf.setCallbacks((res) => done());
 })
 ;
