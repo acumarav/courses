@@ -5,11 +5,9 @@ test("Nesting serial async dependencies", done => {
     getCurrentCity(function (error, city) {
 
             getWeather(city, function (error, weather) {
-
                 console.log("weather", weather);
                 done();
             });
-
             console.log(`Weather for ${city}:`);
         }
     );
@@ -17,7 +15,6 @@ test("Nesting serial async dependencies", done => {
 });
 
 test("Verbose, hard to reuse, easy to forget, additional error handling mechanism", done => {
-
     getCurrentCity(function (error, city) {
             if (error) {
                 done(error);
@@ -25,12 +22,12 @@ test("Verbose, hard to reuse, easy to forget, additional error handling mechanis
             }
 
             getWeather(city, function (error, weather) {
-                 if (error) {
-                 done(error);
-                 return;
-                 }
+                if (error) {
+                    done(error);
+                    return;
+                }
                 console.log("weather", weather);
-                 done();
+                done();
             });
             console.log(`Weather for ${city}:`);
         }
