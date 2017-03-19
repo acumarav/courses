@@ -40,6 +40,7 @@ function getForecast(city, callback) {
     }, delayms)
 }
 
+suite.only("operations")
 function fetchCurrentCity(onSuccess, onError) {
     getCurrentCity(function (error, result) {
         if (error) {
