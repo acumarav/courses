@@ -91,10 +91,9 @@ function fetchWeather(city) {
   });
 
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
-    const noop = function () {
-    };
+    const noop = function () {};
     operation.successReactions.push(onSuccess || noop);
-    operation.errorReactions.push(onerror);
+    operation.errorReactions.push(onError || noop);
   }
 
   operation.onFailure = function onFailure(onError) {
@@ -141,15 +140,14 @@ test("register only error handler, ignore success handler", function (done) {
 
 test("register only success handler, ignore error handler", function (done) {
   //todo operation which can fail
-  const operation = fetchCurrentCity();
+  const operation = fetchWeather();
   operation.onCompletion(result => done(new Error('should not succeed')));
   operation.onFailure(error => done());
 });
 
 test("noop if no success handler passed", function (done) {
   //todo operation which can fail
-  const operation = fetchCurrentCity();
-
+  const operation = fetchWeather();
   //noop should register for success handler
   operation.onFailure(error => done(error));
   //trigger success to make sure noop registered
@@ -157,8 +155,7 @@ test("noop if no success handler passed", function (done) {
 });
 
 test("noop if no error handler passed", function (done) {
-  //todo operation which can fail
-  const operation = fetchCurrentCity();
+  const operation = fetchWeather();
 
   //noop should register for error handler
   operation.onCompletion(result => done(new Error("shouldn't succeed")));
