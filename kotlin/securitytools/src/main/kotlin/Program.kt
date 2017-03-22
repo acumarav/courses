@@ -4,6 +4,8 @@ fun main(args: Array<String>) {
 
     val it = providers.iterator()
     while (it.hasNext()) {
-        println(it.next().name)
+        val provider = it.next()
+        println(provider.name)
+        provider.forEach { key, value -> println("\t$key: $value") }
     }
 }
