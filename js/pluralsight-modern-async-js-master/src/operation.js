@@ -44,10 +44,10 @@ suite.only("operations")
 function fetchCurrentCity(onSuccess, onError) {
   var ops = {onSuccess: [], onError: []};
 
-  ops.onCompletion = function (onSuccessCallback, onErrorCallback) {
-    if (onSuccessCallback) {
-      this.onSuccess.push(onSuccessCallback);
-    }
+  ops.onCompletion = function setCallbacks(onSuccessCallback, onErrorCallback) {
+
+    const noop = function () {};
+    this.onSuccess.push(onSuccessCallback || noop);
     if (onErrorCallback) {
       this.onError.push(onErrorCallback);
     }
@@ -59,11 +59,9 @@ function fetchCurrentCity(onSuccess, onError) {
     });
   }.bind(ops);
 
-  ops.onFailure=function onFailure(onError) {
+  ops.onFailure = function onFailure(onError) {
     ops.onCompletion(null, onError);
   };
-
-
 
   ops.onCompletion(onSuccess, onError);
 
@@ -135,11 +133,17 @@ test("fetchCurrentCity pass the callbacks later on", function (done) {
 });
 
 test("register only error handler, ignore success handler", function (done) {
-
   const operation = fetchCurrentCity();
   operation.onFailure(error => done(error));
   operation.onCompletion(result => done());
+});
 
+
+test("register only success handler, ignore error handler", function (done) {
+  //todo operation which can fail
+  const operation = fetchCurrentCity();
+  operation.onCompletion(result => done(new Error('should not succeed')));
+  operation.onFailure(error => done());
 });
 
 test("noop if no success handler passed", function (done) {
