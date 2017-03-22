@@ -144,8 +144,8 @@ test("register only success handler, ignore error handler", function (done) {
 });
 
 test("noop if no success handler passed", function (done) {
-  //todo operation which can fail
-  const operation = fetchWeather();
+
+  const operation = fetchCurrentCity();
   //noop should register for success handler
   operation.onFailure(error => done(error));
   //trigger success to make sure noop registered
