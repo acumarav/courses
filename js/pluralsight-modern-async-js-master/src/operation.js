@@ -63,11 +63,9 @@ function fetchCurrentCity(onSuccess, onError) {
 
   getCurrentCity(function (error, result) {
     if (error) {
-      ops.onError.forEach(cb => cb(error));
-      //ops.onError(error);
+      ops.onError.forEach(errCallBack => errCallBack(error));
       return;
     }
-    //ops.onSuccess(result);
     ops.raiseSuccess(result);
   });
 
@@ -130,10 +128,19 @@ test("fetchCurrentCity pass the callbacks later on", function (done) {
   conf.setCallbacks((res) => done());
 });
 
+test("register only error handler, ignore success handler", function (done) {
+
+  const operation = fetchCurrentCity();
+  operation.onFailure(error => done(error));
+  operation.onCompletion(result => done());
+
+});
+
 test("noop if no success handler passed", function (done) {
   //todo operation which can fail
   const operation = fetchCurrentCity();
 
+  //noop should register for success handler
   operation.onFailure(error => done(error));
   //trigger success to make sure noop registered
   operation.onCompletion(result => done());
@@ -143,6 +150,7 @@ test("noop if no error handler passed", function (done) {
   //todo operation which can fail
   const operation = fetchCurrentCity();
 
+  //noop should register for error handler
   operation.onCompletion(result => done(new Error("shouldn't succeed")));
   //trigger failure to make sure noop registered
   operation.onFailure(error => done());
