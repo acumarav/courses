@@ -47,10 +47,10 @@ function fetchCurrentCity() {
 
   getCurrentCity(function (error, result) {
     if (error) {
-      ops.errorReactions.forEach(errCallBack => errCallBack(error));
+      ops.fail(error);
       return;
     }
-    ops.successReactions.forEach(r => r(result));
+    ops.succeed(result);
   });
 
   return ops;
@@ -73,6 +73,14 @@ function Operation() {
     operation.onCompletion(null, onError);
   }
 
+  operation.fail = function fail(error) {
+    operation.errorReactions.forEach(r => r(error));
+  }
+
+  operation.succeed = function succeed(result) {
+    operation.successReactions.forEach(r => r(result));
+  }
+
   return operation;
 }
 
@@ -82,10 +90,10 @@ function fetchWeather(city) {
 
   getWeather(city, function (error, result) {
     if (error) {
-      operation.errorReactions.forEach(r => r(error));
+      operation.fail(error);
       return;
     }
-    operation.successReactions.forEach(r => r(result));
+    operation.succeed(result);
   });
 
 
@@ -101,9 +109,8 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
   function onError(err) {
     console.log('onError: ' + err);
   }
-
-  const ops=fetchCurrentCity();
-  ops.onCompletion(onSuccess,onError);
+  const ops = fetchCurrentCity();
+  ops.onCompletion(onSuccess, onError);
 });
 
 test("fetchCurrentCity pass the callbacks later on", function (done) {
