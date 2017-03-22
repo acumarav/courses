@@ -130,10 +130,20 @@ test("fetchCurrentCity pass the callbacks later on", function (done) {
   conf.setCallbacks((res) => done());
 });
 
+test("noop if no success handler passed", function (done) {
+  //todo operation which can fail
+  const operation = fetchCurrentCity();
+
+  operation.onFailure(error => done(error));
+  //trigger success to make sure noop registered
+  operation.onCompletion(result => done());
+});
+
 test("noop if no error handler passed", function (done) {
   //todo operation which can fail
   const operation = fetchCurrentCity();
 
   operation.onCompletion(result => done(new Error("shouldn't succeed")));
+  //trigger failure to make sure noop registered
   operation.onFailure(error => done());
 });
