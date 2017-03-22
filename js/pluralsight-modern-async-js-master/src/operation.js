@@ -45,19 +45,16 @@ function fetchCurrentCity(onSuccess, onError) {
   var ops = {onSuccess: [], onError: []};
 
   ops.onCompletion = function setCallbacks(onSuccessCallback, onErrorCallback) {
-
     const noop = function () {};
     this.onSuccess.push(onSuccessCallback || noop);
-    if (onErrorCallback) {
-      this.onError.push(onErrorCallback);
-    }
-  }.bind(ops);
+    this.onError.push(onErrorCallback || noop);
+  };
 
   ops.raiseSuccess = function (result) {
     this.onSuccess.forEach(function (callback) {
       callback(result);
     });
-  }.bind(ops);
+  };
 
   ops.onFailure = function onFailure(onError) {
     ops.onCompletion(null, onError);
@@ -91,7 +88,8 @@ function fetchWeather(city) {
   });
 
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
-    const noop = function () {};
+    const noop = function () {
+    };
     operation.successReactions.push(onSuccess || noop);
     operation.errorReactions.push(onError || noop);
   }
