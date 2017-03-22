@@ -41,36 +41,16 @@ function getForecast(city, callback) {
 }
 
 suite.only("operations")
-function fetchCurrentCity(onSuccess, onError) {
-  var ops = {onSuccess: [], onError: []};
+function fetchCurrentCity() {
 
-  //const ops = new Operation();
-
-  ops.onCompletion = function setCallbacks(onSuccessCallback, onErrorCallback) {
-    const noop = function () {
-    };
-    this.onSuccess.push(onSuccessCallback || noop);
-    this.onError.push(onErrorCallback || noop);
-  };
-
-  ops.raiseSuccess = function (result) {
-    this.onSuccess.forEach(function (callback) {
-      callback(result);
-    });
-  };
-
-  ops.onFailure = function onFailure(onError) {
-    ops.onCompletion(null, onError);
-  };
-
-  ops.onCompletion(onSuccess, onError);
+  const ops = new Operation();
 
   getCurrentCity(function (error, result) {
     if (error) {
-      ops.onError.forEach(errCallBack => errCallBack(error));
+      ops.errorReactions.forEach(errCallBack => errCallBack(error));
       return;
     }
-    ops.raiseSuccess(result);
+    ops.successReactions.forEach(r => r(result));
   });
 
   return ops;
@@ -81,6 +61,17 @@ function Operation() {
     successReactions: [],
     errorReactions: []
   };
+
+  operation.onCompletion = function setCallbacks(onSuccess, onError) {
+    const noop = function () {
+    };
+    operation.successReactions.push(onSuccess || noop);
+    operation.errorReactions.push(onError || noop);
+  }
+
+  operation.onFailure = function onFailure(onError) {
+    operation.onCompletion(null, onError);
+  }
 
   return operation;
 }
@@ -97,16 +88,7 @@ function fetchWeather(city) {
     operation.successReactions.forEach(r => r(result));
   });
 
-  operation.onCompletion = function setCallbacks(onSuccess, onError) {
-    const noop = function () {
-    };
-    operation.successReactions.push(onSuccess || noop);
-    operation.errorReactions.push(onError || noop);
-  }
 
-  operation.onFailure = function onFailure(onError) {
-    operation.onCompletion(null, onError);
-  }
   return operation;
 }
 
@@ -120,7 +102,8 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
     console.log('onError: ' + err);
   }
 
-  fetchCurrentCity(onSuccess, onError);
+  const ops=fetchCurrentCity();
+  ops.onCompletion(onSuccess,onError);
 });
 
 test("fetchCurrentCity pass the callbacks later on", function (done) {
