@@ -44,8 +44,11 @@ suite.only("operations")
 function fetchCurrentCity(onSuccess, onError) {
   var ops = {onSuccess: [], onError: []};
 
+  //const ops = new Operation();
+
   ops.onCompletion = function setCallbacks(onSuccessCallback, onErrorCallback) {
-    const noop = function () {};
+    const noop = function () {
+    };
     this.onSuccess.push(onSuccessCallback || noop);
     this.onError.push(onErrorCallback || noop);
   };
@@ -73,11 +76,18 @@ function fetchCurrentCity(onSuccess, onError) {
   return ops;
 }
 
-function fetchWeather(city) {
+function Operation() {
   const operation = {
     successReactions: [],
     errorReactions: []
   };
+
+  return operation;
+}
+
+function fetchWeather(city) {
+
+  const operation = new Operation();
 
   getWeather(city, function (error, result) {
     if (error) {
