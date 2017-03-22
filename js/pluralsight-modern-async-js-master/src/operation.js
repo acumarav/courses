@@ -45,13 +45,7 @@ function fetchCurrentCity() {
 
   const ops = new Operation();
 
-  getCurrentCity(function (error, result) {
-    if (error) {
-      ops.fail(error);
-      return;
-    }
-    ops.succeed(result);
-  });
+  getCurrentCity(ops.nodeCallback);
 
   return ops;
 }
@@ -81,6 +75,14 @@ function Operation() {
     operation.successReactions.forEach(r => r(result));
   }
 
+  operation.nodeCallback = function nodeCallback(error, result) {
+    if (error) {
+      operation.fail(error);
+      return;
+    }
+    operation.succeed(result);
+  }
+
   return operation;
 }
 
@@ -88,13 +90,7 @@ function fetchWeather(city) {
 
   const operation = new Operation();
 
-  getWeather(city, function (error, result) {
-    if (error) {
-      operation.fail(error);
-      return;
-    }
-    operation.succeed(result);
-  });
+  getWeather(city, operation.nodeCallback);
 
 
   return operation;
