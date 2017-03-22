@@ -44,7 +44,7 @@ suite.only("operations")
 function fetchCurrentCity(onSuccess, onError) {
   var ops = {onSuccess: [], onError: []};
 
-  ops.setCallbacks = function (onSuccessCallback, onErrorCallback) {
+  ops.onCompletion = function (onSuccessCallback, onErrorCallback) {
     if (onSuccessCallback) {
       this.onSuccess.push(onSuccessCallback);
     }
@@ -59,7 +59,13 @@ function fetchCurrentCity(onSuccess, onError) {
     });
   }.bind(ops);
 
-  ops.setCallbacks(onSuccess, onError);
+  ops.onFailure=function onFailure(onError) {
+    ops.onCompletion(null, onError);
+  };
+
+
+
+  ops.onCompletion(onSuccess, onError);
 
   getCurrentCity(function (error, result) {
     if (error) {
@@ -115,17 +121,17 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
 test("fetchCurrentCity pass the callbacks later on", function (done) {
   var conf = fetchCurrentCity();
   console.log('Initial conf: ' + JSON.stringify(conf));
-  conf.setCallbacks((res) => {
+  conf.onCompletion((res) => {
       console.log('On succeess later one: ' + res);
     },
     (err) => console.log('On error later one: ' + err)
   );
   //
-  conf.setCallbacks((res) => {
+  conf.onCompletion((res) => {
     console.log('On succeess later two: ' + res);
   });
 
-  conf.setCallbacks((res) => done());
+  conf.onCompletion((res) => done());
 });
 
 test("register only error handler, ignore success handler", function (done) {
