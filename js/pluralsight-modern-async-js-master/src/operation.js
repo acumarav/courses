@@ -23,9 +23,9 @@ function getWeather(city, callback) {
   }, delayms)
 }
 
+
 function getForecast(city, callback) {
   setTimeout(function () {
-
     if (!city) {
       callback(new Error("City required to get forecast"));
       return;
@@ -41,13 +41,28 @@ function getForecast(city, callback) {
 }
 
 suite.only("operations")
+function fetchForecast(city) {
+  const ops = new Operation();
+  getForecast(city, ops.nodeCallback);
+
+  return ops;
+}
+
 function fetchCurrentCity() {
 
   const ops = new Operation();
-
   getCurrentCity(ops.nodeCallback);
 
   return ops;
+}
+
+function fetchWeather(city) {
+
+  const operation = new Operation();
+
+  getWeather(city, operation.nodeCallback);
+
+  return operation;
 }
 
 function Operation() {
@@ -86,15 +101,13 @@ function Operation() {
   return operation;
 }
 
-function fetchWeather(city) {
-
-  const operation = new Operation();
-
-  getWeather(city, operation.nodeCallback);
 
 
-  return operation;
-}
+test('fetch Forecast fails if no city', function (done) {
+  const ops =fetchForecast();
+  ops.onCompletion(result=>done(new Error('Should not be called')))
+  ops.onFailure(error=>done());
+});
 
 test("fetchCurrentCity with separate success and error callbacks", function (done) {
   function onSuccess(result) {
@@ -105,6 +118,7 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
   function onError(err) {
     console.log('onError: ' + err);
   }
+
   const ops = fetchCurrentCity();
   ops.onCompletion(onSuccess, onError);
 });
