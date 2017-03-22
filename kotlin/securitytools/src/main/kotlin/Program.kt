@@ -1,8 +1,10 @@
+import com.rsk.Providers
+
 fun main(args: Array<String>) {
 
-    val providers = getProviders()
+    val allProviders=Providers.getProviders();
 
-    val it = providers.iterator()
+    val it = allProviders.iterator()
     while (it.hasNext()) {
         val provider = it.next()
         println(provider.name)
