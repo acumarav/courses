@@ -101,7 +101,11 @@ function Operation() {
   return operation;
 }
 
+test('register success callback async', function (done) {
+  var curCity = fetchCurrentCity();
+  curCity.onCompletion(city=>console.log(`City found: ${city}`));
 
+});
 
 test('fetch Forecast fails if no city', function (done) {
   const ops =fetchForecast();
@@ -111,12 +115,12 @@ test('fetch Forecast fails if no city', function (done) {
 
 test("fetchCurrentCity with separate success and error callbacks", function (done) {
   function onSuccess(result) {
-    console.log('onSuccess: ' + result);
+    //console.log('onSuccess: ' + result);
     done();
   }
 
   function onError(err) {
-    console.log('onError: ' + err);
+    //console.log('onError: ' + err);
   }
 
   const ops = fetchCurrentCity();
@@ -125,18 +129,13 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
 
 test("fetchCurrentCity pass the callbacks later on", function (done) {
   var conf = fetchCurrentCity();
-  console.log('Initial conf: ' + JSON.stringify(conf));
-  conf.onCompletion((res) => {
-      console.log('On succeess later one: ' + res);
-    },
-    (err) => console.log('On error later one: ' + err)
-  );
-  //
-  conf.onCompletion((res) => {
-    console.log('On succeess later two: ' + res);
-  });
+  const multiDone= callDone(done).afterTwoCalls();
 
-  conf.onCompletion((res) => done());
+  conf.onCompletion(
+    (res) => multiDone(),
+    (err) => console.error('On error later one: ' + err)
+  );
+  conf.onCompletion((res) => multiDone());
 });
 
 test("register only error handler, ignore success handler", function (done) {
