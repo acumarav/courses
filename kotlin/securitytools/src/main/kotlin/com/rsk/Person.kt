@@ -34,8 +34,22 @@ open class Person(val name: String, var age: Int, var isMarried: Boolean = false
 
             p.partnerName="Alice"
             println("partner name is ${p.partnerName}")
-            p.partnerName="Bob"
-            println("partner name is ${p.partnerName}")
+
+
+            val kevin = User("Kevin",1)
+            println(kevin)
+
+
+
+            var (name, id)=kevin
+
+            val otherUsser=kevin.copy(id=2)
+
+            //id=4
+
+            println("User is $name and their id is $id")
+            println(kevin)
+            println(otherUsser)
         }
     }
 }
@@ -43,3 +57,5 @@ open class Person(val name: String, var age: Int, var isMarried: Boolean = false
 class Student(name: String, age: Int) : Person(name, age) {
 }
 
+
+data class User(val name: String, val id: Int)
