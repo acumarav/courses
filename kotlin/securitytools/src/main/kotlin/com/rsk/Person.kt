@@ -10,14 +10,17 @@ open class Person(val name: String, var age: Int) : Signatory {
     override fun toString(): String {
         return "$name, $age years old"
     }
+
+    init {
+        if (age < 1) throw Exception("invalid age")
+    }
 }
 
-class Student( name: String,  age: Int): Person(name,age){
-
+class Student(name: String, age: Int) : Person(name, age) {
 }
 
-fun main(args: Array<String>){
-    val p=Person("Alex", 35)
+fun main(args: Array<String>) {
+    val p = Person("Alex", 35)
     p.sign()
     println(p)
 }
