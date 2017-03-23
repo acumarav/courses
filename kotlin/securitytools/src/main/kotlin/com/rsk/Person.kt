@@ -12,6 +12,8 @@ open class Person(val name: String, var age: Int, var isMarried: Boolean = false
          this.isMarried = isMarried
      }*/
 
+    var partnerName: String=""
+
     override fun sign() = println("I am $name, and I can sign documents")
 
     override fun toString(): String {
@@ -29,6 +31,11 @@ open class Person(val name: String, var age: Int, var isMarried: Boolean = false
             val p = Person("Alex", 35)
             p.sign()
             println(p)
+
+            p.partnerName="Alice"
+            println("partner name is ${p.partnerName}")
+            p.partnerName="Bob"
+            println("partner name is ${p.partnerName}")
         }
     }
 }
