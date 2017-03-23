@@ -5,12 +5,12 @@ interface Signatory {
     fun sign()
 }
 
-open class Person(val name: String, var age: Int) : Signatory {
-    var isMarried = false
+open class Person(val name: String, var age: Int, var isMarried: Boolean = false) : Signatory {
+    /* var isMarried = false
 
-    constructor(name: String, age: Int, isMarried: Boolean) : this(name, age) {
-        this.isMarried = isMarried
-    }
+     constructor(name: String, age: Int, isMarried: Boolean) : this(name, age) {
+         this.isMarried = isMarried
+     }*/
 
     override fun sign() = println("I am $name, and I can sign documents")
 
@@ -21,13 +21,18 @@ open class Person(val name: String, var age: Int) : Signatory {
     init {
         if (age < 1) throw Exception("invalid age")
     }
+
+    companion object{
+        @JvmStatic
+        fun main(args: Array<String>) {
+            println("running from command line....")
+            val p = Person("Alex", 35)
+            p.sign()
+            println(p)
+        }
+    }
 }
 
 class Student(name: String, age: Int) : Person(name, age) {
 }
 
-fun main(args: Array<String>) {
-    val p = Person("Alex", 35)
-    p.sign()
-    println(p)
-}
