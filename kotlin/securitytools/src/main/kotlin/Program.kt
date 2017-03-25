@@ -4,7 +4,7 @@ fun main(args: Array<String>) {
 
     val providers = Providers()
 
-    val details = providers.getAllProviders()
+    val details = providers.getAllProvidersEx("Random")
     details.forEach (::println)
 
 }
