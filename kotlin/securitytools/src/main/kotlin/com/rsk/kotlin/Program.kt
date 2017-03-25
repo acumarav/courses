@@ -15,6 +15,20 @@ class Program {
 
             println("${p.name} ${p.age} years old")
 
+
+            try {
+                p.name = ""
+            }catch (e: Exception){
+                println(e.message)
+            }
+
+            val partner= p.partner
+            println(partner?.name)
+
         }
     }
+}
+
+class Student: Person(){
+
 }

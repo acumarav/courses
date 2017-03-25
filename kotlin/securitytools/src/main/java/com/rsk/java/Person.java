@@ -1,5 +1,7 @@
 package com.rsk.java;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by alex on 3/25/2017.
  */
@@ -13,6 +15,9 @@ public class Person {
     }
 
     public void setName(String name) {
+        if(name==null || "".equals(name)){
+            throw new IllegalArgumentException();
+        }
         this.name = name;
     }
 
@@ -24,6 +29,7 @@ public class Person {
         this.age = age;
     }
 
+    @Nullable
     public Person getPartner() {
         return partner;
     }
