@@ -1,6 +1,7 @@
 package com.rsk;
 
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -28,6 +29,16 @@ class CalculatorSpek : Spek({
             calculator?.accumulate(4)
             calculator?.accumulate(7)
             Assertions.assertEquals(11, calculator?.total)
+        }
+    }
+
+    describe("the output should be written correctly"){
+        var result: Result = mock()
+        var calculator= Calculator(result)
+
+        it("should write the output amount"){
+            calculator.accumulate(23)
+            verify(result).write(23)
         }
     }
 })
