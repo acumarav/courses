@@ -1,5 +1,6 @@
 package com.rsk;
 
+import com.nhaarman.mockito_kotlin.mock
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -9,7 +10,8 @@ class CalculatorSpek : Spek({
     var calculator: Calculator? = null
     describe("the calculator") {
         beforeEachTest {
-            calculator = Calculator(NullResult())
+            val result:Result=mock()
+            calculator = Calculator(result)
         }
 
         it("should add two number") {

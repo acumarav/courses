@@ -9,6 +9,7 @@ class Calculator(val output: Result) {
 
     fun accumulate(x: Int): Unit {
         total += x
+        output.write(total)
     }
 }
 
