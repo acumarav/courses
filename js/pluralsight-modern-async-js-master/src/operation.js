@@ -40,7 +40,7 @@ function getForecast(city, callback) {
   }, delayms)
 }
 
-suite.only("operations")
+//suite.only("operations")
 function fetchForecast(city) {
   const ops = new Operation();
   getForecast(city, ops.nodeCallback);
