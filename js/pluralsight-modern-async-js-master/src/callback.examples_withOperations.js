@@ -36,35 +36,16 @@ test("Verbose, hard to reuse, easy to forget, additional error handling mechanis
 
 test("Seams rip across program", function (done) {
     let _city;
-
-    let fetchCityOps = fetchCurrentCity();
-
     getCurrentCity((error, city) => _city = city
     );
 
-    getWeather(_city, function (error, weather) {
+    getWeather(_city, function (error, city) {
         if (error) {
             done(error);
             return;
         }
     });
 });
-
-test("lexical parallelism", function (done) {
-  const city = "NYC";
-  const weatherOp=fetchWeather(city);
-  const forcastOp=fetchForecast(city);
-
-  weatherOp.onCompletion(function (weather) {
-    forcastOp.onCompletion(function (forcast) {
-      console.log(`currently ${weather.temp} in the ${city} and forecast: ${forcast.fiveDay}`)
-
-      done()
-    })
-
-  })
-
-})
 
 test("Results aren't easily reused", function (done) {
 

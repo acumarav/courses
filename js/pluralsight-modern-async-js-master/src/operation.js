@@ -40,7 +40,7 @@ function getForecast(city, callback) {
   }, delayms)
 }
 
-//suite.only("operations")
+suite.only("operations")
 function fetchForecast(city) {
   const ops = new Operation();
   getForecast(city, ops.nodeCallback);
@@ -109,6 +109,10 @@ function Operation() {
       return;
     }
     operation.succeed(result);
+  }
+
+  operation.forwardCompletion = function (op) {
+    operation.onCompletion(op.succeed, op.fail);
   }
 
   return operation;
@@ -196,4 +200,15 @@ test("noop if no error handler passed", function (done) {
   operation.onCompletion(result => done(new Error("shouldn't succeed")));
   //trigger failure to make sure noop registered
   operation.onFailure(error => done());
+});
+
+
+test("life is full of async, nesting in inevitable", function (done) {
+  let weatherOp=new Operation();
+  fetchCurrentCity().onCompletion(function (city) {
+    fetchWeather(city).forwardCompletion(weatherOp)
+  })
+
+  weatherOp.onCompletion(weather => done());
+
 });
