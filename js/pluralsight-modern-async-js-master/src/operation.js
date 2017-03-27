@@ -75,20 +75,34 @@ function Operation() {
     const noop = function () {
     };
 
-    if (operation.state === "succeeded") {
-      onSuccess(operation.result)
+    const completionOp = new Operation();
+
+    function successHanlder() {
+      if (onSuccess) {
+        const callbackResult = onSuccess(operation.result);
+        if (callbackResult && callbackResult.onCompletion) {
+          callbackResult.forwardCompletion(completionOp);
+        }
+      }
+
     }
-    else if(operation.state === "failed"){
+
+    if (operation.state === "succeeded") {
+      successHanlder();
+    }
+    else if (operation.state === "failed") {
       onError(operation.error)
     }
     else {
-      operation.successReactions.push(onSuccess || noop);
+      operation.successReactions.push(successHanlder);
       operation.errorReactions.push(onError || noop);
     }
+
+    return completionOp;
   }
 
   operation.onFailure = function onFailure(onError) {
-    operation.onCompletion(null, onError);
+    return operation.onCompletion(null, onError);
   }
 
   operation.fail = function fail(error) {
@@ -204,11 +218,9 @@ test("noop if no error handler passed", function (done) {
 
 
 test("life is full of async, nesting in inevitable", function (done) {
-  let weatherOp=new Operation();
-  fetchCurrentCity().onCompletion(function (city) {
-    fetchWeather(city).forwardCompletion(weatherOp)
-  })
 
-  weatherOp.onCompletion(weather => done());
+  fetchCurrentCity()
+    .onCompletion(city => fetchWeather(city))
+    .onCompletion(weather => done());
 
 });
