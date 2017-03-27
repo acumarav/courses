@@ -76,6 +76,10 @@ function Operation() {
     };
     operation.successReactions.push(onSuccess || noop);
     operation.errorReactions.push(onError || noop);
+
+    if(operation.state==="succeeded"){
+      onSuccess(operation.result)
+    }
   }
 
   operation.onFailure = function onFailure(onError) {
@@ -83,10 +87,14 @@ function Operation() {
   }
 
   operation.fail = function fail(error) {
+    operation.state= "failed";
+    operation.error=error
     operation.errorReactions.forEach(r => r(error));
   }
 
   operation.succeed = function succeed(result) {
+    operation.state="succeeded";
+    operation.result=result;
     operation.successReactions.forEach(r => r(result));
   }
 
@@ -103,14 +111,20 @@ function Operation() {
 
 test('register success callback async', function (done) {
   var curCity = fetchCurrentCity();
-  curCity.onCompletion(city=>console.log(`City found: ${city}`));
+  curCity.onCompletion(city => {
+    console.log(`City found: ${city}`);
+  });
 
+  setTimeout(function () {
+    curCity.onCompletion( (city)=> {fetchWeather(city),
+    done()})
+  },1)
 });
 
 test('fetch Forecast fails if no city', function (done) {
-  const ops =fetchForecast();
-  ops.onCompletion(result=>done(new Error('Should not be called')))
-  ops.onFailure(error=>done());
+  const ops = fetchForecast();
+  ops.onCompletion(result => done(new Error('Should not be called')))
+  ops.onFailure(error => done());
 });
 
 test("fetchCurrentCity with separate success and error callbacks", function (done) {
@@ -129,7 +143,7 @@ test("fetchCurrentCity with separate success and error callbacks", function (don
 
 test("fetchCurrentCity pass the callbacks later on", function (done) {
   var conf = fetchCurrentCity();
-  const multiDone= callDone(done).afterTwoCalls();
+  const multiDone = callDone(done).afterTwoCalls();
 
   conf.onCompletion(
     (res) => multiDone(),
