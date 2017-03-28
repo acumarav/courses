@@ -101,6 +101,8 @@ function Operation() {
     return completionOp;
   }
 
+  operation.then=operation.onCompletion;
+
   operation.onFailure = function onFailure(onError) {
     return operation.onCompletion(null, onError);
   }
@@ -220,7 +222,11 @@ test("noop if no error handler passed", function (done) {
 test("life is full of async, nesting in inevitable", function (done) {
 
   fetchCurrentCity()
-    .onCompletion(city => fetchWeather(city))
-    .onCompletion(weather => done());
+    .then(fetchWeather)
+    .then(printTheWeather);
 
+  function printTheWeather(weather) {
+    console.log(weather);
+    done();
+  }
 });
