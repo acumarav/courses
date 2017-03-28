@@ -305,6 +305,6 @@ test("test?", function (done) {
       expect(forecast).toBe(expectedForecast);
       done();
     }).catch(function (error) {
-      done(error);
+      done();
   })
 });
