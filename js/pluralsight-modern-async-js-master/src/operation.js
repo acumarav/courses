@@ -89,7 +89,9 @@ function Operation() {
         const callbackResult = onSuccess(operation.result);
         if (callbackResult && callbackResult.then) {
           callbackResult.forwardCompletion(proxyOp);
+          return;
         }
+        proxyOp.succeed(callbackResult)
       }
       else {
         proxyOp.succeed(operation.result);
@@ -295,8 +297,8 @@ test("error recovery bypassed if not needed", function (done) {
 });
 
 
-test("test?", function (done) {
-  fetchCurrentCityThanFails()
+test("error fallthrough", function (done) {
+  fetchCurrentCity()
     .then(function (city) {
       console.log(city);
       return fetchForecast(city);
@@ -307,4 +309,20 @@ test("test?", function (done) {
     }).catch(function (error) {
       done();
   })
+});
+
+test("sync success call", function (done) {
+  fetchCurrentCity().then(function (city) {
+    return expectedForecast;
+  }).then(function (forcast) {
+    console.log(forcast);
+    done();
+  })
+});
+
+test("throw error recovery", function (done) {
+  fetchCurrentCity().then(function (city) {
+    throw new Error("Oh noes");
+    return fetchWeather(city);
+  }).catch(e => done());
 });
