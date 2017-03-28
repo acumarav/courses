@@ -68,49 +68,64 @@ function fetchWeather(city) {
 function Operation() {
   const operation = {
     successReactions: [],
-    errorReactions: []
+    errorReactions: [],
+    defaultValue: null,
   };
+
 
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
     const noop = function () {
     };
 
-    const completionOp = new Operation();
+    const proxyOp = new Operation();
 
     function successHanlder() {
       if (onSuccess) {
         const callbackResult = onSuccess(operation.result);
         if (callbackResult && callbackResult.onCompletion) {
-          callbackResult.forwardCompletion(completionOp);
+          callbackResult.forwardCompletion(proxyOp);
         }
       }
-
+    }
+    
+    function errorHandler() {
+      if(onError){
+        const callbackResult = onError(operation.error);
+        proxyOp.succeed(callbackResult);
+      }
     }
 
     if (operation.state === "succeeded") {
       successHanlder();
     }
     else if (operation.state === "failed") {
-      onError(operation.error)
+      errorHandler();
     }
     else {
       operation.successReactions.push(successHanlder);
-      operation.errorReactions.push(onError || noop);
+      operation.errorReactions.push(errorHandler);
     }
 
-    return completionOp;
+    return proxyOp;
   }
 
   operation.then = operation.onCompletion;
 
   operation.onFailure = function onFailure(onError) {
-    return operation.onCompletion(null, onError);
+    return operation.then(null, onError);
   }
+
+  operation.catch=operation.onFailure;
 
   operation.fail = function fail(error) {
     operation.state = "failed";
     operation.error = error;
-    operation.errorReactions.forEach(r => r(error));
+    if(operation.defaultValue){
+      operation.result=operation.defaultValue;
+    }
+    else {
+      operation.errorReactions.forEach(r => r(error));
+    }
   }
 
   operation.succeed = function succeed(result) {
@@ -240,7 +255,7 @@ function fetchCurrentCityThanFails() {
 test("error recovery", function (done) {
 
   fetchCurrentCityThanFails()
-    .orElse(()=>"default city")
+    .catch(() => "default city")
     .then(function (city) {
       expect(city).toBe("default city");
       done();
