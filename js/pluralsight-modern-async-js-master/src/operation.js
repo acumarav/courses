@@ -1,4 +1,5 @@
 const delayms = 1;
+const expectedCity = "New York, NY";
 
 function getCurrentCity(callback) {
   setTimeout(function () {
@@ -252,12 +253,20 @@ function fetchCurrentCityThanFails() {
   return op;
 }
 
-test("error recovery", function (done) {
-
+test("sync error recovery", function (done) {
   fetchCurrentCityThanFails()
     .catch(() => "default city")
     .then(function (city) {
       expect(city).toBe("default city");
+      done();
+    })
+});
+
+test("async error recovery", function (done) {
+  fetchCurrentCityThanFails()
+    .catch(fetchCurrentCity)
+    .then(function (city) {
+      expect(city).toBe(expectedCity);
       done();
     })
 });
