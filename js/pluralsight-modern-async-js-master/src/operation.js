@@ -101,7 +101,7 @@ function Operation() {
     return completionOp;
   }
 
-  operation.then=operation.onCompletion;
+  operation.then = operation.onCompletion;
 
   operation.onFailure = function onFailure(onError) {
     return operation.onCompletion(null, onError);
@@ -229,4 +229,20 @@ test("life is full of async, nesting in inevitable", function (done) {
     console.log(weather);
     done();
   }
+});
+
+function fetchCurrentCityThanFails() {
+  var op = new Operation();
+  doLater(() => op.fail("GPS broken"));
+  return op;
+}
+
+test("error recovery", function (done) {
+
+  fetchCurrentCityThanFails()
+    .orElse(()=>"default city")
+    .then(function (city) {
+      expect(city).toBe("default city");
+      done();
+    })
 });
