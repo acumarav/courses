@@ -1,5 +1,8 @@
 const delayms = 1;
 const expectedCity = "New York, NY";
+const expectedForecast = {
+  fiveDay: [60, 70, 80, 45, 50]
+};
 
 function getCurrentCity(callback) {
   setTimeout(function () {
@@ -32,9 +35,10 @@ function getForecast(city, callback) {
       return;
     }
 
-    const fiveDay = {
+    const fiveDay = expectedForecast;
+    /*const fiveDay = {
       fiveDay: [60, 70, 80, 45, 50]
-    };
+    };*/
 
     callback(null, fiveDay)
 
@@ -83,16 +87,26 @@ function Operation() {
     function successHanlder() {
       if (onSuccess) {
         const callbackResult = onSuccess(operation.result);
-        if (callbackResult && callbackResult.onCompletion) {
+        if (callbackResult && callbackResult.then) {
           callbackResult.forwardCompletion(proxyOp);
         }
       }
+      else {
+        proxyOp.succeed(operation.result);
+      }
     }
-    
+
     function errorHandler() {
-      if(onError){
+      if (onError) {
         const callbackResult = onError(operation.error);
+        if (callbackResult && callbackResult.then) {
+          callbackResult.forwardCompletion(proxyOp);
+          return;
+        }
         proxyOp.succeed(callbackResult);
+      }
+      else {
+        proxyOp.fail(operation.error);
       }
     }
 
@@ -116,13 +130,13 @@ function Operation() {
     return operation.then(null, onError);
   }
 
-  operation.catch=operation.onFailure;
+  operation.catch = operation.onFailure;
 
   operation.fail = function fail(error) {
     operation.state = "failed";
     operation.error = error;
-    if(operation.defaultValue){
-      operation.result=operation.defaultValue;
+    if (operation.defaultValue) {
+      operation.result = operation.defaultValue;
     }
     else {
       operation.errorReactions.forEach(r => r(error));
@@ -269,4 +283,28 @@ test("async error recovery", function (done) {
       expect(city).toBe(expectedCity);
       done();
     })
+});
+
+test("error recovery bypassed if not needed", function (done) {
+  fetchCurrentCity()
+    .catch(error => "default city")
+    .then(function (city) {
+      expect(city).toBe(expectedCity);
+      done();
+    });
+});
+
+
+test("test?", function (done) {
+  fetchCurrentCityThanFails()
+    .then(function (city) {
+      console.log(city);
+      return fetchForecast(city);
+    })
+    .then(function (forecast) {
+      expect(forecast).toBe(expectedForecast);
+      done();
+    }).catch(function (error) {
+      done(error);
+  })
 });
