@@ -37,8 +37,8 @@ function getForecast(city, callback) {
 
     const fiveDay = expectedForecast;
     /*const fiveDay = {
-      fiveDay: [60, 70, 80, 45, 50]
-    };*/
+     fiveDay: [60, 70, 80, 45, 50]
+     };*/
 
     callback(null, fiveDay)
 
@@ -86,7 +86,13 @@ function Operation() {
 
     function successHanlder() {
       if (onSuccess) {
-        const callbackResult = onSuccess(operation.result);
+        let callbackResult;
+        try {
+          callbackResult = onSuccess(operation.result);
+        } catch (e) {
+          proxyOp.fail(e);
+          return;
+        }
         if (callbackResult && callbackResult.then) {
           callbackResult.forwardCompletion(proxyOp);
           return;
@@ -100,7 +106,14 @@ function Operation() {
 
     function errorHandler() {
       if (onError) {
-        const callbackResult = onError(operation.error);
+        let callbackResult
+        try {
+          callbackResult = onError(operation.error);
+        } catch (e) {
+          proxyOp.fail(e);
+          return;
+        }
+
         if (callbackResult && callbackResult.then) {
           callbackResult.forwardCompletion(proxyOp);
           return;
@@ -307,7 +320,7 @@ test("error fallthrough", function (done) {
       expect(forecast).toBe(expectedForecast);
       done();
     }).catch(function (error) {
-      done();
+    done();
   })
 });
 
@@ -325,4 +338,20 @@ test("throw error recovery", function (done) {
     throw new Error("Oh noes");
     return fetchWeather(city);
   }).catch(e => done());
+});
+
+
+test("error, error recovery", function (done) {
+  fetchCurrentCity().then(function (city) {
+    throw new Error("Oh noes");
+    return fetchWeather(city);
+  })
+    .catch(function (error) {
+      expect(error.message).toBe("Oh noes");
+      throw new Error("Error from an error handler, ohhh my!");
+    })
+    .catch(function (error) {
+      expect(error.message).toBe("Error from an error handler, ohhh my!");
+      done();
+    });
 });
