@@ -85,44 +85,50 @@ function Operation() {
     const proxyOp = new Operation();
 
     function successHanlder() {
-      if (onSuccess) {
-        let callbackResult;
-        try {
-          callbackResult = onSuccess(operation.result);
-        } catch (e) {
-          proxyOp.fail(e);
-          return;
+      doLater(function asyncsuccessHanlder() {
+          if (onSuccess) {
+            let callbackResult;
+            try {
+              callbackResult = onSuccess(operation.result);
+            } catch (e) {
+              proxyOp.fail(e);
+              return;
+            }
+            if (callbackResult && callbackResult.then) {
+              callbackResult.forwardCompletion(proxyOp);
+              return;
+            }
+            proxyOp.succeed(callbackResult)
+          }
+          else {
+            proxyOp.succeed(operation.result);
+          }
         }
-        if (callbackResult && callbackResult.then) {
-          callbackResult.forwardCompletion(proxyOp);
-          return;
-        }
-        proxyOp.succeed(callbackResult)
-      }
-      else {
-        proxyOp.succeed(operation.result);
-      }
+      )
     }
 
     function errorHandler() {
-      if (onError) {
-        let callbackResult
-        try {
-          callbackResult = onError(operation.error);
-        } catch (e) {
-          proxyOp.fail(e);
-          return;
-        }
+      doLater(      function asyncErrorHandler() {
+          if (onError) {
+            let callbackResult
+            try {
+              callbackResult = onError(operation.error);
+            } catch (e) {
+              proxyOp.fail(e);
+              return;
+            }
 
-        if (callbackResult && callbackResult.then) {
-          callbackResult.forwardCompletion(proxyOp);
-          return;
+            if (callbackResult && callbackResult.then) {
+              callbackResult.forwardCompletion(proxyOp);
+              return;
+            }
+            proxyOp.succeed(callbackResult);
+          }
+          else {
+            proxyOp.fail(operation.error);
+          }
         }
-        proxyOp.succeed(callbackResult);
-      }
-      else {
-        proxyOp.fail(operation.error);
-      }
+      );
     }
 
     if (operation.state === "succeeded") {
@@ -397,18 +403,31 @@ function fetchCurrentCity2() {
   return op;
 }
 
-test("what does this print out?", function (done) {
+/*test("what does this print out?", function (done) {
   let ui;
-
   fetchCurrentCity2().then(function (city) {
     ui = `You are from ${city}`;
   });
 
   ui = "loading...";
-
-
   setTimeout(function () {
     expect(ui).toBe(`You are from New York, NY`);
     done();
   }, 1000)
-})
+});*/
+
+test("ensure success handlers are async", function (done) {
+  var op = new Operation();
+  op.succeed("New York, NY");
+  op.then(function (city) {
+    doneAlias();
+  })
+  const doneAlias=done;
+});
+
+test("ensure error hanlders are async", function (done) {
+  var op = new Operation();
+  op.fail(new Error("oh noes"));
+  op.catch(err=>doneAlias());
+  const doneAlias=done;
+});
