@@ -148,6 +148,10 @@ function Operation() {
   operation.catch = operation.onFailure;
 
   operation.fail = function fail(error) {
+    if (operation.complete) {
+      return;
+    }
+    operation.complete = true;
     operation.state = "failed";
     operation.error = error;
     if (operation.defaultValue) {
@@ -159,9 +163,12 @@ function Operation() {
   }
 
   operation.succeed = function succeed(result) {
-    operation.state = "succeeded";
-    operation.result = result;
-    operation.successReactions.forEach(r => r(result));
+    if (!operation.complete) {
+      operation.complete = true;
+      operation.state = "succeeded";
+      operation.result = result;
+      operation.successReactions.forEach(r => r(result));
+    }
   }
 
   operation.nodeCallback = function nodeCallback(error, result) {
@@ -355,3 +362,53 @@ test("error, error recovery", function (done) {
       done();
     });
 });
+
+function fetchCurrentCityIndecisive() {
+  const operation = new Operation();
+  doLater(function () {
+    operation.succeed("NYC");
+    operation.succeed("Philly");
+  });
+  return operation;
+}
+
+
+test("protect from doubling up on success", function (done) {
+  fetchCurrentCityIndecisive().then(e => done());
+})
+
+function fetchCurrentCityRepeatedFails() {
+  const operation = new Operation();
+  doLater(function () {
+    operation.fail(new Error("I failed"));
+    operation.fail(new Error("I failed again!"));
+  });
+  return operation;
+}
+
+
+test("protect from doubling up on failures", function (done) {
+  fetchCurrentCityRepeatedFails().catch(e => done());
+})
+
+function fetchCurrentCity2() {
+  let op = new Operation();
+  op.succeed("New York, NY");
+  return op;
+}
+
+test("what does this print out?", function (done) {
+  let ui;
+
+  fetchCurrentCity2().then(function (city) {
+    ui = `You are from ${city}`;
+  });
+
+  ui = "loading...";
+
+
+  setTimeout(function () {
+    expect(ui).toBe(`You are from New York, NY`);
+    done();
+  }, 1000)
+})
