@@ -78,11 +78,20 @@ function Operation() {
   };
 
 
+  operation.resolve = function resolve(value) {
+    if (value && value.then) {
+      value.forwardCompletion(operation);
+      return;
+    }
+    operation.succeed(value);
+  }
+
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
     const noop = function () {
     };
 
     const proxyOp = new Operation();
+
 
     function successHanlder() {
       doLater(function asyncsuccessHanlder() {
@@ -94,11 +103,7 @@ function Operation() {
               proxyOp.fail(e);
               return;
             }
-            if (callbackResult && callbackResult.then) {
-              callbackResult.forwardCompletion(proxyOp);
-              return;
-            }
-            proxyOp.succeed(callbackResult)
+            proxyOp.resolve(callbackResult);
           }
           else {
             proxyOp.succeed(operation.result);
@@ -108,7 +113,7 @@ function Operation() {
     }
 
     function errorHandler() {
-      doLater(      function asyncErrorHandler() {
+      doLater(function asyncErrorHandler() {
           if (onError) {
             let callbackResult
             try {
@@ -117,12 +122,7 @@ function Operation() {
               proxyOp.fail(e);
               return;
             }
-
-            if (callbackResult && callbackResult.then) {
-              callbackResult.forwardCompletion(proxyOp);
-              return;
-            }
-            proxyOp.succeed(callbackResult);
+            proxyOp.resolve(callbackResult);
           }
           else {
             proxyOp.fail(operation.error);
@@ -167,6 +167,7 @@ function Operation() {
       operation.errorReactions.forEach(r => r(error));
     }
   }
+  operation.reject = operation.fail;
 
   operation.succeed = function succeed(result) {
     if (!operation.complete) {
@@ -186,7 +187,7 @@ function Operation() {
   }
 
   operation.forwardCompletion = function (op) {
-    operation.onCompletion(op.succeed, op.fail);
+    operation.then(op.succeed, op.fail);
   }
 
   return operation;
@@ -404,17 +405,17 @@ function fetchCurrentCity2() {
 }
 
 /*test("what does this print out?", function (done) {
-  let ui;
-  fetchCurrentCity2().then(function (city) {
-    ui = `You are from ${city}`;
-  });
+ let ui;
+ fetchCurrentCity2().then(function (city) {
+ ui = `You are from ${city}`;
+ });
 
-  ui = "loading...";
-  setTimeout(function () {
-    expect(ui).toBe(`You are from New York, NY`);
-    done();
-  }, 1000)
-});*/
+ ui = "loading...";
+ setTimeout(function () {
+ expect(ui).toBe(`You are from New York, NY`);
+ done();
+ }, 1000)
+ });*/
 
 test("ensure success handlers are async", function (done) {
   var op = new Operation();
@@ -422,12 +423,25 @@ test("ensure success handlers are async", function (done) {
   op.then(function (city) {
     doneAlias();
   })
-  const doneAlias=done;
+  const doneAlias = done;
 });
 
 test("ensure error hanlders are async", function (done) {
   var op = new Operation();
   op.fail(new Error("oh noes"));
-  op.catch(err=>doneAlias());
-  const doneAlias=done;
+  op.catch(err => doneAlias());
+  const doneAlias = done;
+});
+
+test("what is resolve?", function (done) {
+  const fetchCurrentCity = new Operation();
+  fetchCurrentCity.succeed("NYC");
+
+  const fetchClone = new Operation();
+  fetchClone.resolve(fetchCurrentCity);
+
+  fetchClone.then(function (city) {
+    expect(city).toBe("NYC");
+    done();
+  })
 });
