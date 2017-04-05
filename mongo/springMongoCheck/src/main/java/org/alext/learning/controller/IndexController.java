@@ -7,14 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
+@Controller
+@RequestMapping("/")
 public class IndexController {
 
     @Autowired
     private AssetRepository assetRepository;
 
-    @RequestMapping("/")
+    @RequestMapping
     public String index(Model model) {
-        return "does index";
+        return "index";
     }
 }
