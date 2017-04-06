@@ -8,10 +8,16 @@
     <artifactId>springMongoCheck</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <packaging>jar</packaging>
+
     <properties>
+        <start-class>org.alext.learning.App</start-class>
         <spring.data.mongodb.version>1.9.3.RELEASE</spring.data.mongodb.version>
         <spring.version>4.3.4.RELEASE</spring.version>
         <org.apache.commons.lang.version>3.4</org.apache.commons.lang.version>
+        <compiler.plugin.version>3.5.1</compiler.plugin.version>
+        <java.version>1.8</java.version>
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
     </properties>
 
     <parent>
@@ -135,6 +141,20 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
