@@ -83,12 +83,7 @@ function Operation() {
       return;
     }
     operation.complete = true;
-
-    if (value && value.then) {
-      value.then(internalResoleve, internalReject);
-      return;
-    }
-    internalResoleve(value);
+    internalResolve(value);
   }
 
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
@@ -179,7 +174,11 @@ function Operation() {
   }
 
 
-  function internalResoleve(result) {
+  function internalResolve(result) {
+    if (result && result.then) {
+      result.then(internalResolve, internalReject);
+      return;
+    }
     operation.state = "succeeded";
     operation.result = result;
     operation.successReactions.forEach(r => r(result));
