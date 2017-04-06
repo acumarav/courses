@@ -164,10 +164,10 @@
     <profiles>
         <profile>
             <id>obfuscation</id>
-            <properties>
+            <!--<properties>
                 <inJarName>springMongoCheck-1.0-SNAPSHOT.jar</inJarName>
                 <outJarName>springMongoCheck-1.0-obfuscated.jar</outJarName>
-            </properties>
+            </properties>-->
 
             <build>
                 <plugins>
