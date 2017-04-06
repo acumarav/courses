@@ -79,8 +79,13 @@ function Operation() {
 
 
   operation.resolve = function resolve(value) {
+    if (operation.complete) {
+      return;
+    }
+    operation.complete = true;
+
     if (value && value.then) {
-      value.then(operation.resolve, operation.reject);
+      value.then(succeed, internalReject);
       return;
     }
     succeed(value);
@@ -158,6 +163,11 @@ function Operation() {
       return;
     }
     operation.complete = true;
+    internalReject(error);
+  }
+  operation.reject = operation.fail;
+
+  function internalReject(error) {
     operation.state = "failed";
     operation.error = error;
     if (operation.defaultValue) {
@@ -167,15 +177,16 @@ function Operation() {
       operation.errorReactions.forEach(r => r(error));
     }
   }
-  operation.reject = operation.fail;
+
 
   function succeed(result) {
-    if (!operation.complete) {
-      operation.complete = true;
+    /*if (operation.complete) {
+      return;
+    }
+      operation.complete = true;*/
       operation.state = "succeeded";
       operation.result = result;
       operation.successReactions.forEach(r => r(result));
-    }
   };
 
   operation.nodeCallback = function nodeCallback(error, result) {
