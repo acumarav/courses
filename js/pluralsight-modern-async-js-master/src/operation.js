@@ -85,10 +85,10 @@ function Operation() {
     operation.complete = true;
 
     if (value && value.then) {
-      value.then(succeed, internalReject);
+      value.then(internalResoleve, internalReject);
       return;
     }
-    succeed(value);
+    internalResoleve(value);
   }
 
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
@@ -179,14 +179,10 @@ function Operation() {
   }
 
 
-  function succeed(result) {
-    /*if (operation.complete) {
-      return;
-    }
-      operation.complete = true;*/
-      operation.state = "succeeded";
-      operation.result = result;
-      operation.successReactions.forEach(r => r(result));
+  function internalResoleve(result) {
+    operation.state = "succeeded";
+    operation.result = result;
+    operation.successReactions.forEach(r => r(result));
   };
 
   operation.nodeCallback = function nodeCallback(error, result) {
@@ -196,11 +192,6 @@ function Operation() {
     }
     operation.resolve(result);
   }
-
-  /*operation.forwardCompletion = function (op) {
-    operation.then(op.succeed, op.fail);
-  }*/
-
   return operation;
 }
 
