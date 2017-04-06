@@ -80,10 +80,10 @@ function Operation() {
 
   operation.resolve = function resolve(value) {
     if (value && value.then) {
-      value.forwardCompletion(operation);
+      value.then(operation.resolve, operation.reject);
       return;
     }
-    operation.succeed(value);
+    succeed(value);
   }
 
   operation.onCompletion = function setCallbacks(onSuccess, onError) {
@@ -106,7 +106,7 @@ function Operation() {
             proxyOp.resolve(callbackResult);
           }
           else {
-            proxyOp.succeed(operation.result);
+            proxyOp.resolve(operation.result);
           }
         }
       )
@@ -169,26 +169,26 @@ function Operation() {
   }
   operation.reject = operation.fail;
 
-  operation.succeed = function succeed(result) {
+  function succeed(result) {
     if (!operation.complete) {
       operation.complete = true;
       operation.state = "succeeded";
       operation.result = result;
       operation.successReactions.forEach(r => r(result));
     }
-  }
+  };
 
   operation.nodeCallback = function nodeCallback(error, result) {
     if (error) {
-      operation.fail(error);
+      operation.reject(error);
       return;
     }
-    operation.succeed(result);
+    operation.resolve(result);
   }
 
-  operation.forwardCompletion = function (op) {
+  /*operation.forwardCompletion = function (op) {
     operation.then(op.succeed, op.fail);
-  }
+  }*/
 
   return operation;
 }
@@ -373,8 +373,8 @@ test("error, error recovery", function (done) {
 function fetchCurrentCityIndecisive() {
   const operation = new Operation();
   doLater(function () {
-    operation.succeed("NYC");
-    operation.succeed("Philly");
+    operation.resolve("NYC");
+    operation.resolve("Philly");
   });
   return operation;
 }
@@ -398,28 +398,9 @@ test("protect from doubling up on failures", function (done) {
   fetchCurrentCityRepeatedFails().catch(e => done());
 })
 
-function fetchCurrentCity2() {
-  let op = new Operation();
-  op.succeed("New York, NY");
-  return op;
-}
-
-/*test("what does this print out?", function (done) {
- let ui;
- fetchCurrentCity2().then(function (city) {
- ui = `You are from ${city}`;
- });
-
- ui = "loading...";
- setTimeout(function () {
- expect(ui).toBe(`You are from New York, NY`);
- done();
- }, 1000)
- });*/
-
 test("ensure success handlers are async", function (done) {
   var op = new Operation();
-  op.succeed("New York, NY");
+  op.resolve("New York, NY");
   op.then(function (city) {
     doneAlias();
   })
@@ -435,7 +416,7 @@ test("ensure error hanlders are async", function (done) {
 
 test("what is resolve?", function (done) {
   const fetchCurrentCity = new Operation();
-  fetchCurrentCity.succeed("NYC");
+  fetchCurrentCity.resolve("NYC");
 
   const fetchClone = new Operation();
   fetchClone.resolve(fetchCurrentCity);
