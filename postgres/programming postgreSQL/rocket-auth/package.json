@@ -1,0 +1,21 @@
+{
+  "name": "rocket-auth",
+  "version": "1.0.0",
+  "description": "a database project for our auth needs",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "alex t",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "commander": "^2.9.0",
+    "massive": "^2.6.0",
+    "simple-ssh": "^0.8.9",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  }
+}
