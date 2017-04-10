@@ -55,8 +55,17 @@ function fetchForecast(city) {
 
 function fetchCurrentCity() {
 
-  const ops = new Operation();
-  getCurrentCity(ops.nodeCallback);
+  const ops = new Operation(function executor(resolve, reject) {
+    getCurrentCity(function nodeCallback(error, result) {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(result);
+      }
+    );
+  });
+
 
   return ops;
 }
