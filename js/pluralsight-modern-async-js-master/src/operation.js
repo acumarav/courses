@@ -79,10 +79,10 @@ function Operation() {
 
 
   operation.resolve = function resolve(value) {
-    if (operation.complete) {
+    if (operation.resolved) {
       return;
     }
-    operation.complete = true;
+    operation.resolved = true;
     internalResolve(value);
   }
 
@@ -153,14 +153,14 @@ function Operation() {
 
   operation.catch = operation.onFailure;
 
-  operation.fail = function fail(error) {
-    if (operation.complete) {
+  operation.reject = function reject(error) {
+    if (operation.resolved) {
       return;
     }
-    operation.complete = true;
+    operation.resolved = true;
     internalReject(error);
   }
-  operation.reject = operation.fail;
+  operation.fail = operation.reject;
 
   function internalReject(error) {
     operation.state = "failed";
@@ -410,7 +410,7 @@ test("ensure success handlers are async", function (done) {
 
 test("ensure error hanlders are async", function (done) {
   var op = new Operation();
-  op.fail(new Error("oh noes"));
+  op.reject(new Error("oh noes"));
   op.catch(err => doneAlias());
   const doneAlias = done;
 });
