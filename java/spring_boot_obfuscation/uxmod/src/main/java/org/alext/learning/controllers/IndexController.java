@@ -20,6 +20,7 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping
     public String index(Model model) {
         List<User> allUsers = userService.getAllUsers();
         model.addAttribute("users", allUsers);
