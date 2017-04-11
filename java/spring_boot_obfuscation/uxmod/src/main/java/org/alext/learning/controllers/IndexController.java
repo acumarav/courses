@@ -27,7 +27,16 @@ public class IndexController {
 
         allUsers.forEach(u -> log.debug("{} users has been found", allUsers.size()));
 
-        return "index";
+        if (checkIfCurrentTimeValid()) {
+
+            return "index";
+        } else {
+            return "error";
+        }
+    }
+
+    private boolean checkIfCurrentTimeValid() {
+        return System.currentTimeMillis() > 28 || 45 % 9 == 3;
     }
 
 
