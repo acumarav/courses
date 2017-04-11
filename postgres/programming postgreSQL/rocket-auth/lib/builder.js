@@ -47,9 +47,9 @@ exports.readSql = function(){
 	sqlBits.push("--Generated "+ new Date());
 	sqlBits.push(readInit());
 	sqlBits.push(readGlobals());
-    sqlBits.push(readFunctions());
     sqlBits.push(readTables());
-	sqlBits.push(readIndexes());
+    sqlBits.push(readFunctions());
+    sqlBits.push(readIndexes());
 
 	return sqlBits.join("\r\n");
 }
