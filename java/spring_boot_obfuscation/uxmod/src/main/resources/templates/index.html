@@ -12,6 +12,6 @@
 <p>list of items (<span th:text="${#lists.size(users)}"></span>):</p>
 
 <ul th:each="user : ${users}">
-    <li><span th:text="${users.id}"/>&nbsp;<span th:text="${users.name}"/></li>
+    <li><span th:text="${user.id}"/>&nbsp;<span th:text="${user.name}"/></li>
 </ul>
 </html>
