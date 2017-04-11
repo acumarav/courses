@@ -4,11 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <!--
+        <parent>
+            <groupId>org.alext.learning</groupId>
+            <artifactId>spring_boot_obfuscation_parent</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </parent>-->
 
     <parent>
-        <groupId>org.alext.learning</groupId>
-        <artifactId>spring_boot_obfuscation_parent</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.1.RELEASE</version>
     </parent>
 
     <groupId>org.alext.learning</groupId>
@@ -16,6 +22,16 @@
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
+    <name>01. bsmod</name>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <compiler.plugin.version>3.5.1</compiler.plugin.version>
+        <maven.jar.plugin.version>2.2</maven.jar.plugin.version>
+        <org.apache.commons.lang.version>3.4</org.apache.commons.lang.version>
+        <commons.io.version>2.5</commons.io.version>
+    </properties>
 
     <dependencies>
         <dependency>

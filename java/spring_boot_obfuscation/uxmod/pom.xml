@@ -11,12 +11,14 @@
 
     <artifactId>uxmod</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>02. uxmod</name>
 
 
     <packaging>jar</packaging>
 
     <properties>
         <start-class>org.alext.learning.UxApp</start-class>
+        <obfuscation.classifier></obfuscation.classifier>
     </properties>
 
     <dependencies>
@@ -25,9 +27,19 @@
             <artifactId>bsmod</artifactId>
             <groupId>org.alext.learning</groupId>
             <version>1.0-SNAPSHOT</version>
+            <classifier>${obfuscation.classifier}</classifier>
         </dependency>
 
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>obfuscation</id>
+            <properties>
+                <obfuscation.classifier>small</obfuscation.classifier>
+            </properties>
+        </profile>
+    </profiles>
 
 
 </project>

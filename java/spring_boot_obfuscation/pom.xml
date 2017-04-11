@@ -8,6 +8,7 @@
     <artifactId>spring_boot_obfuscation_parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>00. parent</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -74,21 +75,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
-       <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
-
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- END Spring -->
-
 
 
         <dependency>
@@ -131,6 +123,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.alext.learning.UxApp</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
