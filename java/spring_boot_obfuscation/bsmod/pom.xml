@@ -150,6 +150,7 @@
                         </executions>
                         <configuration>
                             <attach>true</attach>
+                            <addMavenDescriptor>true</addMavenDescriptor>
                             <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
                             <libs>
                                 <lib>${java.home}/lib/rt.jar</lib>
