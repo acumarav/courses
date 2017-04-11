@@ -14,4 +14,9 @@
 <ul th:each="user : ${users}">
     <li><span th:text="${user.id}"/>&nbsp;<span th:text="${user.name}"/></li>
 </ul>
+<p>
+    <strong>Time:&nbsp;
+        <span th:text="${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm ss')}"></span>
+    </strong>
+</p>
 </html>
