@@ -1,5 +1,5 @@
 --timestamp (41) | shardid (13) | userid (10)
-set SEARCH_PATH  = membership;
+set search_path = membership;
 create SEQUENCE  id_sequence;
 
 CREATE OR REPLACE FUNCTION id_generator(OUT new_id bigint) AS $$
