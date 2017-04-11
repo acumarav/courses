@@ -32,14 +32,73 @@
     <profiles>
         <profile>
             <id>obfuscation</id>
-            <properties>
-            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>
+                                        ${project.build.directory}/libs
+                                    </outputDirectory>
+                                    <overWriteReleases>false</overWriteReleases>
+                                    <overWriteSnapshots>true</overWriteSnapshots>
+                                    <overWriteIfNewer>true</overWriteIfNewer>
+                                    <includeScope>runtime</includeScope>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>proguard</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <attach>true</attach>
+                            <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
+                            <libs>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                                <lib>${java.home}/lib/jce.jar</lib>
+                            </libs>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                                <configuration>
+                                    <start-class>org.alext.learning.UxApp</start-class>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
         </profile>
     </profiles>
 
     <build>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.0.0</version>
@@ -51,9 +110,6 @@
                         </includes>
                     </artifactSet>
                     <transformers>
-                       <!-- <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>org.alext.learning.UxApp</mainClass>
-                        </transformer>-->
                     </transformers>
                 </configuration>
                 <executions>
@@ -64,7 +120,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
