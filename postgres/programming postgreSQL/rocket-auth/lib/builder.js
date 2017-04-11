@@ -13,7 +13,7 @@ var loadFiles = function(dir){
 	var result = [];
 	var files = fs.readdirSync(dir);
 	_.each(files,function(file){
-	if(file.indexOf(".sql")>0){
+	if(path.extname(file)===".sql"){
 		var sql = fs.readFileSync(path.join(dir, file),{encoding: "utf-8"});
 		result.push(sql);
 	}
@@ -47,8 +47,8 @@ exports.readSql = function(){
 	sqlBits.push("--Generated "+ new Date());
 	sqlBits.push(readInit());
 	sqlBits.push(readGlobals());
-	sqlBits.push(readTables());
-	sqlBits.push(readFunctions());
+    sqlBits.push(readFunctions());
+    sqlBits.push(readTables());
 	sqlBits.push(readIndexes());
 
 	return sqlBits.join("\r\n");
