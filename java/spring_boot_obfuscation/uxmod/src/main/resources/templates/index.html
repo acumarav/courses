@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index page</title>
+</head>
+<body>
+<h3>User index page</h3>
+</body>
+<p>list of items (<span th:text="${#lists.size(users)}"></span>):</p>
+
+<ul th:each="user : ${users}">
+    <li><span th:text="${users.id}"/>&nbsp;<span th:text="${users.name}"/></li>
+</ul>
+</html>
