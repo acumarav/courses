@@ -2,21 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>spring_boot_obfuscation_parent</artifactId>
-        <groupId>org.alext.learning</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.alext.learning</groupId>
+        <artifactId>spring_boot_obfuscation_parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.alext.learning</groupId>
     <artifactId>bsmod</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
     <dependencies>
-
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -113,6 +114,46 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>obfuscation</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <version>2.0.14</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>proguard</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <attach>true</attach>
+                            <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
+                            <libs>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                                <lib>${java.home}/lib/jce.jar</lib>
+                            </libs>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sf.proguard</groupId>
+                                <artifactId>proguard-base</artifactId>
+                                <version>5.3.3</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
 
 </project>
