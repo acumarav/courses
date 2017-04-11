@@ -151,10 +151,10 @@
                         <configuration>
                             <attach>true</attach>
                             <addMavenDescriptor>true</addMavenDescriptor>
+                            <appendClassifier>true</appendClassifier>
                             <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
                             <libs>
                                 <lib>${java.home}/lib/rt.jar</lib>
-                                <lib>${java.home}/lib/jce.jar</lib>
                             </libs>
                         </configuration>
                         <dependencies>

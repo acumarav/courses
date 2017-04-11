@@ -36,6 +36,7 @@
         <profile>
             <id>obfuscation</id>
             <properties>
+                <!--<obfuscation.classifier></obfuscation.classifier>-->
                 <obfuscation.classifier>small</obfuscation.classifier>
             </properties>
         </profile>
