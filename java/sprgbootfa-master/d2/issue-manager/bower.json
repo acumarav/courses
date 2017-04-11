@@ -1,0 +1,28 @@
+{
+  "name": "issue-manager",
+  "homepage": "https://github.com/tsuria/sprgbootfa",
+  "authors": [
+    "alex <tsumarev@gmail.com>"
+  ],
+  "description": "issue-manager book sample",
+  "main": "",
+  "keywords": [
+    "demo",
+    "sample",
+    "and",
+    "etc."
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/main/resources/public/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-mobile-bower": "^1.4.5"
+  }
+}

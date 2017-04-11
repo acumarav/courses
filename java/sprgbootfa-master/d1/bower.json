@@ -1,0 +1,25 @@
+{
+  "name": "app_with_bower",
+  "homepage": "https://github.com/tsuria/sprgbootfa",
+  "authors": [
+    "alex <tsumarev@gmail.com>"
+  ],
+  "description": "bower sample",
+  "main": "",
+  "keywords": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
+}
