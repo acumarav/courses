@@ -29,7 +29,6 @@
             <version>1.0-SNAPSHOT</version>
             <classifier>${obfuscation.classifier}</classifier>
         </dependency>
-
     </dependencies>
 
     <profiles>
