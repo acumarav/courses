@@ -427,12 +427,12 @@ test("protect from doubling up on failures", function (done) {
 
 test("ensure success handlers are async", function (done) {
   /*var op = new Operation(function executor(resolve, reject) {
-    resolve("New York, NY");
-  });
-  //op.resolve("New York, NY");
-  op.then(function (city) {
-    doneAlias();
-  });*/
+   resolve("New York, NY");
+   });
+   //op.resolve("New York, NY");
+   op.then(function (city) {
+   doneAlias();
+   });*/
   Operation.resolve("New York, NY").then(function (city) {
     doneAlias();
   });
@@ -457,4 +457,15 @@ test("what is resolve?", function (done) {
     expect(city).toBe("NYC");
     done();
   })
+});
+
+test("sync result transformation", function (done) {
+   fetchCurrentCity().then(function (city) {
+    return "10019";
+  })
+    .then(function (zip) {
+      expect(zip).toBe("10019");
+      done();
+    });
+
 });
