@@ -208,6 +208,18 @@ function Operation(executor) {
   return operation;
 }
 
+Operation.reject = function (reason) {
+  return new Operation(function (resolve, reject) {
+    reject(reason);
+  });
+}
+
+Operation.resolve = function (result) {
+  return new Operation(function (resolve, reject) {
+    resolve("result");
+  });
+}
+
 test('register success callback async', function (done) {
   var succededOperation = fetchCurrentCity();
 
@@ -414,24 +426,23 @@ test("protect from doubling up on failures", function (done) {
 })
 
 test("ensure success handlers are async", function (done) {
-  var op = new Operation(function executor(resolve, reject) {
+  /*var op = new Operation(function executor(resolve, reject) {
     resolve("New York, NY");
   });
   //op.resolve("New York, NY");
   op.then(function (city) {
     doneAlias();
-  })
+  });*/
+  Operation.resolve("New York, NY").then(function (city) {
+    doneAlias();
+  });
   const doneAlias = done;
 });
 
+
 test("ensure error hanlders are async", function (done) {
-  var op = new Operation(
-    function executor(resolve, reject) {
-      reject(new Error("oh noes"));
-    }
-  );
-  //op.reject(new Error("oh noes"));
-  op.catch(err => doneAlias());
+  Operation.reject(new Error("oh noes")).catch(err => doneAlias());
+
   const doneAlias = done;
 });
 
