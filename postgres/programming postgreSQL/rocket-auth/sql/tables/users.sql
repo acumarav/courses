@@ -1,5 +1,5 @@
 create table users(
-	id BIGINT primary key not null DEFAULT  id_generator(),
+	id BIGINT primary key not null default  id_generator(),
 	email varchar(255) unique not null,
   first VARCHAR(25),
   last VARCHAR(25),
