@@ -407,8 +407,8 @@ function fetchCurrentCityIndecisive() {
 }
 
 
-test("protect from doubling up on success", function (done) {
-  fetchCurrentCityIndecisive().then(e => done());
+test("protect from doubling up on success", function () {
+  return fetchCurrentCityIndecisive();
 })
 
 function fetchCurrentCityRepeatedFails() {
