@@ -26,7 +26,7 @@ BEGIN
   SELECT age(now(),found_user.created_at) into member_for;
   end if;
   return QUERY
-  SELECT found_user.id, found_user.email, member_for,dname, found_user.status;
+  SELECT (found_user.id, found_user.email, found_user.status,member_for,dname);
 
 END;
 $$ LANGUAGE plpgsql;
