@@ -8,11 +8,12 @@ CREATE OR REPLACE FUNCTION get_user(em VARCHAR)
   )
 AS $$
 DECLARE
-    dname VARCHAR(255);
+  dname VARCHAR(255);
   found_user membership.users;
   member_for INTERVAL;
   return_status VARCHAR(25);
 BEGIN
+  set search_path=membership;
   if exists(SELECT users.id FROM users
             WHERE users.email = em) then
   SELECT *
@@ -26,7 +27,7 @@ BEGIN
   SELECT age(now(),found_user.created_at) into member_for;
   end if;
   return QUERY
-  SELECT (found_user.id, found_user.email, found_user.status,member_for,dname);
+  SELECT found_user.id, found_user.email, found_user.status,member_for,dname;
 
 END;
 $$ LANGUAGE plpgsql;
