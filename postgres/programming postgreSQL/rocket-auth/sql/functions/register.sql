@@ -19,6 +19,7 @@ BEGIN
     success := true;
     message := 'Welcome!';
     else
+      success := false;
     select 'This email is already registered' into message;
   end if;
     return query
