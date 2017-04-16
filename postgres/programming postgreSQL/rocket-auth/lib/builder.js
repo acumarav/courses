@@ -5,7 +5,7 @@ var _ = require("underscore")._;
 
 var sourceDir = path.join(__dirname,"../sql/");
 var tableDir = path.join(sourceDir, "tables");
-var funtionDir = path.join(sourceDir, "functions");
+var functionDir = path.join(sourceDir, "functions");
 var indexesDir = path.join(sourceDir, "indexes");
 var globalsDir = path.join(sourceDir, "globals");
 
@@ -31,11 +31,11 @@ var readTables = function(){
 }
 
 var readFunctions = function(){
-	return loadFiles(funtionDir);
+	return loadFiles(functionDir);
 }
 
 var readIndexes = function(){
-	return loadFiles(globalsDir);
+	return loadFiles(indexesDir);
 }
 
 var readGlobals = function(){

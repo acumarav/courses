@@ -1,17 +1,14 @@
 var builder = require("../lib/builder");
 var assert  = require("assert");
 var Helpers = require("./helpers");
-var Mod = require("./helpers/index");
 
 var helper = new Helpers();
 
-
 describe("SQL Builder", function(){
 	
-	before(function(done){
+	/*before(function(done){
 		helper.initDb(done);
-        done();
-	});
+	});*/
 	
 	it("loads", function(){
 		assert(builder);
