@@ -172,7 +172,7 @@
                         <configuration>
                             <attach>true</attach>
                             <addMavenDescriptor>true</addMavenDescriptor>
-                            <appendClassifier>false</appendClassifier>
+                            <appendClassifier>true</appendClassifier>
                             <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
                             <libs>
                                 <lib>${java.home}/lib/rt.jar</lib>
