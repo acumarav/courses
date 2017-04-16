@@ -23,6 +23,9 @@ BEGIN
       insert into logins(user_id, provider, provider_token)
         values(new_id, 'token',random_string(36));
 
+      insert into logs(user_id, subject, entry)
+        VALUES (new_id, 'Registration', 'User registered with email '|| new_email);
+
     validation_token := random_string(36);
     success := true;
     message := 'Welcome!';
