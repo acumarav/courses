@@ -6,9 +6,9 @@ var helper = new Helpers();
 
 describe("SQL Builder", function(){
 	
-	/*before(function(done){
+	before(function(done){
 		helper.initDb(done);
-	});*/
+	});
 	
 	it("loads", function(){
 		assert(builder);
