@@ -96,6 +96,20 @@
             </resource>
         </resources>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <compress>false</compress>
+                        </archive>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -127,8 +141,9 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
-                            <goal>test-jar</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -157,11 +172,14 @@
                         <configuration>
                             <attach>true</attach>
                             <addMavenDescriptor>true</addMavenDescriptor>
-                            <appendClassifier>true</appendClassifier>
+                            <appendClassifier>false</appendClassifier>
                             <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
                             <libs>
                                 <lib>${java.home}/lib/rt.jar</lib>
                             </libs>
+                            <archive>
+                                <compress>false</compress>
+                            </archive>
                         </configuration>
                         <dependencies>
                             <dependency>
@@ -171,6 +189,24 @@
                                 <scope>runtime</scope>
                             </dependency>
                         </dependencies>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>${maven.jar.plugin.version}</version>
+                        <configuration>
+                            <archive>
+                                <compress>false</compress>
+                            </archive>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
