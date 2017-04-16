@@ -190,24 +190,6 @@
                             </dependency>
                         </dependencies>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>${maven.jar.plugin.version}</version>
-                        <configuration>
-                            <archive>
-                                <compress>false</compress>
-                            </archive>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
                 </plugins>
             </build>
         </profile>

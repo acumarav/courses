@@ -12,11 +12,25 @@ indir=`dirname $1`
 wrkfld="$indir/tmp"
 rm -fR $wrkfld
 mkdir $wrkfld
-#pushd $wrkfld
+
 echo "extracting file $1 into: $wrkfld"
 cp $injar $wrkfld 
 pushd $wrkfld
 jar -xvf $jarname 
 rm -f $jarname
-#jar -xvf $1 -C $wrkfld
+#-------- repackage
+parts=`ls -p`
+
+partsparam=( "${parts[@]}" )
+
+echo "running: jar c0mf ./META-INF/MANIFEST.MF $jarname $partsparam"
+
+jar c0mf ./META-INF/MANIFEST.MF $jarname $partsparam
+
+outjar=`readlink -f $jarname`
+popd
+mv "$outjar" "./$indir/out_$jarname"
+
+rm -fR $wrkfld
+echo "Done!"
 

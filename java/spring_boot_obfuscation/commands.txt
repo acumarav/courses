@@ -1,0 +1,44 @@
+repack ref jar
+jar c0mf ./META-INF/MANIFEST.MF bsmod-1.0-SNAPSHOT-small.jar META-INF/ org/
+
+repack boot jar 
+jar c0mf ./META-INF/MANIFEST.MF out-obfuscated.jar BOOT-INF/classes/ BOOT-INF/lib/ META-INF/ org/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
