@@ -11,9 +11,17 @@ BEGIN
   if not exists
     (select users.email from users where users.email = new_email)
     then
-    insert into users(email, hashed_password)
-    values(new_email, crypt(password, gen_salt('bf',10)))
+    insert into users(email)
+    values(new_email)
     returning id into new_id;
+
+      insert into logins(user_id,provider_key, provider_token)
+        values(new_id, new_email,crypt(password, gen_salt('bf',10)));
+      --hashed_password
+      --crypt(password, gen_salt('bf',10))
+      --token login
+      insert into logins(user_id, provider, provider_token)
+        values(new_id, 'token',random_string(36));
 
     validation_token := random_string(36);
     success := true;
