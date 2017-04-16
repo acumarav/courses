@@ -3,6 +3,7 @@ create table users(
 	email varchar(255) unique not null,
   first VARCHAR(25),
   last VARCHAR(25),
+  hashed_password VARCHAR(255),
   search tsvector,
   created_at TIMESTAMPTZ DEFAULT now() not null,
   status VARCHAR(10) DEFAULT 'active'
