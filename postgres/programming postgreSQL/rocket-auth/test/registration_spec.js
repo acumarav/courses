@@ -5,7 +5,7 @@ var helpers = new Helpers();
 
 
 describe('Registration', function () {
-    var db = null;
+    let db = null;
     before(function (done) {
             helpers.initDb(function (err, res) {
                 db = res;
@@ -18,6 +18,8 @@ describe('Registration', function () {
     describe("with valid creds", function () {
         var regResult = null;
         before(function (done) {
+            console.log("db: ",db);
+            console.dir("db: ",db);
             db.membership.register(['test1@test.com', 'password'], function (err, res) {
                 assert(err === null, err);
                 regResult = res[0];
