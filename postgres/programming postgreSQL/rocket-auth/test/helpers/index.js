@@ -13,7 +13,7 @@ var Helpers = function Helpers(){
 			if(err){
 				next(err, null);
 			}else{
-				next(null, res);	
+				next(null, db);
 			}
 		});
 	};
