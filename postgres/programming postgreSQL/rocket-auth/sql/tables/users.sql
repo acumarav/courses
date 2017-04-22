@@ -7,7 +7,9 @@ create table users(
   hashed_password VARCHAR(255),
   search tsvector,
   created_at TIMESTAMPTZ DEFAULT now() not null,
-  status VARCHAR(10) DEFAULT 'active'
+  status VARCHAR(10) DEFAULT 'active',
+  last_login TIMESTAMPTZ,
+  login_count int DEFAULT  0 not null
 );
 
 INSERT into users(email, first,last)

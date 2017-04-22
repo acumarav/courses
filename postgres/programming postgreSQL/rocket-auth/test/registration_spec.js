@@ -17,7 +17,6 @@ describe('Registration', function () {
     describe("with valid creds", function () {
         var regResult = null;
         before(function (done) {
-
             db.membership.register(['test1@test.com', 'password'], function (err, res) {
                 assert(err === null, err);
                 regResult = res[0];
