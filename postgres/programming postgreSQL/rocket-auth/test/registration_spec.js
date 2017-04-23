@@ -8,6 +8,7 @@ describe('Registration', function () {
     let db;
     before(function (done) {
             helpers.initDb(function (err, res) {
+                assert(err===null,err);
                 db = res;
                 done();
             });

@@ -1,17 +1,18 @@
 CREATE OR REPLACE FUNCTION get_user(em VARCHAR)
-  RETURNS TABLE(
-    id BIGINT,
-    email        VARCHAR(255),
-    status       VARCHAR(25),
-    member_for   INTERVAL,
-    display_name VARCHAR(100)
-  )
+  RETURNS user_summary
 AS $$
 DECLARE
   dname VARCHAR(255);
   found_user membership.users;
   member_for INTERVAL;
+  can_login BOOLEAN;
+  is_admin BOOLEAN;
   return_status VARCHAR(25);
+  user_key VARCHAR(18);
+  profile jsonb;
+  json_logs jsonb;
+  json_notes jsonb;
+  user_status status;
 BEGIN
   set search_path=membership;
   if exists(SELECT users.id FROM users
@@ -25,9 +26,22 @@ BEGIN
       SELECT found_user.email into dname;
     end if;
   SELECT age(now(),found_user.created_at) into member_for;
+  select name from status where id = found_user.status_id into return_status;
+
+  select * from status where id=found_user.status_id into user_status;
+  can_login := user_status.can_login;
+  return_status := user_status.name;
+  is_admin := (user_status.id=10);
+  select json_agg(x) into json_logs from (select * from logs where logs.user_id = found_user.id);
+  select json_agg(y) into json_notes from (select * from notes where notes.user_id = found_user.id);
+
   end if;
   return QUERY
-  SELECT found_user.id, found_user.email, found_user.status,member_for,dname;
+  SELECT found_user.id, found_user.email, return_status,
+   can_login, is_admin, dname,
+   found_user.user_key, found_user.email_validation_token, member_for,found_user.profile,
+  json_logs, json_notes ;
+
 
 END;
 $$ LANGUAGE plpgsql;

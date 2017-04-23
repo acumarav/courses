@@ -8,6 +8,7 @@ var tableDir = path.join(sourceDir, "tables");
 var functionDir = path.join(sourceDir, "functions");
 var indexesDir = path.join(sourceDir, "indexes");
 var globalsDir = path.join(sourceDir, "globals");
+var typesDir = path.join(sourceDir, "custom_types");
 
 var loadFiles = function(dir){
 	var result = [];
@@ -42,11 +43,16 @@ var readGlobals = function(){
 	return loadFiles(globalsDir);
 }
 
+var readCustomTypes = function(){
+    return loadFiles(typesDir);
+}
+
 exports.readSql = function(){
 	var sqlBits = [];
 	sqlBits.push("--Generated "+ new Date());
 	sqlBits.push(readInit());
 	sqlBits.push(readGlobals());
+	sqlBits.push(readCustomTypes());
     sqlBits.push(readTables());
     sqlBits.push(readFunctions());
     sqlBits.push(readIndexes());
