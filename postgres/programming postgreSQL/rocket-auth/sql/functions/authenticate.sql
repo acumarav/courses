@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION authenticate(key VARCHAR, token VARCHAR, prov VARCHAR)
+CREATE OR REPLACE FUNCTION authenticate(key VARCHAR, token VARCHAR, prov VARCHAR DEFAULT 'local')
   RETURNS TABLE(
     return_id           BIGINT,
     email        VARCHAR(255),
@@ -13,16 +13,22 @@ DECLARE
   found_id       BIGINT;
 BEGIN
   SET SEARCH_PATH = membership;
-  --find the user by token/provider and key
-  SELECT id
-  FROM logins
-  WHERE provider = prov AND provider_key = key AND provider_token = token
-  INTO found_id;
+  if(prov = 'local') then
+      --find the user by token/provider and key
+      SELECT id FROM logins
+      WHERE provider = prov AND provider_key = key AND provider_token = crypt(token, provider_token )
+      INTO found_id;
+    ELSE
+      --find the user by token/provider and key
+      SELECT id FROM logins
+      WHERE provider = prov AND provider_key = key AND provider_token = token
+      INTO found_id;
+  END IF;
+
 
   IF (found_id IS NOT NULL)
   THEN
-    SELECT *
-    FROM users
+    SELECT * FROM users
     WHERE users.id = found_id
     INTO found_user;
     INSERT INTO logs (user_id, subject, entry)
@@ -50,21 +56,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION authenticate(em VARCHAR, pass VARCHAR)
-  RETURNS TABLE(
-    return_id           BIGINT,
-    email        VARCHAR(255),
-    display_name VARCHAR(50),
-    success      BOOLEAN,
-    message      VARCHAR(50)
-  ) AS $$
-DECLARE
-  hashed_pw VARCHAR(128);
-BEGIN
-  SET SEARCH_PATH = membership;
-  hashed_pw = crypt(pass, gen_salt('bf', 10));
-  RETURN QUERY
-  SELECT *
-  FROM authenticate(em, hashed_pw, 'local');
-END;
-$$ LANGUAGE plpgsql;
+--CREATE OR REPLACE FUNCTION authenticate(em VARCHAR, pass VARCHAR)
+--  RETURNS TABLE(
+--    return_id           BIGINT,
+--    email        VARCHAR(255),
+--    display_name VARCHAR(50),
+--    success      BOOLEAN,
+--    message      VARCHAR(50)
+--  ) AS $$
+--DECLARE
+--  hashed_pw VARCHAR(128);
+--BEGIN
+--  SET SEARCH_PATH = membership;
+--  hashed_pw = crypt(pass, gen_salt('bf', 10));
+--  RETURN QUERY
+--  SELECT *
+--  FROM authenticate(em, hashed_pw, 'local');
+--END;
+--$$ LANGUAGE plpgsql;
