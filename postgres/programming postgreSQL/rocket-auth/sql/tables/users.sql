@@ -16,4 +16,4 @@ create table users(
 );
 
 INSERT into users(email, first,last)
-    VALUES ('test@test.com','Test','User');
+    VALUES ('test_record@test.com','Test','User');

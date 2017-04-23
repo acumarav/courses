@@ -18,8 +18,7 @@ BEGIN
   if exists(SELECT users.id FROM users
             WHERE users.email = em) then
   SELECT *
-  FROM users
-  INTO found_user;
+  FROM users where email = em INTO found_user ;
     if(found_user.first is not null) then
       select concat(found_user.first, ' ',found_user.last) into dname;
     else
@@ -31,7 +30,9 @@ BEGIN
   select * from status where id=found_user.status_id into user_status;
   can_login := user_status.can_login;
   return_status := user_status.name;
-  is_admin := (user_status.id=10);
+  --is admin
+  select exists(select user_id from users_roles where user_id = found_user.id and role_id=10) into is_admin;
+
   select json_agg(x) into json_logs from (select * from logs where logs.user_id = found_user.id) x;
   select json_agg(y) into json_notes from (select * from notes where notes.user_id = found_user.id) y;
 
