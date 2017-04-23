@@ -6,6 +6,7 @@ var db = null;
 describe('Authentication', function () {
     before(function (done) {
         helpers.initDb(function (err, res) {
+            assert(err===null,err);
             db = res;
             db.membership.register(['test2@test.com','password'], function (err, res2) {
                 assert(err==null, err);
