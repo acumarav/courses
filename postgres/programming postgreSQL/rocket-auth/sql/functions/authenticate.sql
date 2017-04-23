@@ -45,11 +45,11 @@ BEGIN
       display_name := found_user.email;
     END IF;
     success := TRUE;
-    return_message := "Welcome! " || display_name;
+    return_message := 'Welcome! '|| display_name;
     --
   ELSE
     success := FALSE;
-    return_message := "Invalid login credentials";
+    return_message := 'Invalid login credentials';
   END IF;
   return query select found_id, found_user.email, display_name, success, return_message;
 END;
