@@ -18,12 +18,12 @@ describe('Authentication', function () {
         let authResult =null;
         before(function (done) {
            db.membership.authenticate(['test2@test.com','password','local'], function (err,res) {
-               authResult=res;
+               authResult=res[0];
                done();
            });
         });
         it('is successful', function () {
-            assert(authResult===true,'expected successful authentication');
+            assert(authResult.success===true,'expected successful authentication');
             
         });
     });

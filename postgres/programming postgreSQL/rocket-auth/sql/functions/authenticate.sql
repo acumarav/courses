@@ -46,7 +46,6 @@ BEGIN
     END IF;
     success := TRUE;
     return_message := 'Welcome! '|| display_name;
-    --
   ELSE
     success := FALSE;
     return_message := 'Invalid login credentials';
