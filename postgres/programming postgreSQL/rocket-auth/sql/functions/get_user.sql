@@ -12,7 +12,7 @@ DECLARE
   profile jsonb;
   json_logs jsonb;
   json_notes jsonb;
-  user_status status;
+  user_status membership.status;
 BEGIN
   set search_path=membership;
   if exists(SELECT users.id FROM users
@@ -36,9 +36,9 @@ BEGIN
   select json_agg(y) into json_notes from (select * from notes where notes.user_id = found_user.id) y;
 
   end if;
-  SELECT found_user.id, found_user.email, return_status,
+  return found_user.id, found_user.email, return_status,
    can_login, is_admin, dname,
-   found_user.user_key, found_user.email_validation_token, member_for,found_user.profile,
+   found_user.user_key, found_user.validation_token, member_for,found_user.profile,
   json_logs, json_notes ;
 
 
