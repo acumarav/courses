@@ -24,7 +24,8 @@ describe('Authentication', function () {
         });
         it('is successful', function () {
             assert(authResult.success===true,'expected successful authentication');
-            
         });
     });
+
+
 });
