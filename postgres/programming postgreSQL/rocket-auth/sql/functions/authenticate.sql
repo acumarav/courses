@@ -15,12 +15,12 @@ BEGIN
   SET SEARCH_PATH = membership;
   if(prov = 'local') then
       --find the user by token/provider and key
-      SELECT id FROM logins
+      SELECT user_id FROM logins
       WHERE provider = prov AND provider_key = key AND provider_token = crypt(token, provider_token )
       INTO found_id;
     ELSE
       --find the user by token/provider and key
-      SELECT id FROM logins
+      SELECT user_id FROM logins
       WHERE provider = prov AND provider_key = key AND provider_token = token
       INTO found_id;
   END IF;

@@ -16,8 +16,8 @@ describe('Authentication', function () {
     describe('with a valid login', function () {
         var authResult =null;
         before(function (done) {
-           db.membership.authenticate(['test2@test.com','password'], function (err,res) {
-               authResult=res;
+           db.membership.authenticate(['test2@test.com','password','local'], function (err,res) {
+               authResult=res[0];
                done();
            });
         });
