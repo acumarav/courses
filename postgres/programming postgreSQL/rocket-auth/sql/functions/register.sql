@@ -18,10 +18,11 @@ BEGIN
       insert into logins(user_id,provider_key, provider_token)
         values(new_id, new_email,crypt(password, gen_salt('bf',10)));
       --hashed_password
-      --crypt(password, gen_salt('bf',10))
       --token login
       insert into logins(user_id, provider, provider_token)
         values(new_id, 'token',random_string(36));
+
+      insert into users_roles(user_id, role_id) VALUES  (new_id,99);
 
       insert into logs(user_id, subject, entry)
         VALUES (new_id, 'Registration', 'User registered with email '|| new_email);
