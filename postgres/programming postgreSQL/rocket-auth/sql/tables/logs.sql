@@ -1,6 +1,6 @@
 create table logs(
   id serial PRIMARY KEY,
-  subject VARCHAR(50),
+  subject log_type,
   user_id bigint,
   entry text not null,
   data jsonb,
