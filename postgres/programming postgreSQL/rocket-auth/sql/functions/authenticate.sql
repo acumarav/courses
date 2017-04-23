@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION authenticate(key VARCHAR, token VARCHAR, prov VARCHAR
 DECLARE
   found_user     membership.users;
   return_message VARCHAR(50);
-  success        BOOLEAN;
+  success        BOOLEAN := false;
   found_id       BIGINT;
 BEGIN
   SET SEARCH_PATH = membership;
