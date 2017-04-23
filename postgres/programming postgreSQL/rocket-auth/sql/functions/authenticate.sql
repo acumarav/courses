@@ -40,12 +40,7 @@ BEGIN
       SET last_login = now(), login_count = login_count + 1
       WHERE users.id = found_id;
       --set the display name
-      IF (found_user.first IS NOT NULL)
-      THEN
-        display_name := concat(found_user.first, ' ', found_user.last);
-      ELSE
-        display_name := found_user.email;
-      END IF;
+      display_name := display_name(found_user);
       success := TRUE;
       return_message := 'Welcome! '|| display_name;
       ELSE

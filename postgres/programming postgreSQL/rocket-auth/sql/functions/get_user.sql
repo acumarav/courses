@@ -19,11 +19,8 @@ BEGIN
             WHERE users.email = em) then
   SELECT *
   FROM users where email = em INTO found_user ;
-    if(found_user.first is not null) then
-      select concat(found_user.first, ' ',found_user.last) into dname;
-    else
-      SELECT found_user.email into dname;
-    end if;
+    --display name
+  dname = display_name(found_user);
   SELECT age(now(),found_user.created_at) into member_for;
   select name from status where id = found_user.status_id into return_status;
 
