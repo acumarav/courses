@@ -29,7 +29,7 @@ describe('Registration', function () {
         it('returns a new id', function () {
             assert(regResult.new_id);
         });
-       /* it('returns a validation token', function(){
+        it('returns a validation token', function(){
             assert(regResult.validation_token);
         });
         it('adds them to a role', function(done){
@@ -37,6 +37,20 @@ describe('Registration', function () {
                 assert.equal(res[0].count, 1);
                 done();
             });
-        });*/
+        });
     });
+
+    describe('trying an existing user', function(){
+        var regResult=null;
+        before(function(done){
+            db.membership.register(['test1@test.com', 'password'], function(err,res){
+                regResult = res[0];
+                done();
+            });
+        });
+        it('is not successful', function(){
+            assert.equal(false, regResult.success);
+        });
+    });
+
 });
