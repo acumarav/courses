@@ -36,10 +36,10 @@ BEGIN
   select json_agg(y) into json_notes from (select * from notes where notes.user_id = found_user.id) y;
 
   end if;
-  return found_user.id, found_user.email, return_status,
+  return (found_user.id, found_user.email, return_status,
    can_login, is_admin, dname,
    found_user.user_key, found_user.validation_token, member_for,found_user.profile,
-  json_logs, json_notes ;
+  json_logs, json_notes)::user_summary ;
 
 
 END;
