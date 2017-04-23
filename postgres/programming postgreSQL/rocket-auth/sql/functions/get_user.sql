@@ -32,11 +32,10 @@ BEGIN
   can_login := user_status.can_login;
   return_status := user_status.name;
   is_admin := (user_status.id=10);
-  select json_agg(x) into json_logs from (select * from logs where logs.user_id = found_user.id);
-  select json_agg(y) into json_notes from (select * from notes where notes.user_id = found_user.id);
+  select json_agg(x) into json_logs from (select * from logs where logs.user_id = found_user.id) x;
+  select json_agg(y) into json_notes from (select * from notes where notes.user_id = found_user.id) y;
 
   end if;
-  return QUERY
   SELECT found_user.id, found_user.email, return_status,
    can_login, is_admin, dname,
    found_user.user_key, found_user.email_validation_token, member_for,found_user.profile,
