@@ -467,5 +467,4 @@ test("sync result transformation", function (done) {
       expect(zip).toBe("10019");
       done();
     });
-
 });
