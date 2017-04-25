@@ -55,6 +55,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -115,70 +116,7 @@
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven.jar.plugin.version}</version>
-                <configuration>
-                    <archive>
-                        <compress>false</compress>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
 
     </build>
-
-    <profiles>
-        <profile>
-            <id>obfuscation</id>
-            <build>
-                <plugins>
-<!--
-                    <plugin>
-                        <groupId>com.github.wvengen</groupId>
-                        <artifactId>proguard-maven-plugin</artifactId>
-                        <version>2.0.14</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>proguard</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <attach>true</attach>
-                            <addMavenDescriptor>true</addMavenDescriptor>
-                            <appendClassifier>true</appendClassifier>
-                            <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
-                            <libs>
-                                <lib>${java.home}/lib/rt.jar</lib>
-                            </libs>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>net.sf.proguard</groupId>
-                                <artifactId>proguard-base</artifactId>
-                                <version>5.3.3</version>
-                                <scope>runtime</scope>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
--->
-                </plugins>
-            </build>
-        </profile>
-
-    </profiles>
-
-
 </project>

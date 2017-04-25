@@ -68,12 +68,18 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <attach>true</attach>
                             <proguardInclude>${basedir}/../proguard.conf</proguardInclude>
                             <libs>
                                 <lib>${java.home}/lib/rt.jar</lib>
-                                <lib>${java.home}/lib/jce.jar</lib>
                             </libs>
+                            <assembly>
+                                <inclusions>
+                                    <inclusion>
+                                        <groupId>org.alext.learning</groupId>
+                                        <artifactId>bsmod</artifactId>
+                                    </inclusion>
+                                </inclusions>
+                            </assembly>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -85,7 +91,12 @@
                                     <goal>repackage</goal>
                                 </goals>
                                 <configuration>
-                                    <start-class>org.alext.learning.UxApp</start-class>
+                                    <excludes>
+                                        <exclude>
+                                            <groupId>org.alext.learning</groupId>
+                                            <artifactId>bsmod</artifactId>
+                                        </exclude>
+                                    </excludes>
                                 </configuration>
                             </execution>
                         </executions>
