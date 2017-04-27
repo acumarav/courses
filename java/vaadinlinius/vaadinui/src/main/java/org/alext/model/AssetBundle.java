@@ -3,6 +3,7 @@ package org.alext.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.alext.utils.LocalDateTimeAttributeConverter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,8 +22,8 @@ public class AssetBundle {
     private String name;
     @Column
     private String description;
-   /* @Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     @Convert(converter = LocalDateTimeAttributeConverter.class)
-    private LocalDateTime created;*/
+    private LocalDateTime created;
 
 }

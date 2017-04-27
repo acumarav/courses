@@ -21,4 +21,5 @@ public class DbConfig {
     public DataSource pgDataSource() {
         return DataSourceBuilder.create().build();
     }
+
 }
