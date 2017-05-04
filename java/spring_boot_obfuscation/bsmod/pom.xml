@@ -2,19 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <!--
-        <parent>
-            <groupId>org.alext.learning</groupId>
-            <artifactId>spring_boot_obfuscation_parent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </parent>-->
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.1.RELEASE</version>
+        <groupId>org.alext.learning</groupId>
+        <artifactId>spring_boot_obfuscation_parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.alext.learning</groupId>
@@ -25,12 +18,6 @@
     <name>01. bsmod</name>
 
     <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <compiler.plugin.version>3.5.1</compiler.plugin.version>
-        <maven.jar.plugin.version>2.2</maven.jar.plugin.version>
-        <org.apache.commons.lang.version>3.4</org.apache.commons.lang.version>
-        <commons.io.version>2.5</commons.io.version>
     </properties>
 
     <dependencies>
@@ -51,15 +38,15 @@
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.0.0.jre7</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
         <!--test -->
@@ -108,14 +95,6 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                </configuration>
-            </plugin>
         </plugins>
 
     </build>

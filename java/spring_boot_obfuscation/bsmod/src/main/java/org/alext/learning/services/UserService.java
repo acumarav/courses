@@ -36,7 +36,7 @@ public class UserService {
         if (hello != null) {
             return hello.length();
         } else {
-            return 786;
+            return 0;
         }
     }
 
