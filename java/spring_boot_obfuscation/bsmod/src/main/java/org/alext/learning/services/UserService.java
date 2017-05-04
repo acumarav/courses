@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by alext on 4/11/2017.
- */
 @Service
 public class UserService {
 
@@ -20,24 +17,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private int customInt = 8;
-
-
     public List<User> getAllUsers() {
 
-        this.customInt = calcCustomInt("hello");
-
-        log.info("custom int {}", customInt);
-        return userRepository.findAll();
-
+        List<User> all = userRepository.findAll();
+        log.info("getAllUsers found: {} users", all.size());
+        return all;
     }
 
-    private int calcCustomInt(String hello) {
-        if (hello != null) {
-            return hello.length();
-        } else {
-            return 0;
+    public int calcUsernameSum(User us) {
+        int sum = 0;
+        for (char namecahr : us.getName().toCharArray()) {
+            sum += namecahr;
         }
+        return sum;
     }
 
 }

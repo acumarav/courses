@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -23,7 +25,12 @@ public class IndexController {
     @RequestMapping
     public String index(Model model) {
         List<User> allUsers = userService.getAllUsers();
-        model.addAttribute("users", allUsers);
+
+        Map<User, Integer> users = allUsers.stream()
+                .collect(Collectors
+                        .toMap(user -> user, userService::calcUsernameSum));
+
+        model.addAttribute("users", users);
 
         allUsers.forEach(u -> log.debug("{} users has been found", allUsers.size()));
 

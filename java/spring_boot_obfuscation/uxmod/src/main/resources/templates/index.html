@@ -11,8 +11,8 @@
 </body>
 <p>list of items (<span th:text="${#lists.size(users)}"></span>):</p>
 
-<ul th:each="user : ${users}">
-    <li><span th:text="${user.id}"/>&nbsp;<span th:text="${user.name}"/></li>
+<ul th:each="pair : ${users}">
+    <li><span th:text="${pair.key.id}"/>&nbsp;<span th:text="${pair.key.name}"/></li>
 </ul>
 <p>
     <strong>Time:&nbsp;
