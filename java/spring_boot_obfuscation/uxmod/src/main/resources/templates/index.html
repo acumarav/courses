@@ -11,9 +11,22 @@
 </body>
 <p>list of items (<span th:text="${#lists.size(users)}"></span>):</p>
 
-<ul th:each="pair : ${users}">
-    <li><span th:text="${pair.key.id}"/>&nbsp;<span th:text="${pair.key.name}"/></li>
-</ul>
+<table>
+    <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Sum</th>
+    </thead>
+    <tbody>
+    <th:block th:each="pair : ${users}">
+        <tr>
+            <td th:text="${pair.key.id}"></td>
+            <td th:text="${pair.key.name}"></td>
+            <td th:text="${pair.value}"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
 <p>
     <strong>Time:&nbsp;
         <span th:text="${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm ss')}"></span>
