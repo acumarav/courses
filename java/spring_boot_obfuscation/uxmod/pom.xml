@@ -27,38 +27,24 @@
         </dependency>
     </dependencies>
 
+
+    <build>
+        <plugins>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>obfuscation</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy-dependencies</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>
-                                        ${project.build.directory}/libs
-                                    </outputDirectory>
-                                    <overWriteReleases>false</overWriteReleases>
-                                    <overWriteSnapshots>true</overWriteSnapshots>
-                                    <overWriteIfNewer>true</overWriteIfNewer>
-                                    <includeScope>runtime</includeScope>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>com.github.wvengen</groupId>
                         <artifactId>proguard-maven-plugin</artifactId>
+                        <version>2.0.14</version>
                         <executions>
                             <execution>
+                                <id>proguard</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>proguard</goal>
@@ -79,6 +65,14 @@
                                 </inclusions>
                             </assembly>
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sf.proguard</groupId>
+                                <artifactId>proguard-base</artifactId>
+                                <version>5.3.3</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
@@ -88,26 +82,21 @@
                                 <goals>
                                     <goal>repackage</goal>
                                 </goals>
-                                <configuration>
-                                    <excludes>
-                                        <exclude>
-                                            <groupId>org.alext.learning</groupId>
-                                            <artifactId>bsmod</artifactId>
-                                        </exclude>
-                                    </excludes>
-                                </configuration>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludes>
+                                <exclude>
+                                    <groupId>org.alext.learning</groupId>
+                                    <artifactId>bsmod</artifactId>
+                                </exclude>
+                            </excludes>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
-
         </profile>
     </profiles>
 
-    <build>
-        <plugins>
-        </plugins>
-    </build>
 
 </project>
