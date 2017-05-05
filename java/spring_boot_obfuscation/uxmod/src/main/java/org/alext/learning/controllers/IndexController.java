@@ -1,5 +1,6 @@
 package org.alext.learning.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.alext.learning.model.User;
 import org.alext.learning.services.UserService;
 import org.slf4j.Logger;
@@ -13,11 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 @RequestMapping("/")
 public class IndexController {
-
-    private Logger log = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private UserService userService;
