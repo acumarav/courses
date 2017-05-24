@@ -15,6 +15,9 @@
 
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <version.jetty>9.2.7.v20150116</version.jetty>
+        <version.logback>1.1.2</version.logback>
+        <version.slf4j>1.7.7</version.slf4j>
     </properties>
 
     <dependencies>
@@ -23,11 +26,56 @@
             <artifactId>javax.websocket-api</artifactId>
             <version>1.1</version>
         </dependency>
-       <!-- <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-all</artifactId>
-            <version>1.1</version>
+
+        <!-- Jetty -->
+<!--        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${version.jetty}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${version.jetty}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>${version.jetty}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${version.jetty}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlets</artifactId>
+            <version>${version.jetty}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-jsp</artifactId>
+            <version>${version.jetty}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>${version.jetty}</version>
         </dependency>-->
+
+        <!-- Logger -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.logback}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -41,6 +89,22 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!--<plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 
