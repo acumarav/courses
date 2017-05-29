@@ -6,7 +6,7 @@ import javax.websocket.server.ServerEndpointConfig;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EndpointConfig implements ServerApplicationConfig {
+/*public class EndpointConfig implements ServerApplicationConfig {
 
     @Override
     public Set<ServerEndpointConfig> getEndpointConfigs(Set<Class<? extends Endpoint>> set) {
@@ -24,4 +24,4 @@ public class EndpointConfig implements ServerApplicationConfig {
     public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> set) {
         return null;
     }
-}
+}*/

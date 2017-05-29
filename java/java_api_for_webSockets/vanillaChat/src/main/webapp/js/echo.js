@@ -46,7 +46,8 @@ Echo.sendMessage = function () {
 }
 
 Echo.initialize = function () {
-  var ep = '/websocket/echo';
+  //var ep = '/websocket/echo';
+  var ep = '/websocket/echo_ant';
   let url = `${window.location.host}${ep}`;
   if (window.location.protocol == 'http:') {
     url = 'ws://' + url;
