@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target":"es5",
+    "module": "system",
+    "outDir": "./output/",
+    "sourceMap": false,
+    "sourceRoot": "./ts",
+    "typeRoots": ["./typings"]
+  },
+
+  "exclude": [],
+  "compileOnSave": true
+}
+

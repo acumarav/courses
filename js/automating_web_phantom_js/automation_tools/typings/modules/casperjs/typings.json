@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/c7ef06fc06a24e9633fc2908cd277c6553cbb8e1/casperjs/index.d.ts",
+    "raw": "registry:dt/casperjs#1.0.29+20170324141652",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/c7ef06fc06a24e9633fc2908cd277c6553cbb8e1/casperjs/index.d.ts"
+  }
+}
