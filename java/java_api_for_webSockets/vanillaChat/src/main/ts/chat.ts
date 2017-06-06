@@ -1,5 +1,10 @@
 /// <reference path="typings/jquery.d.ts" />
 
+type msgType = "Join" | "Text";
+
+type TextMessage = [msgType, string];
+
+
 class Chat {
 
     private socket: WebSocket;
@@ -26,7 +31,16 @@ class Chat {
         let name: String = $("#name").val();
         if (name != null && name.length > 0) {
 
+
+            //let msg = new TextMessage("Join", name);
+            let msg = {id:1, message:name};
+            this.sendMessage(msg);
+
         }
+    }
+
+    private sendMessage(msg:any){
+        this.socket.send(msg);
     }
 
 }
