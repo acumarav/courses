@@ -10,7 +10,7 @@ class Chat {
         if ('WebSocket' in window) {
             console.log("connecting....");
             this.socket = new WebSocket(chatWSEndpoint);
-            this.socket.onopen = ()=>{
+            this.socket.onopen = () => {
                 console.log("Info: connection opened");
             }
         }
@@ -31,7 +31,15 @@ class Chat {
 
 }
 
-const wsUrl = `${window.location.host}/websocket/chat`;
+let protocol: String;
+if (window.location.protocol == 'http:') {
+    protocol = 'ws://';
+}
+else {
+    protocol = 'wss://';
+}
+
+const wsUrl = `${protocol}${window.location.host}/websocket/chat`;
 let app = new Chat(wsUrl);
 
 
