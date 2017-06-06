@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Root</title>
+    <style type="text/css">
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+        #content{
+
+            width: 100%;
+            /*background: greenyellow;*/
+            position: relative;
+        }
+        #header{
+            padding: 10px;
+            background: blue;
+        }
+
+        #messageEditor{
+            padding: 10px;
+            background: #eeeeee;
+        }
+
+        #chatroom p{
+            margin: 0;
+            padding: 1em;
+            background: lightblue;
+        }
+
+        #chatBoard{
+            display: flex;
+        }
+
+        #chatLog{
+            flex-grow: 2;
+        }
+
+        #chatParticipants{
+            min-height: 500px;
+            flex-grow: 1;
+            border-left: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="content">
+    <div id="header">
+        <input type="text"/><input type="button" value="Join"/>
+    </div>
+
+    <div id="chatroom">
+        <p>
+            Home Chat Room
+        </p>
+        <div id="chatBoard">
+            <div id="chatLog"></div>
+            <div id="chatParticipants"></div>
+        </div>
+    </div>
+
+    <div id="messageEditor">
+        <input type="text" placeholder="Message..."/>
+        <input type="button" value="Send"/>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,11 +1,14 @@
 package chat;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Slf4j
 @ServerEndpoint("/websocket/chat")
 //public class ChatEndpoint implements MessageHandler.Whole<String>{
 public class ChatEndpoint {
@@ -40,6 +43,8 @@ public class ChatEndpoint {
                 try {
                     client.session.close();
                 } catch (IOException e1) {
+                    log.error("broadcast error: ",e);
+                    log.error("broadcast error 1: ",e1);
                     //do nothing
                 }
 

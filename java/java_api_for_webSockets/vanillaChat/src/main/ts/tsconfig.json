@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target":"es5",
+    "module": "None",
+    "outDir": "../webapp/js",
+    "sourceMap": false
+  },
+  "files": ["chat.ts"],
+  "exclude": [],
+  "compileOnSave": true
+}
+
