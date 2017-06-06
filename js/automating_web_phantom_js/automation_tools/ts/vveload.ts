@@ -1,6 +1,6 @@
 import {Casper, CasperOptions} from "casperjs";
 
-let options: CasperOptions = {}
+let options: CasperOptions = {};
 
 options.viewportSize = {width: 1280, height: 1024};
 

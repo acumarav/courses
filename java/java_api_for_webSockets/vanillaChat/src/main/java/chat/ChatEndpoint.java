@@ -10,7 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Slf4j
 @ServerEndpoint("/websocket/chat")
-//public class ChatEndpoint implements MessageHandler.Whole<String>{
 public class ChatEndpoint {
 
     private Session session;
@@ -43,8 +42,8 @@ public class ChatEndpoint {
                 try {
                     client.session.close();
                 } catch (IOException e1) {
-                    log.error("broadcast error: ",e);
-                    log.error("broadcast error 1: ",e1);
+                    /*log.error("broadcast error: ",e);
+                    log.error("broadcast error 1: ",e1);*/
                     //do nothing
                 }
 
