@@ -30,16 +30,13 @@ class Chat {
     private joinChat = () => {
         let name: String = $("#name").val();
         if (name != null && name.length > 0) {
-
-
             //let msg = new TextMessage("Join", name);
-            let msg = {id:1, message:name};
-            this.sendMessage(msg);
-
+            let msg = {id: 1, message: name};
+            this.sendMessage(JSON.stringify(msg));
         }
     }
 
-    private sendMessage(msg:any){
+    private sendMessage(msg: any) {
         this.socket.send(msg);
     }
 
