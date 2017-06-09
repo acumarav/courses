@@ -9,7 +9,9 @@ casper.start('http://vveplay.com', function () {
   //this.capture('./output/img.png');
 
   var title = this.evaluate(function () {
-    return this.getTitle();
+    var t = this.getTitle();
+    console.log('Title: '+t);
+    return t;
   });
 
   var casper=this;
@@ -19,10 +21,9 @@ casper.start('http://vveplay.com', function () {
     casper.capture('./output/img.png');
     console.log(videos);
   },5000);
-  console.log('Title: '+title);
   //this.capture('./output/img.png');
-
 });
+
 casper.run();
 
 
