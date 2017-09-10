@@ -26,12 +26,15 @@ let poets: string[] = ['Shelley', 'Collins', 'Hughes'];
 let authors: string[] = ['Bykov', 'Kupala', ...poets];
 console.log(authors);
 
+<<<<<<< HEAD
 //Type Aliases
 let empCategory: 'Manager' | 'Non-Manager';
 // empCategory="worker"; - compiler ERROR
 empCategory = "Manager";
 type EmployeeCategory = 'Manager' | 'Non-Manager';
 let another: EmployeeCategory = 'Manager';
+=======
+>>>>>>> 6ec989084faaa9196383b2013f57390ae4cc5139
 
 //Typles
 let myTyple: [number, string] = [10, "Alex"]
@@ -62,8 +65,11 @@ function PrintTitle(item: Book | Magazine) {
 
 //let serialNovel: Book & Magazine = allBooks[0];
 
+<<<<<<< HEAD
 type Frequency = 'monthly' | 'annually';
 function  GetMagazineByFrequency(prefferFrequency: Frequency){
 
 }
+=======
+>>>>>>> 6ec989084faaa9196383b2013f57390ae4cc5139
 

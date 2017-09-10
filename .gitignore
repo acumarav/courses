@@ -179,3 +179,4 @@ buildNumber.properties
 /typescript/practicalStart/**/js/*.js
 /typescript/practicalStart/**/*.map
 **/node_modules/**
+exercise_files/
