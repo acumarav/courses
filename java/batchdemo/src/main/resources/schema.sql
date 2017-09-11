@@ -1,12 +1,12 @@
-DROP SCHEMA IF EXISTS transcode CASCADE;
+--DROP SCHEMA IF EXISTS transcode CASCADE;
 --drop SCHEMA IF EXISTS springbatch CASCADE;
 
-CREATE SCHEMA transcode;
---CREATE SCHEMA if NOT EXISTS springbatch;
+--CREATE SCHEMA IF NOT EXISTS transcode;
+--CREATE SCHEMA IF NOT EXISTS batch;
 
-SET search_path = transcode;
+--SET search_path = transcode;
 
-CREATE TABLE assets (
+CREATE TABLE IF NOT EXISTS assets (
   id   SERIAL PRIMARY KEY,
   path VARCHAR(500) NOT NULL
 );

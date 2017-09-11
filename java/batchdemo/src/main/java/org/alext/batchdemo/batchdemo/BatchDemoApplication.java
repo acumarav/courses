@@ -92,7 +92,8 @@ public class BatchDemoApplication {
                 .writer(iw).build();
 
         return jbf.get("etl")
-                .incrementer(new RunIdIncrementer())
+                //.incrementer(new RunIdIncrementer())
+                .incrementer(new TranscodingJob())
                 .start(s1).build();
     }
 
