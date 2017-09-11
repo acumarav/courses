@@ -7,10 +7,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-public class TranscodingProcessor implements ItemProcessor<BatchDemoApplication.Asset, BatchDemoApplication.Asset> {
+public class TranscodingProcessor implements ItemProcessor<Asset, Asset> {
 
     @Override
-    public BatchDemoApplication.Asset process(BatchDemoApplication.Asset asset) throws Exception {
+    public Asset process(Asset asset) throws Exception {
 
         ProcessBuilder prBuilder = new ProcessBuilder("ffmpeg");
         Process proc = prBuilder.start();

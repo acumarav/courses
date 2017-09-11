@@ -2,6 +2,7 @@ package org.alext.batchdemo.batchdemo;
 
 import javafx.scene.shape.Path;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -32,25 +33,6 @@ import static java.lang.System.setProperty;
 @SpringBootApplication
 public class BatchDemoApplication {
 
-    public static class Asset {
-        public Asset() {
-        }
-
-        public Asset(String path) {
-            this.path = path;
-        }
-
-        private String path;
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-    }
-
     @Bean
     FlatFileItemReader<Asset> fileReader(@Value("${input}") Resource in) throws Exception {
         FlatFileItemReader builder = new FlatFileItemReaderBuilder<Asset>()
@@ -71,17 +53,7 @@ public class BatchDemoApplication {
                 .build();
     }
 
-    /*new ItemProcessor<Asset, Asset>() {
-        @Override
-        public Asset process(Asset asset) throws Exception {
-            java.nio.file.Path path = Paths.get(asset.path);
-            String outFile = "out_" + path.getFileName().toString();
-            java.nio.file.Path outfile = Paths.get(path.getParent().toString(), outFile);
-            asset.setPath(outfile.toString());
-            return asset;
-        }
-    }
-*/
+
     @Bean
     Job job(JobBuilderFactory jbf, StepBuilderFactory sbf,
             ItemReader<? extends Asset> ir, ItemWriter<? super Asset> iw) {
@@ -94,13 +66,21 @@ public class BatchDemoApplication {
         return jbf.get("etl")
                 //.incrementer(new RunIdIncrementer())
                 .incrementer(new TranscodingJob())
+                .listener(listener())
                 .start(s1).build();
     }
 
+    @Bean
+    public JobExecutionListener listener() {
+        return new JobCompletionListener();
+    }
+
     public static void main(String[] args) {
-        File inFile = new File("/home/alex/projects/assetsList.csv");
-        setProperty("input", "file://" + inFile.getAbsolutePath());
-        setProperty("output", new File("file://" + "/home/alex/projects/out.txt").getAbsolutePath());
+        //File inFile = new File("/home/alex/projects/assetsList.csv");
+        //setProperty("input", "file://" + inFile.getAbsolutePath());
+        File inFile = new File("d:\\projects\\courses\\java\\batchdemo\\assetsList.csv");
+        setProperty("input", "file:///" + inFile.getAbsolutePath());
+        setProperty("output", new File("file://" + "/out.txt").getAbsolutePath());
         SpringApplication.run(BatchDemoApplication.class, args);
     }
 }
