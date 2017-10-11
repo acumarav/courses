@@ -24,6 +24,8 @@ import org.springframework.core.io.Resource;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Paths;
 
 import static java.lang.System.setProperty;
@@ -75,11 +77,14 @@ public class BatchDemoApplication {
         return new JobCompletionListener();
     }
 
-    public static void main(String[] args) {
-        //File inFile = new File("/home/alex/projects/assetsList.csv");
-        //setProperty("input", "file://" + inFile.getAbsolutePath());
-        File inFile = new File("d:\\projects\\courses\\java\\batchdemo\\assetsList.csv");
-        setProperty("input", "file:///" + inFile.getAbsolutePath());
+    public static void main(String[] args) throws URISyntaxException {
+
+//        File inFile = new File("d:\\projects\\courses\\java\\batchdemo\\assetsList.csv");
+        URL res = BatchDemoApplication.class.getResource("/assetsList.csv");
+        String inPath = Paths.get(res.toURI()).toAbsolutePath().toString();
+
+        //setProperty("input", "file:///" + inFile.getAbsolutePath());
+        setProperty("input", "file://" + inPath);
         setProperty("output", new File("file://" + "/out.txt").getAbsolutePath());
         SpringApplication.run(BatchDemoApplication.class, args);
     }
